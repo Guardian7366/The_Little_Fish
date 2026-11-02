@@ -1,0 +1,24 @@
+{
+  "original_jar_sha256": "de4f6f23d110084fdbf66dc0d11e05f5296ddc2de86962148d26c3b85fb21ac3",
+  "restored_jar_sha256": "dd17d1702600f95986dd1e09cb65ff9301dc0298abc921747b6103c097c96654",
+  "original_resource_files": 332,
+  "unchanged_resource_files": 329,
+  "modified_resource_files": [
+    "maps/stage1.txt",
+    "maps/stage2.txt",
+    "maps/stage3.txt"
+  ],
+  "added_resource_files": [
+    "menu/ocean.gif",
+    "maps/fourthDepths.txt"
+  ],
+  "original_png_files_preserved": 291,
+  "source_recovery": "CFR 0.152; reconstructed from the supplied compiled JAR",
+  "build": "JDK 25, javac --release 17",
+  "version": "Nueva cuarta zona de profundidades 2026-11-01",
+  "audio_fix_included": true,
+  "menu_fish_crop_fixed": true,
+  "stationary_enfadillo_zone2": true,
+  "stationary_enfadillo_zone3": true,
+  "fourth_depths_zone": true
+}
