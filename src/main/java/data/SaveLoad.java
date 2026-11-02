@@ -1,0 +1,436 @@
+package data;
+
+import data.SaveSnapshot.Actor;
+import data.SaveSnapshot.Item;
+import data.SaveSnapshot.World;
+import entity.Entity;
+import entity.NPC_BigRock;
+import entity.Player;
+import entity.PlayerDummy;
+import java.io.*;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import main.EventHandler;
+import main.GamePanel;
+import main.FirstZone;
+import main.SecondZone;
+import main.ThirdZone;
+import main.FourthZone;
+import monster.MON_GodFish;
+import object.OBJ_Chest;
+import tile_interactive.IT_MetalPlate;
+import tile_interactive.InteractiveTile;
+
+/**
+ * Checkpoint persistence. Reading, validation and construction finish before live state changes.
+ * Versioned files coexist with the original save.dat, which is only ever read.
+ */
+public final class SaveLoad {
+    private final GamePanel gp;
+    private final Path file;
+    private final Path legacyFile;
+    private final WorldEntityRegistry registry = new WorldEntityRegistry();
+    private World initialWorld;
+    private String lastError = "";
+    private String lastWarning = "";
+
+    public SaveLoad(GamePanel gp) { this(gp, Path.of("save-v1.dat")); }
+
+    /** Alternate destination is useful for isolated tests and portable profiles. */
+    public SaveLoad(GamePanel gp, Path file) {
+        this.gp = gp;
+        this.file = file.toAbsolutePath().normalize();
+        this.legacyFile = this.file.resolveSibling("save.dat");
+        if (this.file.equals(legacyFile))
+            throw new IllegalArgumentException("The original save.dat is reserved for import");
+    }
+
+    public String getLastError() { return lastError; }
+    public String getLastWarning() { return lastWarning; }
+    public Path getSavePath() { return file; }
+
+    /** Call after the original world has been placed, before the first player action. */
+    public void captureInitialWorld() { initialWorld = captureWorld(); }
+
+    public void save() { trySave(); }
+    public void load() { tryLoad(); }
+
+    public synchronized boolean trySave() {
+        lastError = "";
+        lastWarning = "";
+        Path temporary = null;
+        try {
+            SaveSnapshot snapshot = capture();
+            prepare(snapshot); // Reject invalid state before touching the last good checkpoint.
+            Files.createDirectories(file.getParent());
+            temporary = Files.createTempFile(file.getParent(), "fish-save-", ".tmp");
+            try (FileOutputStream bytes = new FileOutputStream(temporary.toFile());
+                 ObjectOutputStream out = new ObjectOutputStream(bytes)) {
+                out.writeObject(snapshot);
+                out.flush();
+                bytes.getFD().sync();
+            }
+            backupPreviousCheckpoint();
+            replace(temporary, file);
+            return true;
+        } catch (Exception error) {
+            return fail("No se pudo guardar la partida", error);
+        } finally {
+            if (temporary != null) try { Files.deleteIfExists(temporary); } catch (IOException ignored) { }
+        }
+    }
+
+    public synchronized boolean tryLoad() {
+        lastError = "";
+        lastWarning = "";
+        try {
+            Path source = Files.exists(file) ? file : legacyFile;
+            Object stored = read(source);
+            SaveSnapshot snapshot;
+            if (stored instanceof SaveSnapshot current) {
+                snapshot = current;
+            } else if (stored instanceof DataStorage legacy) {
+                snapshot = importLegacy(legacy);
+                lastWarning = "Partida original importada. Ese formato no guardaba la zona ni los "
+                    + "rompecabezas: se reanuda al inicio con tus objetos y progreso recuperable.";
+            } else {
+                throw new IOException("Unknown save format");
+            }
+            Prepared prepared = prepare(snapshot);
+            apply(snapshot, prepared);
+            if (snapshot.firstZoneRevision == 0 && snapshot.map == 0 && lastWarning.isEmpty())
+                lastWarning = "Arrecife renovado: vuelves a la esmeralda con tu progreso conservado.";
+            if (snapshot.secondZoneRevision == 0 && snapshot.map == 1)
+                lastWarning = "Segunda zona renovada: vuelves a la esmeralda con tu progreso conservado.";
+            if (!lastWarning.isEmpty()) gp.ui.addMessage(lastWarning);
+            return true;
+        } catch (Exception error) {
+            return fail("No se pudo cargar la partida", error);
+        }
+    }
+
+    private boolean fail(String context, Exception error) {
+        lastError = context + ": " + (error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage());
+        System.err.println(lastError);
+        if (gp.ui != null) gp.ui.addMessage(context + ". La partida actual se conserva.");
+        return false;
+    }
+
+    private static void replace(Path from, Path to) throws IOException {
+        try {
+            Files.move(from, to, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException unsupported) {
+            Files.move(from, to, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    private void backupPreviousCheckpoint() throws IOException {
+        if (!Files.exists(file)) return;
+        try {
+            Object previous = read(file);
+            if (!(previous instanceof SaveSnapshot snapshot)) return;
+            prepare(snapshot);
+        } catch (IOException | ClassNotFoundException | IllegalArgumentException invalid) {
+            // A damaged current file must not replace a previously usable backup.
+            return;
+        }
+        Path backupTemporary = Files.createTempFile(file.getParent(), "fish-backup-", ".tmp");
+        try {
+            Files.copy(file, backupTemporary, StandardCopyOption.REPLACE_EXISTING);
+            replace(backupTemporary, file.resolveSibling(file.getFileName() + ".bak"));
+        } finally {
+            Files.deleteIfExists(backupTemporary);
+        }
+    }
+
+    private Object read(Path source) throws IOException, ClassNotFoundException {
+        if (Files.size(source) > 5_000_000) throw new IOException("Save exceeds the supported size");
+        // The underlying stream must close even if the serialization header is corrupt.
+        try (InputStream bytes = Files.newInputStream(source);
+             ObjectInputStream in = new ObjectInputStream(bytes)) {
+            in.setObjectInputFilter(info -> {
+                if (info.depth() > 20 || info.references() > 30_000 || info.arrayLength() > 3_000)
+                    return ObjectInputFilter.Status.REJECTED;
+                Class<?> type = info.serialClass();
+                if (type == null) return ObjectInputFilter.Status.UNDECIDED;
+                while (type.isArray()) type = type.getComponentType();
+                if (type.isPrimitive() || type == String.class || type == Object.class ||
+                    type == Integer.class || type == Number.class || type == ArrayList.class ||
+                    type == DataStorage.class || type == SaveSnapshot.class ||
+                    type == World.class || type == Actor.class || type == Item.class)
+                    return ObjectInputFilter.Status.ALLOWED;
+                return ObjectInputFilter.Status.REJECTED;
+            });
+            return in.readObject();
+        }
+    }
+
+    private SaveSnapshot capture() {
+        Player player = gp.player;
+        SaveSnapshot s = new SaveSnapshot();
+        s.firstZoneRevision = FirstZone.REVISION;
+        s.secondZoneRevision = SecondZone.REVISION;
+        s.thirdZoneRevision = ThirdZone.REVISION;
+        s.fourthZoneRevision = FourthZone.REVISION;
+        s.map = gp.currentMap; s.area = gp.currentArea;
+        s.x = player.worldX; s.y = player.worldY; s.direction = player.direction;
+        s.level = player.level; s.maxLife = player.maxLife; s.life = player.life;
+        s.maxWater = player.maxWater; s.water = player.water;
+        s.strength = player.strength; s.dexterity = player.dexterity;
+        s.exp = player.exp; s.nextLevelExp = player.nextLevelExp; s.coin = player.coin;
+        s.inventory = captureItems(player.inventory);
+        s.weaponSlot = player.inventory.indexOf(player.currentWeapon);
+        s.shieldSlot = player.inventory.indexOf(player.currentShield);
+        s.lightSlot = player.currentLight == null ? -1 : player.inventory.indexOf(player.currentLight);
+        if (player.currentLight != null && s.lightSlot == -1)
+            throw new IllegalArgumentException("Equipped lantern is not in the inventory");
+        s.godFishDefeated = Progress.GodFishDefeated; s.bossBattleOn = gp.bossBattleOn;
+        s.world = captureWorld();
+        return s;
+    }
+
+    private World captureWorld() {
+        World world = new World();
+        world.objects = captureActors(gp.obj, "object");
+        world.npcs = captureActors(gp.npc, "npc");
+        world.monsters = captureActors(gp.monster, "monster");
+        world.tiles = captureActors(gp.iTile, "tile");
+        return world;
+    }
+
+    private Actor[][] captureActors(Entity[][] actors, String category) {
+        Actor[][] result = new Actor[actors.length][];
+        for (int map = 0; map < actors.length; map++) {
+            result[map] = new Actor[actors[map].length];
+            for (int slot = 0; slot < actors[map].length; slot++) {
+                Entity entity = actors[map][slot];
+                if (entity == null) continue;
+                if (entity instanceof PlayerDummy)
+                    throw new IllegalArgumentException("Finish the cinematic before saving");
+                Actor a = new Actor();
+                a.id = category.equals("object") ? gp.eGenerator.idOf(entity) : registry.idOf(entity);
+                a.x = entity.worldX; a.y = entity.worldY; a.direction = entity.direction;
+                a.life = Math.max(0, entity.life); a.amount = entity.amount;
+                a.alive = entity.alive; a.dying = entity.dying;
+                a.opened = entity.opened; a.temp = entity.temp; a.sleep = entity.sleep;
+                a.inRage = entity.inRage; a.onPath = entity.onPath;
+                a.dialogueSet = entity.dialogueSet; a.dialogueIndex = entity.dialogueIndex;
+                a.loot = entity.loot == null ? null : captureItem(entity.loot);
+                a.inventory = captureItems(entity.inventory);
+                if (entity.linkedEntity != null) {
+                    a.linkedTile = Arrays.asList(gp.iTile[map]).indexOf(entity.linkedEntity);
+                    require(a.linkedTile >= 0, "Linked plate is absent from the world");
+                }
+                result[map][slot] = a;
+            }
+        }
+        return result;
+    }
+
+    private Item captureItem(Entity entity) {
+        Item item = new Item();
+        item.id = gp.eGenerator.idOf(entity); item.amount = entity.amount;
+        return item;
+    }
+
+    private Item[] captureItems(List<Entity> entities) {
+        Item[] items = new Item[entities.size()];
+        for (int i = 0; i < items.length; i++) items[i] = captureItem(entities.get(i));
+        return items;
+    }
+
+    private Prepared prepare(SaveSnapshot s) {
+        require(s.version == SaveSnapshot.CURRENT_VERSION, "Unsupported save version: " + s.version);
+        require(s.firstZoneRevision >= 0 && s.firstZoneRevision <= FirstZone.REVISION,
+            "Unsupported first-zone layout");
+        require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
+        require(gp.tileM.isMapLoaded(s.map), "Invalid map");
+        require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
+        require(s.area == gp.outside || s.area == gp.indoor || s.area == gp.dungeons, "Invalid area");
+        coordinates(s.x, s.y); direction(s.direction);
+        require(s.level > 0 && s.level <= 1_000_000 && s.strength > 0 && s.dexterity > 0,
+            "Invalid player attributes");
+        require(s.maxLife > 0 && s.life >= 0 && s.life <= s.maxLife &&
+            s.maxWater >= 0 && s.water >= 0 && s.water <= s.maxWater, "Invalid life or water");
+        require(s.exp >= 0 && s.nextLevelExp > 0 && s.coin >= 0, "Invalid progression");
+        require(!s.godFishDefeated || !s.bossBattleOn, "Defeated boss cannot be in battle");
+        Player player = new Player(gp, gp.keyH);
+        player.inventory = prepareItems(s.inventory);
+        require(player.inventory.size() <= player.maxinventorySize, "Inventory is too large");
+        player.currentWeapon = slot(player.inventory, s.weaponSlot);
+        player.currentShield = slot(player.inventory, s.shieldSlot);
+        require(player.currentWeapon.type == player.type_bubble || player.currentWeapon.type == player.type_rock ||
+            player.currentWeapon.type == player.type_iron, "Invalid equipped weapon");
+        require(player.currentShield.type == player.type_shield, "Invalid equipped shield");
+        player.currentLight = s.lightSlot == -1 ? null : slot(player.inventory, s.lightSlot);
+        require(player.currentLight == null || player.currentLight.type == player.type_light, "Invalid equipped lantern");
+        player.worldX = s.x; player.worldY = s.y; player.direction = s.direction;
+        player.level = s.level; player.maxLife = s.maxLife; player.life = s.life;
+        player.maxWater = s.maxWater; player.water = s.water;
+        player.strength = s.strength; player.dexterity = s.dexterity;
+        player.exp = s.exp; player.nextLevelExp = s.nextLevelExp; player.coin = s.coin;
+        player.getAttack(); player.getDefense(); player.getAttackImage(); player.setDialogue();
+        player.lightUpdated = true;
+        require(s.world != null, "Missing world");
+        Entity[][] objects = prepareActors(s.world.objects, gp.obj, "object");
+        Entity[][] npcs = prepareActors(s.world.npcs, gp.npc, "npc");
+        Entity[][] monsters = prepareActors(s.world.monsters, gp.monster, "monster");
+        Entity[][] restoredTiles = prepareActors(s.world.tiles, gp.iTile, "tile");
+        InteractiveTile[][] tiles = new InteractiveTile[gp.maxMap][gp.iTile[0].length];
+        for (int map = 0; map < tiles.length; map++)
+            for (int slot = 0; slot < tiles[map].length; slot++)
+                tiles[map][slot] = (InteractiveTile)restoredTiles[map][slot];
+        for (int map = 0; map < npcs.length; map++) {
+            for (int slot = 0; slot < npcs[map].length; slot++) {
+                Actor actor = s.world.npcs[map][slot];
+                if (actor == null || actor.linkedTile == -1) continue;
+                require(npcs[map][slot] instanceof NPC_BigRock && actor.linkedTile >= 0 &&
+                    actor.linkedTile < tiles[map].length && tiles[map][actor.linkedTile] instanceof IT_MetalPlate,
+                    "Invalid rock/plate link");
+                Entity rock = npcs[map][slot], plate = tiles[map][actor.linkedTile];
+                require(Math.abs(rock.worldX - plate.worldX) < 8 && Math.abs(rock.worldY - plate.worldY) < 8,
+                    "Rock is not on its linked plate");
+                rock.linkedEntity = plate;
+            }
+            for (Entity monster : monsters[map])
+                require(!s.godFishDefeated || !(monster instanceof MON_GodFish), "Defeated boss is still present");
+        }
+        FirstZone.adaptSavedActors(gp, player, s.map, npcs, monsters, objects, s.firstZoneRevision == 0);
+        SecondZone.adapt(gp, player, s.map, monsters, objects, s.secondZoneRevision == 0);
+        require(s.thirdZoneRevision>=0 && s.thirdZoneRevision<=ThirdZone.REVISION,"Unsupported third-zone layout");
+        ThirdZone.adapt(gp,player,s.map,monsters,objects,tiles,s.thirdZoneRevision==0);
+        FourthZone.adapt(gp,monsters,tiles,s.fourthZoneRevision==0);
+        return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp));
+    }
+
+    private Entity[][] prepareActors(Actor[][] saved, Entity[][] shape, String category) {
+        require(saved != null && saved.length == shape.length, "Invalid " + category + " map count");
+        Entity[][] result = new Entity[shape.length][];
+        for (int map = 0; map < shape.length; map++) {
+            require(saved[map] != null && saved[map].length == shape[map].length, "Invalid " + category + " slots");
+            result[map] = new Entity[shape[map].length];
+            for (int slot = 0; slot < saved[map].length; slot++) {
+                Actor a = saved[map][slot];
+                if (a == null) continue;
+                coordinates(a.x, a.y); direction(a.direction);
+                require(a.amount > 0 && a.dialogueSet >= -1 && a.dialogueSet < 30 &&
+                    a.dialogueIndex >= 0 && a.dialogueIndex < 30 && a.life >= 0, "Invalid entity state");
+                Entity entity = category.equals("object") ? gp.eGenerator.requireObject(a.id) : registry.create(a.id, category, gp);
+                require(!category.equals("monster") || a.life <= entity.maxLife, "Invalid enemy health");
+                entity.worldX = a.x; entity.worldY = a.y; entity.direction = a.direction;
+                entity.life = a.life; entity.amount = a.amount;
+                entity.alive = a.alive; entity.dying = a.dying;
+                entity.opened = a.opened; entity.temp = a.temp; entity.sleep = a.sleep;
+                entity.onPath = a.onPath; entity.dialogueSet = a.dialogueSet; entity.dialogueIndex = a.dialogueIndex;
+                entity.inventory = prepareItems(a.inventory);
+                if (a.loot != null) entity.setLoot(prepareItem(a.loot));
+                if (entity instanceof OBJ_Chest) {
+                    require(a.loot != null, "Chest is missing its loot definition");
+                    if (a.opened) entity.down = entity.image2;
+                }
+                if (a.inRage) {
+                    require(entity instanceof MON_GodFish, "Only God Fish has a rage phase");
+                    MON_GodFish boss = (MON_GodFish)entity;
+                    boss.inRage = true; boss.defaultSpeed++; boss.speed = boss.defaultSpeed; boss.attack += 5;
+                    boss.getImage(); boss.getAttackImage();
+                }
+                result[map][slot] = entity;
+            }
+        }
+        return result;
+    }
+
+    private Entity prepareItem(Item item) {
+        require(item != null && item.amount > 0, "Invalid inventory item");
+        Entity entity = gp.eGenerator.requireObject(item.id);
+        entity.amount = item.amount;
+        return entity;
+    }
+
+    private ArrayList<Entity> prepareItems(Item[] items) {
+        require(items != null && items.length <= 20, "Invalid inventory");
+        ArrayList<Entity> result = new ArrayList<>();
+        for (Item item : items) result.add(prepareItem(item));
+        return result;
+    }
+
+    private static Entity slot(List<Entity> inventory, int index) {
+        require(index >= 0 && index < inventory.size(), "Invalid equipment slot");
+        return inventory.get(index);
+    }
+
+    private void coordinates(int x, int y) {
+        require(x >= 0 && y >= 0 && x < gp.maxWorldCol * gp.tileSize && y < gp.maxWorldRow * gp.tileSize,
+            "Position is outside the world");
+    }
+
+    private static void direction(String direction) {
+        require(List.of("up", "down", "left", "right").contains(direction == null ? "" : direction), "Invalid direction");
+    }
+
+    private static void require(boolean valid, String message) {
+        if (!valid) throw new IllegalArgumentException(message);
+    }
+
+    private record Prepared(Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters,
+                            InteractiveTile[][] tiles, EventHandler events) { }
+
+    private void apply(SaveSnapshot s, Prepared prepared) {
+        // All operations which can fail have finished. Publish the prepared checkpoint together.
+        gp.player = prepared.player;
+        gp.obj = prepared.objects; gp.npc = prepared.npcs; gp.monster = prepared.monsters;
+        gp.iTile = prepared.tiles; gp.eHandler = prepared.events;
+        gp.currentMap = s.map; gp.currentArea = s.area; gp.nextArea = s.area;
+        gp.bossBattleOn = s.bossBattleOn; Progress.GodFishDefeated = s.godFishDefeated;
+        for (Entity[] row : gp.projectile) Arrays.fill(row, null);
+        gp.particleList.clear();
+        gp.csManager.sceneNum = gp.csManager.NA; gp.csManager.scenePhase = 0;
+        gp.keyH.upPressed = gp.keyH.downPressed = gp.keyH.leftPressed = gp.keyH.rightPressed = false;
+        gp.keyH.enterPressed = gp.keyH.shotKeyPressed = gp.keyH.spacePressed = false;
+        gp.ui.npc = null;
+    }
+
+    private SaveSnapshot importLegacy(DataStorage old) {
+        require(initialWorld != null, "Initial world was not captured for legacy import");
+        SaveSnapshot s = new SaveSnapshot();
+        s.map = 0; s.area = gp.outside; s.x = 13 * gp.tileSize; s.y = 31 * gp.tileSize; s.direction = "right";
+        s.level = old.level; s.maxLife = old.maxLife; s.life = old.life;
+        s.maxWater = old.maxWater; s.water = old.water; s.strength = old.strenght;
+        // Original code omitted this field. Each original level adds exactly one dexterity.
+        s.dexterity = old.dexterity == 0 ? old.level : old.dexterity;
+        s.exp = old.exp; s.nextLevelExp = old.nextLevelExp; s.coin = old.coin;
+        require(old.itemNames != null && old.itemAmounts != null && old.itemNames.size() == old.itemAmounts.size(),
+            "Invalid original inventory");
+        s.inventory = new Item[old.itemNames.size()];
+        for (int i = 0; i < s.inventory.length; i++) {
+            Item item = new Item(); item.id = old.itemNames.get(i);
+            require(old.itemAmounts.get(i) != null, "Invalid original item amount");
+            item.amount = old.itemAmounts.get(i); s.inventory[i] = item;
+        }
+        s.weaponSlot = old.currentWeaponSlot; s.shieldSlot = old.currentShieldSlot;
+        World world = new World();
+        world.npcs = initialWorld.npcs; world.monsters = initialWorld.monsters; world.tiles = initialWorld.tiles;
+        world.objects = new Actor[gp.maxMap][gp.obj[0].length];
+        require(old.mapObjectNames != null && old.mapObjectNames.length == gp.maxMap, "Invalid original world");
+        for (int map = 0; map < gp.maxMap; map++) {
+            require(old.mapObjectNames[map] != null && old.mapObjectNames[map].length == gp.obj[map].length,
+                "Invalid original object slots");
+            for (int slot = 0; slot < gp.obj[map].length; slot++) {
+                String name = old.mapObjectNames[map][slot];
+                require(name != null, "Missing original object identifier");
+                if (name.equals("NA")) continue;
+                Actor a = new Actor(); a.id = name; a.amount = 1; a.alive = true; a.direction = "down";
+                a.x = old.mapObjectWorldX[map][slot]; a.y = old.mapObjectWorldY[map][slot];
+                a.opened = old.mapObjectOpened[map][slot]; a.inventory = new Item[0];
+                if (old.mapObjectLootNames[map][slot] != null) {
+                    a.loot = new Item(); a.loot.id = old.mapObjectLootNames[map][slot]; a.loot.amount = 1;
+                }
+                world.objects[map][slot] = a;
+            }
+        }
+        s.world = world;
+        return s;
+    }
+}

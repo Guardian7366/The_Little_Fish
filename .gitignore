@@ -1,0 +1,11 @@
+/build/
+/save.dat
+/save.dat.bak
+/save-v1.dat
+/save-v1.dat.bak
+/config.txt
+/config.txt.tmp
+/fish-save-*.tmp
+/fish-backup-*.tmp
+*.log
+**/node_modules/
