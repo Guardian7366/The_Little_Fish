@@ -1,0 +1,312 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "status": "artwork-prepared-not-integrated",
+  "game_base": "bc0c1c9",
+  "native_tile": 16,
+  "game_scale": 3,
+  "filter": "nearest-neighbor",
+  "assets": [
+    {
+      "path": "assets/background/angler.png",
+      "width": 72,
+      "height": 40,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "851ae3efcfec2bf2c23e3ca3da2b3e940af4b2896a83b9c3a0c6ac61298a76d3"
+    },
+    {
+      "path": "assets/background/far.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "f954de346589ea4fb8f4e6d57a00979161f40ac227b5cb3988c41253e7532806"
+    },
+    {
+      "path": "assets/background/longfin.png",
+      "width": 72,
+      "height": 36,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "9355dd29bbbd3797e0a716d989663f4831b8cd9f5464c01fe3e63729a984d0ae"
+    },
+    {
+      "path": "assets/background/particles-0.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "df0565c7680e41d5a52862817cdc9e6dcf70169661e4fba0d0a6bf389cf60c67"
+    },
+    {
+      "path": "assets/background/particles-1.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "1e6114b6657e9cad0b03c8847fb841ccc0a988a146bab6cc68d590f5d5f52e67"
+    },
+    {
+      "path": "assets/background/particles-2.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "3018b2c701a09a843c1c3f4c502c4a2edd35edf686da8b47843c1fafe598a014"
+    },
+    {
+      "path": "assets/background/particles-3.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "e82c7a7fda52535f28a6c3e4b3feff56d1d1e8622be5a46a092117f84a16568f"
+    },
+    {
+      "path": "assets/background/particles-4.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "b8b227c39e663ab4202c61760b77c9d2bbeabf85357033289e47ab819d90781a"
+    },
+    {
+      "path": "assets/background/ridges.png",
+      "width": 320,
+      "height": 192,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "057334b781cfa110d77727e7a57060a5be8810e1c9a651d934b78cb3f4863714"
+    },
+    {
+      "path": "assets/sharky/charge-down-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "27f148943af3c57fddbe60c0c267fd4842593ded270bb819267b1558da26f8ec"
+    },
+    {
+      "path": "assets/sharky/charge-down-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "de2be9ef28af9e67ec64be3dd607fd00891a24b25e2ec23a4377ebd63fd9747b"
+    },
+    {
+      "path": "assets/sharky/charge-left-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "34afb8b8c42cceee8822452d0324123d6eb1e28e03196f578db3754c75074aac"
+    },
+    {
+      "path": "assets/sharky/charge-left-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "3f896c9881a6306e1478b8a0ced920ffe6326bc52a7fe55ac9aa9df60c51331a"
+    },
+    {
+      "path": "assets/sharky/charge-right-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "939a1f1c41b65f7100b6ae91abf9121ec177f2aa384920f5d143ad60f2f3ea03"
+    },
+    {
+      "path": "assets/sharky/charge-right-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "4ece9056ee5f5b77d9bce9486bccf26b8b80745b6385c67ae66fa153e6ac07ff"
+    },
+    {
+      "path": "assets/sharky/charge-up-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "682887e7fbc0e37e6c258adb937d0b22ffdaf919a7df4e982d152275a9100804"
+    },
+    {
+      "path": "assets/sharky/charge-up-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "7c4b065b937a6d728dfa488ffd52c4cc16103ae0dc6f320d28dc71d901305039"
+    },
+    {
+      "path": "assets/sharky/prepare-down-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "83554562188d47c8d7b1a47706632580e7bb05cc0793a48a6d4a89daa6e92ea6"
+    },
+    {
+      "path": "assets/sharky/prepare-down-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "cd37e86e0d4fb71bb03160b33a4e5a4a8ac786dd7a7566f81b7af19e39f851ec"
+    },
+    {
+      "path": "assets/sharky/prepare-left-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "27214aaeb2fc3bb015e3b44cb6c5a75f22717f5085e4cfca1cc6171a799ced6e"
+    },
+    {
+      "path": "assets/sharky/prepare-left-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "c7f813c3de15adc950a6713d1bf4a48caa0bb6ce42a61cae3da0a7fe97bd5f2b"
+    },
+    {
+      "path": "assets/sharky/prepare-right-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "ceef61f193814782e4a203ddc18de4f6d9fe26d5d5a273d1b89bb94840bd4c8d"
+    },
+    {
+      "path": "assets/sharky/prepare-right-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "522eb707f6fdd658ad9de91a3c9aea8152076f69c8d302ce771bd7719f796ef5"
+    },
+    {
+      "path": "assets/sharky/prepare-up-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "2b57e5a79e34101c33eebb2418167f3d00eceee823b54f6247ebc4f6d47f3ef0"
+    },
+    {
+      "path": "assets/sharky/prepare-up-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "f1839c0bf6971169a0bcbfe167cd663d2322aea03db1f0c566c81ddfd10fae42"
+    },
+    {
+      "path": "assets/sharky/stunned-0.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "3c5113e3b57e514b32d93622b3a31d0853128b92df419f7b0ccd933cfa55426f"
+    },
+    {
+      "path": "assets/sharky/stunned-1.png",
+      "width": 32,
+      "height": 32,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "sha256": "096b36e6df67198c7616e4afcf1c4d2108e1f07a19a3b9f7c68abb050aa2a1ae"
+    },
+    {
+      "path": "assets/tiles/abyss-wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "5f7f0cc61ab2723eb944452d1dc6dd5e380ee96578fa58bf64aaad82c207adf9"
+    },
+    {
+      "path": "assets/tiles/glow-coral-bottom.png",
+      "width": 16,
+      "height": 16,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "273bb59978f84a7c0509a8a9c5d1423d822b2257f570e5b8b146c07c4cfe2b59"
+    },
+    {
+      "path": "assets/tiles/glow-coral-left.png",
+      "width": 16,
+      "height": 16,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "be2271549611fc841093f6f6a2363ba404ad83150cc7dce8ac0c76164bf5a9a2"
+    },
+    {
+      "path": "assets/tiles/glow-coral-right.png",
+      "width": 16,
+      "height": 16,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "8ab5b232e6caac2d5ca01672aedc1dd0441a111f676c3fa755b5eb16ae2674d9"
+    },
+    {
+      "path": "assets/tiles/glow-coral-top.png",
+      "width": 16,
+      "height": 16,
+      "alpha_min": 255,
+      "alpha_max": 255,
+      "sha256": "fd260c6fb1696ccc083223bd5940e5c38388a59021d097907539138924f8b7c2"
+    }
+  ],
+  "sharky": {
+    "type": "overlay-only",
+    "size": [
+      32,
+      32
+    ],
+    "body_offset": [
+      8,
+      8
+    ],
+    "draw_offset_native": [
+      -8,
+      -8
+    ],
+    "draw_offset_at_3x": [
+      -24,
+      -24
+    ],
+    "preserve_original_body": true,
+    "prepare_frame_ticks": 8,
+    "charge_frame_ticks": 6,
+    "stunned_frame_ticks": 12
+  },
+  "background": {
+    "layer_size": [
+      320,
+      192
+    ],
+    "parallax_far": 0.125,
+    "parallax_ridges": 0.25,
+    "particles_frame_ticks": 30,
+    "fish_max_visible": 2,
+    "fish_motion": "slow world-independent decoration; repeat only after fully offscreen"
+  },
+  "light": {
+    "kind": "decorative-world-source",
+    "radius_tiles_initial": 2.75,
+    "collision": false,
+    "collectible": false,
+    "destructible": false,
+    "occlusion": "proposed clipped to local chamber to avoid leaking across thin walls; confirm with engine QA",
+    "color": "#b7cde9",
+    "radius_is_initial_tuning": true
+  },
+  "original_resources_overwritten": false
+}

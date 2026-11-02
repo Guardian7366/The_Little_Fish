@@ -39,11 +39,20 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 - Esta revisión comprobó estructura, inventario, scripts y documentación. No ejecutó el juego, compilación, suites ni una descompilación.
 - Los resultados de suites y capturas descritos en documentos de entregas anteriores son evidencia histórica, no ejecuciones nuevas de esta revisión. Sus rutas `build/` pueden no estar presentes en el repositorio.
-- CUARTA-ZONA declara pendiente la prueba manual del usuario. Ritmo, dificultad y experiencia completa hasta el final aún requieren valoración; no se afirma una partida manual completa ni una medición de FPS.
+- El usuario confirmó que la nueva cuarta cumple sus expectativas y funciona correctamente; da por terminada esa ampliación. Es valoración manual del usuario, no una nueva ejecución técnica de esta entrega.
 - README y CAMBIOS se actualizan para incorporar las entregas posteriores a la primera zona. Los informes originales permanecen como referencia histórica.
 - La carpeta local `promo/` estaba sin seguimiento al iniciar esta tarea; no forma parte del trabajo documental autorizado.
-- No hay una definición final aprobada del alcance de la edición definitiva ni autorización para implementar una nueva etapa de contenido.
+- Sharky como tiburón de emboscada fue aprobado. El siguiente alcance de diseño es la quinta zona; la edición definitiva completa aún no tiene alcance final cerrado.
 
 ## Siguiente paso
 
 Publicar los cinco documentos aprobados y comprobar que `main` local y remoto coinciden. Después, acordar la siguiente tarea de desarrollo y sus criterios usando [HOJA_RUTA.md](HOJA_RUTA.md); sus propuestas no son autorización de implementación. ChatGPT podrá usar los documentos publicados como base de planificación.
+
+
+## Paquete visual para Codex — 2026-11-01
+
+Base consultada: bc0c1c9. Preparado [design/quinta-zona/README.md](design/quinta-zona/README.md): tarea técnica, diseño, contrato de arte, 32 PNG nativos con SVG/rectángulos, tres previews y referencias de ambiente/recorrido/estados. El usuario autorizó crear y publicar esta entrega. Recursos candidatos: no jugables aprobados ni integrados.
+
+Reparto solicitado: ChatGPT razona decisiones, prepara visuales y publica lo autorizado; Codex programa y verifica. Esta entrega NO modifica Java, recursos activos, mapas ni JAR. Validación: dimensiones/alpha y hashes de 32 PNG, inspección de tres previews y documentación. Sin compilación ni pruebas del juego. Git identificará la publicación efectiva.
+
+Siguiente trabajo: [TAREA-CODEX.md](design/quinta-zona/TAREA-CODEX.md) para implementar Sharky y quinta zona en entregas verificables. Es la entrada actual para Codex, reemplazando el siguiente paso genérico anterior. Publicación o reemplazo del JAR después de programar requieren instrucción del usuario. El prompt incluido permite iniciar la sesión sin depender de este chat.

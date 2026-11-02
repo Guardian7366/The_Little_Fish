@@ -107,3 +107,6 @@ Consulta [ARQUITECTURA.md](ARQUITECTURA.md) para responsabilidades y contratos d
 Los informes [VALIDACION.md](VALIDACION.md), [VALIDACION-PRIMERA-ZONA.md](VALIDACION-PRIMERA-ZONA.md) y los documentos de cada zona registran pruebas de entregas anteriores. Sus cifras son históricas y no equivalen a pruebas ejecutadas nuevamente sobre cada revisión del repositorio.
 
 La revisión documental actual comprobó archivos y scripts; no compiló ni ejecutó el juego o las suites. La nueva cuarta zona mantiene pendiente la prueba manual del usuario. Las capturas y pruebas automáticas no sustituyen una partida completa ni la valoración de ritmo, dificultad y sonido; tampoco acreditan FPS en el equipo del jugador.
+
+
+Siguiente entrega: [Quinta zona y Sharky, paquete para Codex](design/quinta-zona/README.md). Arte candidato y tarea técnica preparados; todavía no implementados.

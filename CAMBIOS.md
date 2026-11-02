@@ -98,3 +98,12 @@ Esta entrega estabiliza y reorganiza sistemas concretos. `Entity` todavía reún
 ## Corrección posterior del audio — 30 de octubre de 2026
 
 Las operaciones del dispositivo se trasladaron a un hilo propio con solicitudes sin espera desde el juego, recursos reutilizados, límites de voces y descarte de solicitudes caducadas. Esta corrección complementa y reemplaza las conclusiones antiguas de audio donde corresponda. Los resultados y su alcance están en [CORRECCION-AUDIO.md](CORRECCION-AUDIO.md).
+
+
+## 2026-11-01 — Preparación visual de quinta zona y Sharky
+
+- Añadido design/quinta-zona con decisiones, tarea y criterios para Codex.
+- Preparados 32 PNG nuevos, SVG editables y fuentes de píxeles: fondo abisal, partículas, criaturas, borde, coral luminoso y overlays de Sharky en cuatro direcciones, conservando cuerpos originales.
+- Previews, diagramas y referencia generada con procedencia documentada.
+- Estado compartido registra aprobación de la nueva cuarta y reparto ChatGPT visual/diseño/publicación – Codex código/pruebas.
+- Juego ejecutable, Java y recursos activos sin cambios. Validación de arte/documentación, sin nuevas suites.

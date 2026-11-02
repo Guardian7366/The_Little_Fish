@@ -7,7 +7,7 @@ Actualizada el **1 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | Etapa | Estado | Resultado esperado y criterio de cierre |
 |---|---|---|
 | 1. Establecer el sistema compartido | Completada y aprobada por el usuario | AGENTS, ESTADO_PROYECTO y HOJA_RUTA creados; README y CAMBIOS actualizados, sin duplicar los detalles técnicos y de zonas |
-| 2. Publicar la base documental | Autorizada por el usuario | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
+| 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Propuesta | Acordar una tarea de comprobación técnica y una prueba manual de las zonas renovadas, especialmente la nueva cuarta; registrar incidencias y valoración del usuario |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
 | 5. Implementar por entregas pequeñas | Propuesta; depende de 3 y 4 | Para cada tarea aprobada: implementar, verificar, revisar con el usuario y registrar el resultado; resolver incidencias antes de ampliar alcance |
@@ -16,7 +16,7 @@ Actualizada el **1 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 ## Decisiones que faltan
 
 - Qué significa «versión definitiva»: alcance de contenido y mejoras imprescindibles frente a opcionales.
-- Qué valoración hace el usuario de la cuarta zona y de la continuidad de las tres primeras.
+- La cuarta zona fue jugada y aprobada por el usuario; su ampliación queda cerrada.
 - Qué tarea concreta debe seguir y cómo se reconocerá que está terminada.
 
 La separación de responsabilidades de entidades y la extracción de definiciones de zonas mencionadas en [ARQUITECTURA.md](ARQUITECTURA.md) son recomendaciones técnicas. Se evaluarán al definir una tarea que las necesite; no constituyen una refactorización ya autorizada. Tampoco se da por aprobado renovar zonas posteriores, añadir jefes o cambiar el desenlace.
@@ -30,3 +30,8 @@ La separación de responsabilidades de entidades y la extracción de definicione
 5. Cuando el usuario autorice la publicación, subir los cambios aprobados y comunicar la referencia Git para continuar la planificación desde GitHub.
 
 ChatGPT consulta la información publicada. Una conversación, un archivo local o una propuesta de esta hoja no equivalen por sí solos a un avance aprobado y publicado.
+
+
+## Siguiente entrega concreta: Sharky y quinta zona
+
+Sharky como tiburón de emboscada aprobado. El usuario solicitó preparar visuales y encargo para Codex. Paquete en [design/quinta-zona/README.md](design/quinta-zona/README.md). Primero Sharky aislado; después quinta morada con cámaras amplias, luz fija, fondo propio, Iron y migración. Arte preparado, no integrado. Programación/pruebas para la sesión de Codex, iniciable con el prompt de TAREA-CODEX.md. No dar por completada la quinta sin prueba técnica y valoración manual del usuario.
