@@ -343,6 +343,10 @@ extends Entity {
     }
 
     public void contactMonster(int i) {
+        if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Sharky shark) {
+            if (!shark.dying && shark.alive) shark.damagePlayer(shark.attack);
+            return;
+        }
         if (i != 999 && !this.invincible && !this.gp.monster[this.gp.currentMap][i].dying) {
             this.gp.playSE(8);
             int damage = this.gp.monster[this.gp.currentMap][i].attack - this.defense;

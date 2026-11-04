@@ -77,10 +77,10 @@ public final class StoryRegression {
         gp.setupGame();
         check("expanded world populations and eight playable maps", () -> {
             equal(8, gp.tileM.loadedMapCount(), "maps");
-            equal(95, count(gp.monster), "enemies including God Fish (87 original plus 8 new)");
+            equal(88, count(gp.monster), "enemies including God Fish (95 base minus 7 in fifth redesign)");
             equal(17, count(gp.npc), "NPC placements including TV and rocks");
             equal(11, count(gp.obj), "objects");
-            equal(26, count(gp.iTile), "interactive tiles");
+            equal(27, count(gp.iTile), "interactive tiles (fifth: 2 stone and 9 metal blocks)");
         });
         // Source map, trigger tile, destination map/tile/area. The main route and every side-room return.
         int[][] routes = {
@@ -250,7 +250,7 @@ public final class StoryRegression {
                     checked++;
                 }
             }
-            equal(22, checked, "original and new destructible placements");
+            equal(23, checked, "destructible placements including mandatory Iron gate");
         });
         check("a full bag does not consume a chest reward", () -> {
             OBJ_Chest chest = null;
@@ -289,7 +289,7 @@ public final class StoryRegression {
             gp.resetGame(true);
             equal(1, gp.player.level, "new game resets progression");
             truth(!Progress.GodFishDefeated, "new game resets boss victory");
-            equal(95, count(gp.monster), "new game restores original enemies");
+            equal(88, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
         check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);

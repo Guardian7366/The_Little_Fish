@@ -371,7 +371,7 @@ public class Entity {
         speed = defaultSpeed;
     }
 
-    private void updateCombatTimers() {
+    protected void updateCombatTimers() {
         if (invincible && ++invincibleCounter > 20) {
             invincible = false;
             invincibleCounter = 0;

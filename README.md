@@ -1,8 +1,8 @@
 # The Little Fish
 
-Juego de exploración y combate en Java Swing/Java2D. La base actual incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. **La edición definitiva sigue en desarrollo.**
+Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La implementación local incorpora ahora **Sharky de emboscada y la quinta zona morada**, con luz fija y progresión de Iron. **La edición definitiva sigue en desarrollo.**
 
-Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión documental del **1 de noviembre de 2026**, sobre la base `296fb57`, «Respaldo completo del juego hasta la nueva cuarta zona». El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
+Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión del **1 de noviembre de 2026**, sobre la base `ca4b3ad` y su paquete de quinta zona. El usuario aprobó la revisión 2 y autorizó su publicación el 4 de noviembre de 2026. El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
 
 ## Sistema de trabajo
 
@@ -24,6 +24,7 @@ ChatGPT puede consultar la versión publicada en GitHub. Los cambios locales est
 - [Segunda zona](SEGUNDA-ZONA.md): coberturas, encuentros distribuidos y Enfadillos estacionarios con el disparo restaurado.
 - [Tercera zona](TERCERA-ZONA.md): progresión con Rocky, territorios de Picarones, Enfadillos estacionarios y ambientación profunda con ajuste visual aprobado.
 - [Nueva cuarta zona](CUARTA-ZONA.md): profundidades con ocho Picarones, pasos de Rocky, atajos y tres secretos. Conecta la tercera con la antigua cuarta, ahora quinta en el recorrido. Usa el mapa interno 7 y conserva los IDs anteriores 0–6.
+- [Quinta zona y Sharky](QUINTA-ZONA.md): mapa interno 3, seis Sharkys y tres Picarones, cámaras amplias, doce luces fijas y fondo abisal. El usuario aprobó Sharky, recorrido general y ambientación. La revisión 2 aprobada hace obligatorio utilizar Iron con dos bloques físicos en el corredor final y restaura las dos puertas adicionales al tile original 086.
 - [Menú marino](MENU-MARINO.md): GIF aprobado, proporciones conservadas y textos con mayor contraste.
 - [Audio](CORRECCION-AUDIO.md): solicitudes asíncronas para evitar que el juego espere al dispositivo.
 
@@ -38,6 +39,8 @@ Se conservan los sprites y sonidos originales según los informes de las entrega
 También puedes ejecutar `java -jar TheLittleFish.jar` desde la raíz. Los archivos de partida y configuración se escriben en la carpeta desde la que se inicia el juego; `Jugar.cmd` utiliza su propia carpeta.
 
 `Jugar.cmd` prefiere `TheLittleFish.jar` de la raíz y solo usa `build/TheLittleFish.jar` si el primero no existe. Compilar no sustituye el JAR de la raíz. Para abrir expresamente el resultado de una compilación desde la raíz del proyecto, usa `java -jar ./build/TheLittleFish.jar`. Para probar sin afectar tus partidas, ejecútalo desde una carpeta aislada indicando la ruta absoluta del JAR.
+
+**La quinta zona nueva está en `build/TheLittleFish.jar`; el JAR de la raíz no se ha reemplazado.** Para probar desde una carpeta aislada: `java -jar "C:\Users\dasip\Proyectos\Juegos-Creados\TheLittleFish\build\TheLittleFish.jar"`.
 
 | Acción | Tecla |
 |---|---|
@@ -61,6 +64,10 @@ Para trasladar una partida de una versión corregida anterior, conserva su carpe
 
 Para experimentar el nuevo inicio con sus encuentros completos, elige NEW GAME en una carpeta sin tu partida personal. Se mantienen las reglas originales de reaparición de enemigos al cambiar de área.
 
+Al migrar desde la distribución anterior al rediseño de quinta (revisión 0), las partidas que estaban en mapa 3 se reubican en (25,23). Se conserva el progreso de enemigos retenidos, cofres, inventario y escombros, y se configuran las ubicaciones nuevas. Las partidas de otros mapas conservan su posición. Los estados transitorios de Sharky se reinician con espera de seguridad; cargar no escribe el archivo. Los slots retirados y los obstáculos nuevos se detallan en [QUINTA-ZONA.md](QUINTA-ZONA.md).
+
+La revisión 2 adapta también los guardados de la primera quinta local: reubica al jugador si quedó dentro del nuevo metal, sobre el suelo eliminado o detrás de la barrera; conserva el paso abierto si ya había avanzado a mapas 4/6. Si el cofre figuraba abierto sin Iron en el inventario, vuelve a ofrecerlo en ese mismo cofre. No se concede ni equipa automáticamente. La barrera destruida sigue abierta al cambiar de equipo, guardar/cargar o cambiar de área.
+
 Para importar una partida antigua, **copia** su `save.dat` a una carpeta del juego que todavía no tenga `save-v1.dat` y selecciona cargar. El archivo antiguo permanece intacto. Al guardar en un punto de descanso se crea el formato nuevo. El formato antiguo no incluía posición ni todo el estado del mundo: se reanuda al inicio con atributos, inventario y objetos recuperables. No es posible recuperar información que nunca se guardó.
 
 Para restaurar el respaldo, cierra el juego, conserva una copia del `save-v1.dat` actual y copia `save-v1.dat.bak` con el nombre `save-v1.dat`. No hay un botón de restauración automática. Si existe un archivo nuevo dañado, el juego muestra el error; no carga silenciosamente el formato antiguo.
@@ -76,7 +83,9 @@ Desde PowerShell en la raíz del repositorio:
 ./build.ps1 -Test
 ```
 
-También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 12 suites de regresión.
+También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 17 suites de regresión.
+
+Para reproducir además los guardados reales anteriores al rediseño, ejecuta primero `./tools/verify_fifth_baseline.ps1` y después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` para crear fixtures aislados bajo `build/`, sin reconstruir un JAR. `python tools/verify_fifth_resources.py` comprueba la conservación de recursos y ejecutable frente a esa base.
 
 Para incluir la comprobación de importación contra un ejecutable original disponible por separado:
 
@@ -106,7 +115,7 @@ Consulta [ARQUITECTURA.md](ARQUITECTURA.md) para responsabilidades y contratos d
 
 Los informes [VALIDACION.md](VALIDACION.md), [VALIDACION-PRIMERA-ZONA.md](VALIDACION-PRIMERA-ZONA.md) y los documentos de cada zona registran pruebas de entregas anteriores. Sus cifras son históricas y no equivalen a pruebas ejecutadas nuevamente sobre cada revisión del repositorio.
 
-La revisión documental actual comprobó archivos y scripts; no compiló ni ejecutó el juego o las suites. La nueva cuarta zona mantiene pendiente la prueba manual del usuario. Las capturas y pruebas automáticas no sustituyen una partida completa ni la valoración de ritmo, dificultad y sonido; tampoco acreditan FPS en el equipo del jugador.
+La revisión 2 pasó las 17 suites de `build.ps1 -Test`, generó capturas de barrera/puertas y verificó guardados de `ca4b3ad` y de la primera quinta local. Resultados en [QUINTA-ZONA.md](QUINTA-ZONA.md). La cuarta y el comportamiento de Sharky, recorrido general y ambientación de quinta fueron aprobados por el usuario, al igual que las correcciones de la revisión 2. Las pruebas automáticas no sustituyen una partida completa ni acreditan FPS del juego interactivo.
 
 
-Siguiente entrega: [Quinta zona y Sharky, paquete para Codex](design/quinta-zona/README.md). Arte candidato y tarea técnica preparados; todavía no implementados.
+El [paquete de diseño de quinta](design/quinta-zona/README.md) se conserva como antecedente del encargo y del arte preparado; [QUINTA-ZONA.md](QUINTA-ZONA.md) registra lo implementado.

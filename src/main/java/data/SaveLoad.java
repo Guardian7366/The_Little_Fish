@@ -18,6 +18,7 @@ import main.FirstZone;
 import main.SecondZone;
 import main.ThirdZone;
 import main.FourthZone;
+import main.FifthZone;
 import monster.MON_GodFish;
 import object.OBJ_Chest;
 import tile_interactive.IT_MetalPlate;
@@ -174,6 +175,7 @@ public final class SaveLoad {
         s.secondZoneRevision = SecondZone.REVISION;
         s.thirdZoneRevision = ThirdZone.REVISION;
         s.fourthZoneRevision = FourthZone.REVISION;
+        s.fifthZoneRevision = FifthZone.REVISION;
         s.map = gp.currentMap; s.area = gp.currentArea;
         s.x = player.worldX; s.y = player.worldY; s.direction = player.direction;
         s.level = player.level; s.maxLife = player.maxLife; s.life = player.life;
@@ -248,6 +250,7 @@ public final class SaveLoad {
         require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
         require(gp.tileM.isMapLoaded(s.map), "Invalid map");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
+        require(s.fifthZoneRevision>=0 && s.fifthZoneRevision<=FifthZone.REVISION,"Unsupported fifth-zone layout");
         require(s.area == gp.outside || s.area == gp.indoor || s.area == gp.dungeons, "Invalid area");
         coordinates(s.x, s.y); direction(s.direction);
         require(s.level > 0 && s.level <= 1_000_000 && s.strength > 0 && s.dexterity > 0,
@@ -302,6 +305,7 @@ public final class SaveLoad {
         require(s.thirdZoneRevision>=0 && s.thirdZoneRevision<=ThirdZone.REVISION,"Unsupported third-zone layout");
         ThirdZone.adapt(gp,player,s.map,monsters,objects,tiles,s.thirdZoneRevision==0);
         FourthZone.adapt(gp,monsters,tiles,s.fourthZoneRevision==0);
+        FifthZone.adapt(gp,player,s.map,monsters,objects,tiles,s.fifthZoneRevision);
         return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp));
     }
 

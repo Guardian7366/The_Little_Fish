@@ -26,7 +26,7 @@ extends Entity {
 
     @Override
     protected void moveInDirection(String movement) {
-        if ((gp.currentMap==2 || gp.currentMap==main.FourthZone.MAP) && territorySet) {
+        if ((gp.currentMap==2 || gp.currentMap==3 || gp.currentMap==main.FourthZone.MAP) && territorySet) {
             int x=worldX+(movement.equals("right")?speed:movement.equals("left")?-speed:0);
             int y=worldY+(movement.equals("down")?speed:movement.equals("up")?-speed:0);
             if (!inside(x,y)) { returning=true; onPath=false; if(knockBack) finishKnockBack(); return; }
@@ -120,7 +120,7 @@ extends Entity {
 
     @Override
     public void setAction() {
-        if((gp.currentMap==2 || gp.currentMap==main.FourthZone.MAP)) { territoryAction(); return; }
+        if((gp.currentMap==2 || gp.currentMap==3 || gp.currentMap==main.FourthZone.MAP)) { territoryAction(); return; }
         if (this.onPath) {
             this.checkStopChasingOrNot(this.gp.player, 18, 100);
             this.searchPath(this.getGoalCol(this.gp.player), this.getGoalRow(this.gp.player));
@@ -136,7 +136,7 @@ extends Entity {
     @Override
     public void damageReaction() {
         this.actionLockCounter = 0;
-        this.onPath = (gp.currentMap!=2 && gp.currentMap!=main.FourthZone.MAP) || (territorySet && inside(gp.player.worldX,gp.player.worldY));
+        this.onPath = (gp.currentMap!=2 && gp.currentMap!=3 && gp.currentMap!=main.FourthZone.MAP) || (territorySet && inside(gp.player.worldX,gp.player.worldY));
     }
 
     @Override

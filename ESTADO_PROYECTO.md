@@ -5,22 +5,22 @@
 ## Base y situación actual
 
 - Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish), rama `main`.
-- Base de esta revisión: `296fb578b4b19116408e32adb0c44435caa7e73b`, «Respaldo completo del juego hasta la nueva cuarta zona». Local y GitHub coincidían al comprobar esta base.
+- Base de implementación: `ca4b3ad`, paquete de arte y encargo de quinta zona, presente en la rama local `main`. El sistema documental previo se publicó en `bc0c1c9`.
 - La edición definitiva todavía no está terminada. La base incluye estabilización, menú marino, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades.
-- El usuario aprobó los cinco documentos y autorizó crear el commit y publicarlo en GitHub. El commit que incorpora este sistema documental identifica la nueva base compartida; su publicación se confirma comprobando la referencia remota.
+- El usuario probó y aprobó Sharky, el recorrido general y la ambientación de la quinta. Se continuó desde esos cambios locales, sin reiniciar ni modificar lo aprobado. La revisión 2 añade Iron obligatorio y corrige las dos puertas adicionales; el usuario aprobó estas correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El ejecutable de prueba se genera en `build/TheLittleFish.jar`.
 
 ## Disponibilidad comprobada
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 89 archivos Java en `src/main/java` |
-| Pruebas | 13 archivos Java en `src/test/java`; el script ejecuta 12 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 332 archivos en `src/main/resources`: 291 PNG, 28 WAV, 2 TTF, 1 GIF y 10 TXT |
+| Código del juego | 92 archivos Java en `src/main/java` |
+| Pruebas | 18 archivos Java en `src/test/java`; el script ejecuta 17 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 364 archivos visibles en `src/main/resources`: 323 PNG (291 anteriores y 32 del paquete), 28 WAV, 2 TTF, 1 GIF y 10 TXT |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
 
-Los recuentos corresponden a esta revisión, no son requisitos permanentes. El código disponible procede de una recuperación previa mediante CFR y de modificaciones posteriores; no se presenta como los fuentes originales del autor. La procedencia histórica está en [ORIGEN.json](ORIGEN.json). No se ha comparado aquí el JAR con las fuentes ni los recursos con un original externo.
+Los recuentos corresponden a esta revisión, no son requisitos permanentes. El código procede de una recuperación previa mediante CFR y de modificaciones posteriores; no se presenta como los fuentes originales del autor. [ORIGEN.json](ORIGEN.json) conserva la procedencia de la entrega anterior, no describe el JAR generado de quinta. Se verificaron los recursos contra `ca4b3ad`, sin comparar con un original externo.
 
 ## Avances documentados
 
@@ -32,21 +32,26 @@ Los recuentos corresponden a esta revisión, no son requisitos permanentes. El c
 | Segunda zona | [SEGUNDA-ZONA.md](SEGUNDA-ZONA.md); [PLAN-SEGUNDA-ZONA.md](PLAN-SEGUNDA-ZONA.md) conserva el plan anterior a la implementación |
 | Tercera zona | [TERCERA-ZONA.md](TERCERA-ZONA.md), incluido el ajuste visual aprobado |
 | Nueva cuarta zona | [CUARTA-ZONA.md](CUARTA-ZONA.md): mapa interno 7, ocho Picarones, pasos de Rocky, secretos y adaptación del guardado |
+| Quinta zona y Sharky | [QUINTA-ZONA.md](QUINTA-ZONA.md): implementación local, guardados, pruebas, capturas y coste medido |
 
 La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el recorrido. Conserva los identificadores anteriores 0–6. [ENFADILLO.md](ENFADILLO.md) describe la restauración inicial en la segunda zona; el comportamiento posterior de la tercera se documenta en TERCERA-ZONA.
 
 ## Validación y pendientes
 
-- Esta revisión comprobó estructura, inventario, scripts y documentación. No ejecutó el juego, compilación, suites ni una descompilación.
+- La revisión 2 compiló con JDK 25 para Java 17 y pasó las 17 suites de `build.ps1 -Test`. Sharky: 1.261 aserciones; quinta: 8.867; guardados de quinta: 214; 32 PNG preparados conservan hashes/dimensiones/alpha exactos. Log: `build/fifth-correction-verification.txt`; detalle en QUINTA-ZONA.
 - Los resultados de suites y capturas descritos en documentos de entregas anteriores son evidencia histórica, no ejecuciones nuevas de esta revisión. Sus rutas `build/` pueden no estar presentes en el repositorio.
 - El usuario confirmó que la nueva cuarta cumple sus expectativas y funciona correctamente; da por terminada esa ampliación. Es valoración manual del usuario, no una nueva ejecución técnica de esta entrega.
-- README y CAMBIOS se actualizan para incorporar las entregas posteriores a la primera zona. Los informes originales permanecen como referencia histórica.
+- Se generaron seis capturas aisladas de Sharky, mapa y veinte vistas de quinta con/sin linterna. Luz y fondo mantienen una caché estimada de píxeles de 2.689.408 bytes; hay medición headless con 40 luces y 32 Sharkys. No son FPS del juego interactivo.
+- Guardados antiguos generados compilando las clases originales de `ca4b3ad`: migración y roundtrip pasan, sin reescritura al cargar. La prueba contra `MyGame.jar` externo se omite explícitamente por no estar incluido.
+- Se comprobaron también siete guardados reales de la primera implementación local y ocho casos sintéticos siempre activos: nueva barrera, antiguo borde eliminado, lado de salida, cofre abierto sin Iron y otros mapas. La revisión 2 conserva la barrera destruida al guardar/cargar y al cambiar de área, así como los usos opcionales anteriores.
+- Cuatro capturas nuevas en `build/fifth-correction-preview/`: barrera intacta/abierta y ambas puertas con tile 086. Se verificó que las 23 transiciones reales no permiten evitar la barrera desde la llegada normal; obtener Iron, volver y equiparlo abre el paso mediante las colisiones existentes.
+- Recursos originales y JAR raíz verificados contra la base; solo cambia `stage4.txt`. README, CAMBIOS, arquitectura y hoja de ruta se actualizan con esta entrega local.
 - La carpeta local `promo/` estaba sin seguimiento al iniciar esta tarea; no forma parte del trabajo documental autorizado.
-- Sharky como tiburón de emboscada fue aprobado. El siguiente alcance de diseño es la quinta zona; la edición definitiva completa aún no tiene alcance final cerrado.
+- Sharky y quinta están implementados dentro del encargo aprobado. La edición definitiva completa aún no tiene alcance final cerrado; no se autoriza desarrollar zonas posteriores a la quinta.
 
 ## Siguiente paso
 
-Publicar los cinco documentos aprobados y comprobar que `main` local y remoto coinciden. Después, acordar la siguiente tarea de desarrollo y sus criterios usando [HOJA_RUTA.md](HOJA_RUTA.md); sus propuestas no son autorización de implementación. ChatGPT podrá usar los documentos publicados como base de planificación.
+La revisión 2 de la quinta zona está aprobada. La siguiente entrega de contenido se acordará con el usuario.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -55,4 +60,4 @@ Base consultada: bc0c1c9. Preparado [design/quinta-zona/README.md](design/quinta
 
 Reparto solicitado: ChatGPT razona decisiones, prepara visuales y publica lo autorizado; Codex programa y verifica. Esta entrega NO modifica Java, recursos activos, mapas ni JAR. Validación: dimensiones/alpha y hashes de 32 PNG, inspección de tres previews y documentación. Sin compilación ni pruebas del juego. Git identificará la publicación efectiva.
 
-Siguiente trabajo: [TAREA-CODEX.md](design/quinta-zona/TAREA-CODEX.md) para implementar Sharky y quinta zona en entregas verificables. Es la entrada actual para Codex, reemplazando el siguiente paso genérico anterior. Publicación o reemplazo del JAR después de programar requieren instrucción del usuario. El prompt incluido permite iniciar la sesión sin depender de este chat.
+El paquete se publicó en `ca4b3ad` y ya fue utilizado para la implementación local autorizada. Su estado «preparado, no integrado» describe la entrega histórica de arte; el resultado actual y las diferencias concretas están en [QUINTA-ZONA.md](QUINTA-ZONA.md). La autorización del 4 de noviembre de 2026 abarca la publicación de fuentes, recursos, pruebas y documentación.

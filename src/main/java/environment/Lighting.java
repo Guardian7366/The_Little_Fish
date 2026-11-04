@@ -21,9 +21,11 @@ public class Lighting {
     public final int night = 2;
     public final int dawn = 3;
     public int dayState = 0;
+    public final FifthLighting fifth;
 
     public Lighting(GamePanel gp) {
         this.gp = gp;
+        fifth=new FifthLighting(gp);
         this.setLightSource();
     }
 
@@ -72,6 +74,7 @@ public class Lighting {
     }
 
     public void update() {
+        if(gp.currentMap==3) fifth.prepare();
         if (this.gp.player.lightUpdated) {
             this.setLightSource();
             this.gp.player.lightUpdated = false;
@@ -107,6 +110,7 @@ public class Lighting {
     }
 
     public void draw(Graphics2D g2) {
+        if(gp.currentMap==3) {fifth.draw(g2);return;}
         if (this.gp.currentArea == this.gp.outside) {
             g2.setComposite(AlphaComposite.getInstance(3, this.filterAlpha));
         }

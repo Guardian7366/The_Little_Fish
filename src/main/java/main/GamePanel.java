@@ -220,6 +220,7 @@ implements Runnable {
         if (gameState == titleState) ui.titleBackground.update();
         if (this.gameState == 1) {
             this.player.update();
+            if(currentMap==FifthZone.MAP) ocean.fifth.update();
             if (currentMap == 0 || currentMap == 1 || currentMap == 2 || currentMap == FourthZone.MAP) ocean.update();
             firstZoneGuide.update();
             int i = 0;

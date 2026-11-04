@@ -38,6 +38,7 @@ public class EventHandler {
     }
 
     public void setDialogue() {
+        eventMaster.dialogues[11][0]="Someone tested a tool here.\nThe last mark points toward the refuge.";
         eventMaster.dialogues[8][0]="The marks continue on the other side\nof the stone.";
         eventMaster.dialogues[9][0]="Someone wrote: GO BACK.\nThe arrow points down.";
         eventMaster.dialogues[10][0]="This shape feels familiar.\nYou cannot remember seeing it before.";
@@ -54,6 +55,10 @@ public class EventHandler {
     }
 
     public void checkEvent() {
+        if(gp.currentMap==3 && gp.gameState==gp.playState && gp.keyH.enterPressed &&
+            (gp.player.worldX+24)/48==14 && (gp.player.worldY+24)/48==5 && gp.player.direction.equals("up")) {
+            inspectSecret(11);return;
+        }
         if(gp.currentMap==FourthZone.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed && gp.player.direction.equals("up")) {
             int col=(gp.player.worldX+24)/48,row=(gp.player.worldY+24)/48;
             for(int i=0;i<FourthZone.SECRETS.length;i++) if(col==FourthZone.SECRETS[i][0] && row==FourthZone.SECRETS[i][1]) {inspectSecret(8+i);return;}

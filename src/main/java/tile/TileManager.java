@@ -34,6 +34,10 @@ public class TileManager {
         mapResources = new String[gp.maxMap];
         mapRevisions = new int[gp.maxMap];
         readTileDefinitions();
+        if(fileNames.size()!=main.FifthZone.WALL) throw new IllegalStateException("Unexpected original tile table size");
+        for(String name:new String[]{"abyss-wall","glow-coral-top","glow-coral-bottom","glow-coral-left","glow-coral-right"}) {
+            fileNames.add("/quinta/tiles/"+name+".png"); collisionStatus.add(name.equals("abyss-wall"));
+        }
         tile = new Tile[fileNames.size()];
         getTileImage();
         List<String> firstMap = readLines(INITIAL_MAPS[0]);
@@ -80,7 +84,7 @@ public class TileManager {
 
     public void setup(int index, String imageName, boolean collision) {
         Tile definition = new Tile();
-        definition.image = SpriteCache.load("/tiles/" + imageName, gp.tileSize, gp.tileSize);
+        definition.image = SpriteCache.load(imageName.startsWith("/")?imageName:"/tiles/" + imageName, gp.tileSize, gp.tileSize);
         definition.collision = collision;
         tile[index] = definition;
     }
@@ -113,6 +117,7 @@ public class TileManager {
 
     public void reloadCurrentMap() {
         if (isMapLoaded(gp.currentMap)) loadMap(mapResources[gp.currentMap], gp.currentMap);
+        for(var e:gp.monster[gp.currentMap]) if(e instanceof monster.MON_Sharky s) s.resetAmbush();
     }
 
     public boolean isMapLoaded(int map) {
@@ -135,7 +140,7 @@ public class TileManager {
 
     public void drawLayered(Graphics2D graphics) {
         Graphics2D layer = (Graphics2D) graphics.create();
-        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || gp.currentMap == main.FourthZone.MAP);
+        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || gp.currentMap == 3 || gp.currentMap == main.FourthZone.MAP);
         layer.dispose();
     }
 

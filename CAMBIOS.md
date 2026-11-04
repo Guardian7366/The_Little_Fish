@@ -1,5 +1,25 @@
 # Historial de cambios
 
+## Quinta, revisión 2 — Iron obligatorio y puertas
+
+- El usuario jugó y aprobó Sharky, el recorrido general y la ambientación. Se conservan sus cambios locales; código de Sharky, fondo, capas, criaturas y recursos preparados no se reemplazan. La referencia artística generada no se carga como fondo.
+- Dos metales nuevos en (16,43)/(16,44), slots 21–22, cierran el corredor final de dos casillas. Terreno y colisiones impiden rodearlos. Los siete usos opcionales previos permanecen. La salida no consulta el inventario; el hueco queda abierto al romper metal y cambiar de equipo.
+- Puertas de Iron y mejora de arma: tile original 086 en (9,5)/(14,40), con eventos, retornos, salas y cofres originales. La salida conserva 068. El último coral se sitúa junto a la barrera para iluminarla.
+- `fifthZoneRevision=2`, mismo UID/esquema. Corrige posiciones de guardados afectados, preserva escombros/progreso y recupera el cofre si antes figuraba abierto sin Iron. Para guardados ya en mapas 4/6, el paso superado se conserva como escombros; no se cambia el inventario ni se bloquea un evento de salida.
+- 17 suites pasan: quinta 8.867 aserciones y guardados de quinta 214, con prueba de las 23 transiciones, colisiones reales, obtención/equipamiento manual de Iron, inventario lleno, ocho casos sintéticos y siete guardados reales de la implementación local anterior. Capturas de barrera intacta/abierta y las dos puertas en `build/fifth-correction-preview/`.
+- Informe actual: [QUINTA-ZONA.md](QUINTA-ZONA.md). El usuario aprobó las correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El ejecutable de prueba se genera en `build/TheLittleFish.jar`.
+
+## Sharky y quinta zona morada — 1 de noviembre de 2026, implementación local
+
+- Implementación autorizada sobre `ca4b3ad`, siguiendo el paquete `design/quinta-zona/`: primero Sharky aislado; después mapa interno 3, iluminación, Iron y migración.
+- Sharky con aviso visible, embestida recta barrida píxel a píxel, impacto único, guardia/parry, castigo por fallo/choque, patrulla corta, regreso sin curación y coordinación de la pareja final. Conserva estadísticas y sprites originales.
+- Quinta 50×50 con seis Sharkys y tres Picarones, refugio y cámaras amplias, rutas alternativas, doce corales luminosos, fondo preparado, siete metales y dos piedras Rocky. Se conservan puertas, mapa 5, cofres y recompensas.
+- Los 32 PNG preparados se integran sin cambios de bytes. Muro nuevo exclusivo; ningún PNG/WAV original se sobrescribe. La oscuridad de quinta es permanente, con oclusión por paredes, combinación por mínimo de alpha y radio original de linterna 400. No modifica el ciclo de otras áreas.
+- Guardados con `fifthZoneRevision`, sin cambiar UID/esquema: conserva progreso de slots retenidos, cofres y escombros; retira slots obsoletos explícitamente; carga sin escribir y rollback si falla la validación. Comparación real con guardados producidos por las clases de `ca4b3ad`.
+- `build.ps1 -Test`: 17 suites pasan. Pruebas específicas: Sharky 1.261 aserciones, quinta 3.085 y guardados de quinta 37; comprobación de hashes/dimensiones/alpha de 32 PNG. Capturas aisladas y veinte vistas con/sin linterna; medición adicional con 40 luces y 32 Sharkys.
+- Detalles, comandos, mediciones y límites en [QUINTA-ZONA.md](QUINTA-ZONA.md). La prueba contra el JAR original externo se omitió explícitamente; no está incluido.
+- Salida: `build/TheLittleFish.jar`. El JAR raíz permanece idéntico; sin commits ni publicación, sin tocar partidas personales ni `promo/`. Pendiente de valoración manual del usuario.
+
 Este archivo resume los cambios realizados. Los documentos enlazados conservan los detalles y resultados de cada entrega; el estado vigente está en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Las validaciones históricas no se presentan como ejecuciones nuevas.
 
 ## Sistema de trabajo documental — 1 de noviembre de 2026

@@ -8,18 +8,18 @@ Actualizada el **1 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 |---|---|---|
 | 1. Establecer el sistema compartido | Completada y aprobada por el usuario | AGENTS, ESTADO_PROYECTO y HOJA_RUTA creados; README y CAMBIOS actualizados, sin duplicar los detalles técnicos y de zonas |
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
-| 3. Validar la base jugable actual | Propuesta | Acordar una tarea de comprobación técnica y una prueba manual de las zonas renovadas, especialmente la nueva cuarta; registrar incidencias y valoración del usuario |
+| 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Propuesta; depende de 3 y 4 | Para cada tarea aprobada: implementar, verificar, revisar con el usuario y registrar el resultado; resolver incidencias antes de ampliar alcance |
+| 5. Implementar por entregas pequeñas | Quinta local: revisión 2 de las correcciones solicitadas | Conservar lo aprobado y revisar barrera/puertas; la quinta no cierra el alcance global de la etapa 4 |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
 
 - Qué significa «versión definitiva»: alcance de contenido y mejoras imprescindibles frente a opcionales.
 - La cuarta zona fue jugada y aprobada por el usuario; su ampliación queda cerrada.
-- Qué tarea concreta debe seguir y cómo se reconocerá que está terminada.
+- Acordar la siguiente tarea de contenido tras la aprobación de la quinta.
 
-La separación de responsabilidades de entidades y la extracción de definiciones de zonas mencionadas en [ARQUITECTURA.md](ARQUITECTURA.md) son recomendaciones técnicas. Se evaluarán al definir una tarea que las necesite; no constituyen una refactorización ya autorizada. Tampoco se da por aprobado renovar zonas posteriores, añadir jefes o cambiar el desenlace.
+La separación de responsabilidades de entidades y la extracción de definiciones de zonas mencionadas en [ARQUITECTURA.md](ARQUITECTURA.md) son recomendaciones técnicas. Se evaluarán al definir una tarea que las necesite; no constituyen una refactorización ya autorizada. Tampoco se da por aprobado renovar zonas posteriores a la quinta, añadir jefes o cambiar el desenlace.
 
 ## Ciclo de cada entrega
 
@@ -34,4 +34,4 @@ ChatGPT consulta la información publicada. Una conversación, un archivo local 
 
 ## Siguiente entrega concreta: Sharky y quinta zona
 
-Sharky como tiburón de emboscada aprobado. El usuario solicitó preparar visuales y encargo para Codex. Paquete en [design/quinta-zona/README.md](design/quinta-zona/README.md). Primero Sharky aislado; después quinta morada con cámaras amplias, luz fija, fondo propio, Iron y migración. Arte preparado, no integrado. Programación/pruebas para la sesión de Codex, iniciable con el prompt de TAREA-CODEX.md. No dar por completada la quinta sin prueba técnica y valoración manual del usuario.
+El usuario aprobó el comportamiento de Sharky, recorrido general y ambientación tras probar la primera implementación local. Desde esa misma base se corrigieron Iron obligatorio con dos bloques nuevos, las puertas originales 086 y la migración a revisión 2. Las 17 suites pasan; capturas y resultados reales en [QUINTA-ZONA.md](QUINTA-ZONA.md). El usuario aprobó las correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El JAR de prueba se genera en `build/`.

@@ -45,6 +45,7 @@ public final class ResourceRegression {
         try (var files = Files.walk(assets)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".png")).toList()) {
                 String resource = "/" + assets.relativize(file).toString().replace('\\', '/');
+                if(resource.startsWith("/quinta/")) continue; // Native candidate art has its own manifest/hash suite.
                 BufferedImage original = ImageIO.read(file.toFile());
                 int width = original.getWidth() * 3, height = original.getHeight() * 3;
                 BufferedImage reference = new UtilityTool().scaleImage(original, width, height);

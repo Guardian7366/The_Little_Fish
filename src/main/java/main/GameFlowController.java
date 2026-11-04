@@ -90,6 +90,7 @@ public final class GameFlowController {
         gp.eHandler.previousEventX = gp.player.worldX;
         gp.eHandler.previousEventY = gp.player.worldY;
         gp.changeArea();
+        if(gp.currentMap==3) gp.eManager.lighting.fifth.prepare();
         gp.gameState = gp.playState;
     }
 

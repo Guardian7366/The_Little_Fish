@@ -30,6 +30,17 @@ public final class FirstZoneGuide {
 
     public String message() {
         if (gp.gameState != gp.playState) return "";
+        if(gp.currentMap==FifthZone.MAP) {
+            if((gp.player.worldX+24)/48==14&&(gp.player.worldY+24)/48==5) return "ENTER  Face up to examine the marks";
+            for(var block:gp.iTile[3]) if(block!=null&&block.destructible&&
+                Math.abs(block.worldX-gp.player.worldX)+Math.abs(block.worldY-gp.player.worldY)<gp.tileSize*3) {
+                boolean metal=block instanceof tile_interactive.IT_DestructibleWall;
+                int type=metal?10:4;
+                return gp.player.currentWeapon.type==type?"ENTER  Break the "+(metal?"metal":"cracked stone"):
+                    "C  Equip "+(metal?"Iron":"Rocky")+", then ENTER to strike";
+            }
+            return "";
+        }
         if (gp.currentMap == 1) {
             int col=(gp.player.worldX+24)/48,row=(gp.player.worldY+24)/48;
             if(col==8 && row==26 && gp.player.direction.equals("up")) return "ENTER  Examine the stone";
