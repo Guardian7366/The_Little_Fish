@@ -176,6 +176,7 @@ public final class SaveLoad {
         s.thirdZoneRevision = ThirdZone.REVISION;
         s.fourthZoneRevision = FourthZone.REVISION;
         s.fifthZoneRevision = FifthZone.REVISION;
+        s.sixthZoneRevision = main.SixthZone.REVISION;
         s.map = gp.currentMap; s.area = gp.currentArea;
         s.x = player.worldX; s.y = player.worldY; s.direction = player.direction;
         s.level = player.level; s.maxLife = player.maxLife; s.life = player.life;
@@ -250,6 +251,7 @@ public final class SaveLoad {
         require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
         require(gp.tileM.isMapLoaded(s.map), "Invalid map");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
+        require(s.sixthZoneRevision >= 0 && s.sixthZoneRevision <= main.SixthZone.REVISION, "Unsupported sixth-zone layout");
         require(s.fifthZoneRevision>=0 && s.fifthZoneRevision<=FifthZone.REVISION,"Unsupported fifth-zone layout");
         require(s.area == gp.outside || s.area == gp.indoor || s.area == gp.dungeons, "Invalid area");
         coordinates(s.x, s.y); direction(s.direction);
@@ -306,6 +308,14 @@ public final class SaveLoad {
         ThirdZone.adapt(gp,player,s.map,monsters,objects,tiles,s.thirdZoneRevision==0);
         FourthZone.adapt(gp,monsters,tiles,s.fourthZoneRevision==0);
         FifthZone.adapt(gp,player,s.map,monsters,objects,tiles,s.fifthZoneRevision);
+        if (s.sixthZoneRevision == 0) {
+            main.SixthZone.populate(gp, monsters);
+            main.SixthZone.obstacles(gp, tiles);
+            main.SixthZone.reward(gp, objects);
+            FifthZone.restoreIronReward(player, objects);
+        } else {
+            main.SixthZone.configure(gp, monsters, false);
+        }
         return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp));
     }
 
@@ -322,7 +332,9 @@ public final class SaveLoad {
                 require(a.amount > 0 && a.dialogueSet >= -1 && a.dialogueSet < 30 &&
                     a.dialogueIndex >= 0 && a.dialogueIndex < 30 && a.life >= 0, "Invalid entity state");
                 Entity entity = category.equals("object") ? gp.eGenerator.requireObject(a.id) : registry.create(a.id, category, gp);
-                require(!category.equals("monster") || a.life <= entity.maxLife, "Invalid enemy health");
+                int maxLife = map == main.SixthZone.MAP && entity instanceof monster.MON_Tella
+                    ? monster.MON_Tella.ABYSS_MAX_LIFE : entity.maxLife;
+                require(!category.equals("monster") || a.life <= maxLife, "Invalid enemy health");
                 entity.worldX = a.x; entity.worldY = a.y; entity.direction = a.direction;
                 entity.life = a.life; entity.amount = a.amount;
                 entity.alive = a.alive; entity.dying = a.dying;

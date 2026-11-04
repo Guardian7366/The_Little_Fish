@@ -33,6 +33,8 @@ public final class RuntimeRegression {
     }
     public static void main(String[] args) throws Exception {
         QuietPanel gp = new QuietPanel();
+        Path preferences = Files.createTempDirectory(Path.of("build"), "runtime-config-").resolve("config.txt");
+        gp.config = new Config(gp, preferences);
         gp.setupGame();
         gp.gameState = gp.optionsState;
         gp.ui.commandNum = 3;
@@ -42,6 +44,7 @@ public final class RuntimeRegression {
         check(!gp.keyH.enterPressed, "AWT input is queued without mutating simulation state");
         gp.update();
         check(gp.ui.subState == 2, "A quick Enter press/release is consumed once on the next tick");
+        check(Files.isRegularFile(preferences), "Options write to the isolated preferences fixture");
         gp.gameThread = null;
         gp.gameState = gp.playState;
         gp.keyH.playState(KeyEvent.VK_ENTER);

@@ -76,16 +76,16 @@ public final class StoryRegression {
         gp = new QuietPanel();
         gp.setupGame();
         check("expanded world populations and eight playable maps", () -> {
-            equal(8, gp.tileM.loadedMapCount(), "maps");
-            equal(88, count(gp.monster), "enemies including God Fish (95 base minus 7 in fifth redesign)");
+            equal(9, gp.tileM.loadedMapCount(), "maps");
+            equal(97, count(gp.monster), "enemies including God Fish");
             equal(17, count(gp.npc), "NPC placements including TV and rocks");
-            equal(11, count(gp.obj), "objects");
-            equal(27, count(gp.iTile), "interactive tiles (fifth: 2 stone and 9 metal blocks)");
+            equal(12, count(gp.obj), "objects");
+            equal(31, count(gp.iTile), "interactive tiles");
         });
         // Source map, trigger tile, destination map/tile/area. The main route and every side-room return.
         int[][] routes = {
             {0,38,25,1,9,41,50}, {1,39,7,2,22,7,50}, {2,20,44,7,25,7,50}, {7,25,45,3,25,23,52},
-            {3,9,44,4,24,44,52}, {4,24,44,3,9,44,52}, {4,24,5,6,24,44,52},
+            {3,9,44,8,25,43,52}, {8,23,45,3,17,44,52}, {8,25,3,4,24,42,52}, {4,24,44,8,25,6,52}, {4,24,5,6,24,44,52},
             {0,28,18,5,9,40,51}, {5,9,40,0,28,18,50},
             {1,9,34,5,40,40,51}, {5,40,40,1,9,34,50},
             {1,39,23,5,40,29,51}, {5,40,29,1,39,23,50},
@@ -250,7 +250,7 @@ public final class StoryRegression {
                     checked++;
                 }
             }
-            equal(23, checked, "destructible placements including mandatory Iron gate");
+            equal(27, checked, "destructible placements including mandatory Iron gate");
         });
         check("a full bag does not consume a chest reward", () -> {
             OBJ_Chest chest = null;
@@ -289,7 +289,7 @@ public final class StoryRegression {
             gp.resetGame(true);
             equal(1, gp.player.level, "new game resets progression");
             truth(!Progress.GodFishDefeated, "new game resets boss victory");
-            equal(88, count(gp.monster), "new game restores current population");
+            equal(97, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
         check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);

@@ -1,6 +1,6 @@
 # The Little Fish
 
-Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La implementación local incorpora ahora **Sharky de emboscada y la quinta zona morada**, con luz fija y progresión de Iron. **La edición definitiva sigue en desarrollo.**
+Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La quinta zona publicada incorpora a Sharky y la progresión de Iron. La sexta zona aprobada añade a Fishtella, encuentros mixtos y un segundo paso de Iron. **La edición definitiva sigue en desarrollo.**
 
 Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión del **1 de noviembre de 2026**, sobre la base `ca4b3ad` y su paquete de quinta zona. El usuario aprobó la revisión 2 y autorizó su publicación el 4 de noviembre de 2026. El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
 
@@ -83,7 +83,7 @@ Desde PowerShell en la raíz del repositorio:
 ./build.ps1 -Test
 ```
 
-También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 17 suites de regresión.
+También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 20 suites de regresión.
 
 Para reproducir además los guardados reales anteriores al rediseño, ejecuta primero `./tools/verify_fifth_baseline.ps1` y después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` para crear fixtures aislados bajo `build/`, sin reconstruir un JAR. `python tools/verify_fifth_resources.py` comprueba la conservación de recursos y ejecutable frente a esa base.
 
@@ -110,6 +110,8 @@ La compilación histórica se documentó con JDK 25. El paquete recibido origina
 | `TheLittleFish.jar` / `Jugar.cmd` | Ejecutable existente y lanzador |
 
 Consulta [ARQUITECTURA.md](ARQUITECTURA.md) para responsabilidades y contratos de actualización, dibujo y persistencia.
+
+- La sexta zona usa el mapa interno 8 y conecta la quinta con el mapa 4. El JAR de prueba y las capturas se generan con la compilación. [Informe de la sexta zona](SEXTA-ZONA.md)
 
 ## Evidencias y límites
 

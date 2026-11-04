@@ -1,6 +1,6 @@
 # Hoja de ruta hacia la versión definitiva
 
-Actualizada el **1 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
+Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
 
 ## Etapas
 
@@ -10,7 +10,7 @@ Actualizada el **1 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta local: revisión 2 de las correcciones solicitadas | Conservar lo aprobado y revisar barrera/puertas; la quinta no cierra el alcance global de la etapa 4 |
+| 5. Implementar por entregas pequeñas | Quinta y sexta completadas y aprobadas | Acordar el alcance de la siguiente entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -38,4 +38,4 @@ El usuario aprobó el comportamiento de Sharky, recorrido general y ambientació
 
 ## Próxima expansión
 
-Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron. Implementar primero Fishtella aislado y luego integrar recorrido, transiciones y guardado. [Encargo para Codex](design/sexta-zona/TAREA-CODEX.md).
+Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron. La implementación aislada y la integración pasaron las 20 suites. El usuario probó la zona y Fishtella, confirmó el comportamiento esperado y aprobó la entrega para publicación. [Informe de la sexta zona](SEXTA-ZONA.md)

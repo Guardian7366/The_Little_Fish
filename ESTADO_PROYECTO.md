@@ -1,11 +1,11 @@
 # Estado del proyecto
 
-Última revisión: **1 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
+Última revisión: **4 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
 
 ## Base y situación actual
 
 - Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish), rama `main`.
-- Base de implementación: `ca4b3ad`, paquete de arte y encargo de quinta zona, presente en la rama local `main`. El sistema documental previo se publicó en `bc0c1c9`.
+- Base de la sexta zona: `c7ae5e8`, paquete de Fishtella y encargo de la expansión. La quinta aprobada se publicó en `6f2f887`.
 - La edición definitiva todavía no está terminada. La base incluye estabilización, menú marino, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades.
 - El usuario probó y aprobó Sharky, el recorrido general y la ambientación de la quinta. Se continuó desde esos cambios locales, sin reiniciar ni modificar lo aprobado. La revisión 2 añade Iron obligatorio y corrige las dos puertas adicionales; el usuario aprobó estas correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El ejecutable de prueba se genera en `build/TheLittleFish.jar`.
 
@@ -13,9 +13,9 @@
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 92 archivos Java en `src/main/java` |
-| Pruebas | 18 archivos Java en `src/test/java`; el script ejecuta 17 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 364 archivos visibles en `src/main/resources`: 323 PNG (291 anteriores y 32 del paquete), 28 WAV, 2 TTF, 1 GIF y 10 TXT |
+| Código del juego | 93 archivos Java en `src/main/java` |
+| Pruebas | 21 archivos Java en `src/test/java`. El script ejecuta 20 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 377 archivos visibles en `src/main/resources` con 335 PNG, 28 WAV, 2 TTF, 1 GIF y 11 TXT |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
@@ -51,7 +51,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La revisión 2 de la quinta zona está aprobada. La siguiente entrega de contenido se acordará con el usuario.
+La quinta y la nueva sexta están completadas y aprobadas. La siguiente entrega de contenido se acordará con el usuario.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -62,6 +62,6 @@ Reparto solicitado: ChatGPT razona decisiones, prepara visuales y publica lo aut
 
 El paquete se publicó en `ca4b3ad` y ya fue utilizado para la implementación local autorizada. Su estado «preparado, no integrado» describe la entrega histórica de arte; el resultado actual y las diferencias concretas están en [QUINTA-ZONA.md](QUINTA-ZONA.md). La autorización del 4 de noviembre de 2026 abarca la publicación de fuentes, recursos, pruebas y documentación.
 
-## Preparación de sexta zona y Fishtella
+## Sexta zona y Fishtella
 
-El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella. Se prepararon doce sprites nativos y el encargo de la expansión. La implementación y la valoración en juego quedan pendientes. [Encargo y arte](design/sexta-zona/TAREA-CODEX.md).
+El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella. Se prepararon doce sprites nativos y el encargo de la expansión. La entrega incorpora el mapa 8, Fishtella con sus doce sprites, un primer encuentro aislado, encuentros mixtos con Sharky, el paso obligatorio de Iron y la migración de partidas. Pasaron las 20 suites. El usuario probó la zona y el enemigo, confirmó que funcionaban como esperaba y autorizó su publicación el 4 de noviembre de 2026. [Informe de la sexta zona](SEXTA-ZONA.md)

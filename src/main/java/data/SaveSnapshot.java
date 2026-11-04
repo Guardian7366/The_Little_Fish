@@ -12,6 +12,7 @@ final class SaveSnapshot implements Serializable {
     int secondZoneRevision;
     int thirdZoneRevision;
     int fourthZoneRevision;
+    int sixthZoneRevision;
     int fifthZoneRevision;
     int map, area, x, y;
     String direction;

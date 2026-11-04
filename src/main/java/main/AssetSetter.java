@@ -51,6 +51,7 @@ public class AssetSetter {
     }
 
     public void setObject() {
+        SixthZone.reward(gp, gp.obj);
         int mapNum = 0;
         int i = 0;
         mapNum = 4;
@@ -164,6 +165,7 @@ public class AssetSetter {
 
     public void setMonster() {
         FourthZone.populate(gp,gp.monster);
+        SixthZone.populate(gp, gp.monster);
         int mapNum = 0;
         int i = 0;
         FirstZone.populate(gp);
@@ -336,6 +338,7 @@ public class AssetSetter {
 
     public void setInteractiveTile() {
         FourthZone.rocks(gp,gp.iTile);
+        SixthZone.obstacles(gp, gp.iTile);
         int mapNum = 0;
         int i = 0;
         mapNum = 2;

@@ -8,8 +8,16 @@ import java.util.List;
 /** Small preferences file, written only when a setting changes. */
 public final class Config {
     private final GamePanel gp;
-    private final Path file = Path.of("config.txt");
-    public Config(GamePanel gp) { this.gp = gp; }
+    private final Path file;
+
+    public Config(GamePanel gp) {
+        this(gp, Path.of("config.txt"));
+    }
+
+    Config(GamePanel gp, Path file) {
+        this.gp = gp;
+        this.file = file;
+    }
 
     public void saveConfig() {
         Path temporary = file.resolveSibling("config.txt.tmp");

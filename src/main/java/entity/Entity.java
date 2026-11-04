@@ -572,16 +572,22 @@ public class Entity {
     }
 
     public void damagePlayer(int attack) {
+        damagePlayer(attack, direction, true);
+    }
+
+    protected void damagePlayer(int attack, String attackDirection, boolean recoilOnParry) {
         if (!this.gp.player.invincible) {
             int damage = attack - this.gp.player.defense;
-            String canGuardDirection = this.getOppositeDirection(this.direction);
+            String canGuardDirection = this.getOppositeDirection(attackDirection);
             if (this.gp.player.guarding && this.gp.player.direction.equals(canGuardDirection)) {
                 if (this.gp.player.guardCounter < 10) {
                     damage = 0;
                     this.gp.playSE(19);
-                    this.setKnockBack(this, this.gp.player, this.knockBackPower);
-                    this.offBalance = true;
-                    this.spriteCounter = -120;
+                    if (recoilOnParry) {
+                        this.setKnockBack(this, this.gp.player, this.knockBackPower);
+                        this.offBalance = true;
+                        this.spriteCounter = -120;
+                    }
                 } else {
                     damage = Math.max(0, damage / 3);
                     this.gp.playSE(18);
@@ -595,6 +601,7 @@ public class Entity {
             if (damage != 0) {
                 this.gp.player.transparent = true;
                 this.setKnockBack(this.gp.player, this, this.knockBackPower);
+                this.gp.player.knockBackDirection = attackDirection;
             }
             this.gp.player.life -= damage;
             this.gp.player.invincible = true;

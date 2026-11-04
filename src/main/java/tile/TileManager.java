@@ -18,7 +18,7 @@ public class TileManager {
     private static final AlphaComposite SHALLOW_WATER = AlphaComposite.SrcOver.derive(0.78f);
     private static final String[] INITIAL_MAPS = {
         "/maps/stage1.txt", "/maps/stage2.txt", "/maps/stage3.txt", "/maps/stage4.txt",
-        "/maps/stage5.txt", "/maps/extraStage.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt"
+        "/maps/stage5.txt", "/maps/extraStage.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt"
     };
     private final GamePanel gp;
     public Tile[] tile;
@@ -117,7 +117,10 @@ public class TileManager {
 
     public void reloadCurrentMap() {
         if (isMapLoaded(gp.currentMap)) loadMap(mapResources[gp.currentMap], gp.currentMap);
-        for(var e:gp.monster[gp.currentMap]) if(e instanceof monster.MON_Sharky s) s.resetAmbush();
+        for (var enemy : gp.monster[gp.currentMap]) {
+            if (enemy instanceof monster.MON_Sharky shark) shark.resetAmbush();
+            if (enemy instanceof monster.MON_Tella tella && tella.usesPulse()) tella.resetPulse();
+        }
     }
 
     public boolean isMapLoaded(int map) {
@@ -140,7 +143,7 @@ public class TileManager {
 
     public void drawLayered(Graphics2D graphics) {
         Graphics2D layer = (Graphics2D) graphics.create();
-        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || gp.currentMap == 3 || gp.currentMap == main.FourthZone.MAP);
+        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap == main.FourthZone.MAP);
         layer.dispose();
     }
 

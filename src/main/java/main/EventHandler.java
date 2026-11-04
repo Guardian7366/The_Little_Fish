@@ -130,9 +130,15 @@ public class EventHandler {
             } else if (this.hit(FourthZone.MAP, 25, 8, "any")) {
                 this.healingPool(25, 8, gp.dialogueState);
             } else if (this.hit(3, 9, 44, "any")) {
-                this.teleportMap(4, 24, 44, this.gp.dungeons);
+                this.teleportMap(8, 25, 43, this.gp.dungeons);
+            } else if (this.hit(8, 23, 45, "any")) {
+                this.teleportMap(3, 17, 44, this.gp.dungeons);
+            } else if (this.hit(8, 25, 3, "any")) {
+                this.teleportMap(4, 24, 42, this.gp.dungeons);
             } else if (this.hit(4, 24, 44, "any")) {
-                this.teleportMap(3, 9, 44, this.gp.dungeons);
+                this.teleportMap(8, 25, 6, this.gp.dungeons);
+            } else if (this.hit(8, 25, 41, "any")) {
+                this.healingPool(25, 41, this.gp.dialogueState);
             } else if (this.hit(4, 24, 5, "any")) {
                 this.teleportMap(6, 24, 44, this.gp.dungeons);
             } else if (this.hit(0, 28, 18, "any")) {

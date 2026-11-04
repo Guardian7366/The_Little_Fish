@@ -74,7 +74,7 @@ public class Lighting {
     }
 
     public void update() {
-        if(gp.currentMap==3) fifth.prepare();
+        if(main.SixthZone.usesAbyss(gp.currentMap)) fifth.prepare();
         if (this.gp.player.lightUpdated) {
             this.setLightSource();
             this.gp.player.lightUpdated = false;
@@ -110,7 +110,7 @@ public class Lighting {
     }
 
     public void draw(Graphics2D g2) {
-        if(gp.currentMap==3) {fifth.draw(g2);return;}
+        if(main.SixthZone.usesAbyss(gp.currentMap)) {fifth.draw(g2);return;}
         if (this.gp.currentArea == this.gp.outside) {
             g2.setComposite(AlphaComposite.getInstance(3, this.filterAlpha));
         }

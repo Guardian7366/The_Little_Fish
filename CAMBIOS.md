@@ -1,5 +1,13 @@
 # Historial de cambios
 
+## Nueva sexta zona y Fishtella — 4 de noviembre de 2026
+
+El usuario probó y aprobó la zona y el comportamiento de Fishtella. Autorizó publicar la entrega en `main`.
+
+- Fishtella usa los doce sprites preparados, avisa la descarga sobre sus casillas reales y deja el núcleo expuesto durante 60 ticks.
+- El mapa 8 añade el refugio, los ramales, el taller, el encuentro mixto y el paso físico de Iron. Conecta la quinta, la nueva sexta y la antigua sexta mediante cuatro transiciones.
+- La migración inicializa el mapa nuevo y conserva los guardados anteriores. Pasaron las 20 suites. [Detalles y capturas](SEXTA-ZONA.md)
+
 ## Quinta, revisión 2 — Iron obligatorio y puertas
 
 - El usuario jugó y aprobó Sharky, el recorrido general y la ambientación. Se conservan sus cambios locales; código de Sharky, fondo, capas, criaturas y recursos preparados no se reemplazan. La referencia artística generada no se carga como fondo.

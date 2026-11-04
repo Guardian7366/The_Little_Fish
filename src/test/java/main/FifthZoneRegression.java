@@ -60,6 +60,10 @@ public final class FifthZoneRegression {
     /** Optimistic world graph: all optional obstacles/actors are ignored, but the gate stays solid.
      * Every hit->teleportMap pair is read from the real handler, including all extra-room returns. */
     static boolean[] relaxedWorld(Quiet gp) throws Exception {
+        return relaxedWorld(gp, cell(3,25,23));
+    }
+
+    static boolean[] relaxedWorld(Quiet gp, int start) throws Exception {
         var transfers=new HashMap<Integer,Integer>();
         String source=Files.readString(Path.of("src/main/java/main/EventHandler.java"));
         Matcher m=Pattern.compile("this\\.hit\\((\\d+|FourthZone\\.MAP),\\s*(\\d+),\\s*(\\d+),\\s*\"any\"\\)\\)\\s*\\{\\s*this\\.teleportMap\\((\\d+|FourthZone\\.MAP),\\s*(\\d+),\\s*(\\d+),").matcher(source);
@@ -68,9 +72,9 @@ public final class FifthZoneRegression {
             int b=m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
             transfers.put(cell(a,Integer.parseInt(m.group(2)),Integer.parseInt(m.group(3))),cell(b,Integer.parseInt(m.group(5)),Integer.parseInt(m.group(6))));
         }
-        check(transfers.size()==23,"all 23 actual portal directions included in reachability proof");
+        check(transfers.size()==25,"all 25 actual portal directions included in reachability proof");
         boolean[] seen=new boolean[gp.maxMap*2500];ArrayDeque<Integer> queue=new ArrayDeque<>();
-        int start=cell(3,25,23);seen[start]=true;queue.add(start);
+        seen[start]=true;queue.add(start);
         while(!queue.isEmpty()) {
             int pos=queue.remove(),map=pos/2500,x=pos%50,y=pos%2500/50;
             List<Integer> next=new ArrayList<>();
@@ -83,6 +87,7 @@ public final class FifthZoneRegression {
                 if(seen[n]||!gp.tileM.isMapLoaded(mm)||gp.tileM.tile[gp.tileM.mapTileNum[mm][xx][yy]].collision)continue;
                 boolean closed=false;
                 if(mm==3) for(int slot:FifthZone.GATE_SLOTS) {var t=gp.iTile[3][slot];if(t!=null&&t.destructible&&t.worldX/48==xx&&t.worldY/48==yy)closed=true;}
+                if(mm==8) for(int slot:SixthZone.GATE_SLOTS) {var t=gp.iTile[8][slot];if(t!=null&&t.destructible&&t.worldX/48==xx&&t.worldY/48==yy)closed=true;}
                 if(!closed){seen[n]=true;queue.add(n);}
             }
         }
@@ -136,7 +141,7 @@ public final class FifthZoneRegression {
         gp.player.currentWeapon=iron;
         for(int slot:FifthZone.GATE_SLOTS)for(int hit=0;hit<3;hit++) {gp.iTile[3][slot].invincible=false;gp.player.damageInteractiveTile(slot);}
         gp.player.currentWeapon=gp.eGenerator.requireObject("normal-bubble");
-        walk(gp,25,23,9,44);check(relaxedWorld(gp)[cell(4,24,44)],"next area reachable after Iron, even unequipped");
+        walk(gp,25,23,9,44);check(relaxedWorld(gp)[cell(8,25,43)],"next area reachable after Iron, even unequipped");
         gp.player.worldX=17*48;gp.player.worldY=44*48;capture(gp,out,"barrier-open");
         reward.opened=false;reward.down=reward.image;gp.player.inventory.removeIf(e->e instanceof OBJ_Iron);
         gp.ui.npc=null;gp.keyH.enterPressed=false;gp.gameState=gp.playState;
@@ -146,7 +151,7 @@ public final class FifthZoneRegression {
         Quiet gp=new Quiet();gp.setupGame();gp.currentMap=3;gp.currentArea=gp.dungeons;gp.gameState=gp.playState;
         check(Arrays.stream(gp.monster[3]).filter(e->e instanceof MON_Sharky).count()==6,"six sharks");
         check(Arrays.stream(gp.monster[3]).filter(Objects::nonNull).count()==9,"nine enemies");
-        check(gp.tileM.loadedMapCount()==8,"stable map IDs");
+        check(gp.tileM.loadedMapCount()==9,"stable map IDs");
         gate(gp);
         for(int[] safe:new int[][]{{25,23},{25,20},{9,5},{14,40},{9,44},{14,9},{14,8},{17,44}}) {
             gp.player.worldX=safe[0]*48;gp.player.worldY=safe[1]*48;
@@ -189,7 +194,7 @@ public final class FifthZoneRegression {
         check(gp.player.currentWeapon==equipped,"tool not autoequipped");
         portal(gp,5,40,9,3);portal(gp,3,14,40,5);walk(gp,9,9,20,11);check(gp.obj[5][7].loot instanceof OBJ_Second_Weapon,"weapon reward retained");
         portal(gp,5,9,9,3);portal(gp,7,25,45,3);check(gp.player.worldX==25*48&&gp.player.worldY==23*48,"fourth arrival retained");
-        portal(gp,3,9,44,4);portal(gp,4,24,44,3);
+        portal(gp,3,9,44,8);portal(gp,8,23,45,3);
         Path out=Path.of("build/fifth-zone-preview");Files.createDirectories(out);
         gp.currentMap=3;gp.currentArea=gp.dungeons;gp.gameState=gp.playState;gp.aSetter.setMonster();gp.aSetter.setInteractiveTile();
         ImageIO.write(gp.map.getWorldMap(3),"png",out.resolve("map.png").toFile());

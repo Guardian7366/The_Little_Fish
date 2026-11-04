@@ -45,7 +45,7 @@ public final class ResourceRegression {
         try (var files = Files.walk(assets)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".png")).toList()) {
                 String resource = "/" + assets.relativize(file).toString().replace('\\', '/');
-                if(resource.startsWith("/quinta/")) continue; // Native candidate art has its own manifest/hash suite.
+                if(resource.startsWith("/quinta/") || resource.startsWith("/sexta/")) continue; // Native candidate art has its own manifest/hash suite.
                 BufferedImage original = ImageIO.read(file.toFile());
                 int width = original.getWidth() * 3, height = original.getHeight() * 3;
                 BufferedImage reference = new UtilityTool().scaleImage(original, width, height);
@@ -61,15 +61,15 @@ public final class ResourceRegression {
     }
     private static void checkMaps(QuietPanel gp) {
         Map preview = gp.map;
-        check(gp.tileM.loadedMapCount() == 8, "Eight maps must be loaded");
+        check(gp.tileM.loadedMapCount() == 9, "Nine maps must be loaded");
         check(preview.cachedPixelBytes() == 0, "Map constructor must not allocate previews");
-        for (int map = 0; map < 8; map++) {
+        for (int map = 0; map < 9; map++) {
             BufferedImage image = preview.getWorldMap(map);
             check(image.getWidth() == 800 && image.getHeight() == 800, "Native terrain preview dimensions");
             check(image == preview.getWorldMap(map), "Preview must be cached");
         }
-        check(preview.getWorldMap(8) == null, "Unused map must not allocate a preview");
-        check(preview.cachedPixelBytes() == 8L * 800 * 800 * 4, "Unexpected map cache size");
+        check(preview.getWorldMap(9) == null, "Unused map must not allocate a preview");
+        check(preview.cachedPixelBytes() == 9L * 800 * 800 * 4, "Unexpected map cache size");
         long allMaps = preview.cachedPixelBytes();
         gp.currentMap = 2;
         BufferedImage before = preview.getWorldMap(2);
@@ -93,7 +93,7 @@ public final class ResourceRegression {
     }
     private static void checkTerrainCulling(QuietPanel gp) {
         int[][] positions = {{0,0}, {624,1488}, {628,1492}, {647,1511}, {671,1535}, {2352,2352}};
-        for (int map = 0; map < 8; map++) {
+        for (int map = 0; map < 9; map++) {
             gp.currentMap = map;
             for (int[] position : positions) {
                 gp.player.worldX = position[0]; gp.player.worldY = position[1];
@@ -113,12 +113,12 @@ public final class ResourceRegression {
                         actual.getRGB(0,0,960,576,null,0,960)), "Culled terrain omitted visible pixels");
             }
         }
-        System.out.println("TERRAIN viewport matches uncropped reference at 42 map/camera positions");
+        System.out.println("TERRAIN viewport matches uncropped reference at all tested map/camera positions");
     }
     private static void checkRoutes(QuietPanel gp) {
         Random random = new Random(20261028);
         int queries = 0;
-        for (int map = 0; map < 8; map++) {
+        for (int map = 0; map < 9; map++) {
             gp.currentMap = map;
             boolean[][] blocked = obstacles(gp);
             for (int i = 0; i < 40; i++) {

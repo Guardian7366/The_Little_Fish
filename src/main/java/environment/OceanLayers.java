@@ -83,7 +83,7 @@ public final class OceanLayers {
     public long cachedPixelBytes() { return 12L * WIDTH * HEIGHT * 4; }
 
     public void drawBackground(Graphics2D target, GamePanel gp) {
-        if(gp.currentMap==3) {fifth.draw(target,gp);return;}
+        if(main.SixthZone.usesAbyss(gp.currentMap)) {fifth.draw(target,gp);return;}
         if (gp.currentMap != 0 && gp.currentMap != 1 && gp.currentMap != 2 && gp.currentMap != main.FourthZone.MAP) return;
         Graphics2D g = (Graphics2D) target.create();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);

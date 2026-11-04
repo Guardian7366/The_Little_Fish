@@ -84,13 +84,17 @@ public final class GameFlowController {
     private void updateTransition() {
         if (++ui.counter < 50) return;
         ui.counter = 0;
+        if (gp.currentMap == SixthZone.MAP && gp.eHandler.tempMap == FifthZone.MAP &&
+            SixthZone.gateIntact(gp.iTile)) {
+            FifthZone.restoreIronReward(gp.player, gp.obj);
+        }
         gp.currentMap = gp.eHandler.tempMap;
         gp.player.worldX = gp.tileSize * gp.eHandler.tempCol;
         gp.player.worldY = gp.tileSize * gp.eHandler.tempRow;
         gp.eHandler.previousEventX = gp.player.worldX;
         gp.eHandler.previousEventY = gp.player.worldY;
         gp.changeArea();
-        if(gp.currentMap==3) gp.eManager.lighting.fifth.prepare();
+        if(SixthZone.usesAbyss(gp.currentMap)) gp.eManager.lighting.fifth.prepare();
         gp.gameState = gp.playState;
     }
 

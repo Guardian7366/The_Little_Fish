@@ -343,6 +343,7 @@ extends Entity {
     }
 
     public void contactMonster(int i) {
+        if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Sharky shark) {
             if (!shark.dying && shark.alive) shark.damagePlayer(shark.attack);
             return;
@@ -372,6 +373,7 @@ extends Entity {
             if ((damage = attack - this.gp.monster[this.gp.currentMap][i].defense) < 0) {
                 damage = 0;
             }
+            if (this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) damage = Math.max(1, damage);
             this.gp.monster[this.gp.currentMap][i].life -= damage;
             this.gp.ui.addMessage(damage + " damage!");
             this.gp.monster[this.gp.currentMap][i].invincible = true;

@@ -78,11 +78,19 @@ public final class FifthZone {
             }
             // Old saves could have sold/lost Iron while the exit still had a bypass.
             // Offer the original reward again, without granting/equipping a duplicate item.
-            boolean hasIron=player.inventory.stream().anyMatch(e->e instanceof object.OBJ_Iron);
-            if(!hasIron) for(Entity e:objects[5]) if(e instanceof object.OBJ_Chest &&
-                e.loot instanceof object.OBJ_Iron && e.opened) {e.opened=false;e.down=e.image;}
+            restoreIronReward(player, objects);
         }
         configure(gp,monsters,old);
+    }
+
+    public static void restoreIronReward(Entity player, Entity[][] objects) {
+        if (player.inventory.stream().anyMatch(item -> item instanceof object.OBJ_Iron)) return;
+        for (Entity object : objects[5]) {
+            if (object instanceof object.OBJ_Chest chest && chest.loot instanceof object.OBJ_Iron && chest.opened) {
+                chest.opened = false;
+                chest.down = chest.image;
+            }
+        }
     }
 
     private static Rectangle body(Entity e) {

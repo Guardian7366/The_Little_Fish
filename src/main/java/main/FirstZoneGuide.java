@@ -30,9 +30,9 @@ public final class FirstZoneGuide {
 
     public String message() {
         if (gp.gameState != gp.playState) return "";
-        if(gp.currentMap==FifthZone.MAP) {
-            if((gp.player.worldX+24)/48==14&&(gp.player.worldY+24)/48==5) return "ENTER  Face up to examine the marks";
-            for(var block:gp.iTile[3]) if(block!=null&&block.destructible&&
+        if(SixthZone.usesAbyss(gp.currentMap)) {
+            if(gp.currentMap==FifthZone.MAP && (gp.player.worldX+24)/48==14&&(gp.player.worldY+24)/48==5) return "ENTER  Face up to examine the marks";
+            for(var block:gp.iTile[gp.currentMap]) if(block!=null&&block.destructible&&
                 Math.abs(block.worldX-gp.player.worldX)+Math.abs(block.worldY-gp.player.worldY)<gp.tileSize*3) {
                 boolean metal=block instanceof tile_interactive.IT_DestructibleWall;
                 int type=metal?10:4;

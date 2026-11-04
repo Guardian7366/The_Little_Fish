@@ -220,7 +220,7 @@ implements Runnable {
         if (gameState == titleState) ui.titleBackground.update();
         if (this.gameState == 1) {
             this.player.update();
-            if(currentMap==FifthZone.MAP) ocean.fifth.update();
+            if(SixthZone.usesAbyss(currentMap)) ocean.fifth.update();
             if (currentMap == 0 || currentMap == 1 || currentMap == 2 || currentMap == FourthZone.MAP) ocean.update();
             firstZoneGuide.update();
             int i = 0;
@@ -349,6 +349,10 @@ implements Runnable {
             this.entityList.clear();
             this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
+            if (currentMap == SixthZone.MAP) {
+                for (Entity enemy : monster[currentMap])
+                    if (enemy instanceof monster.MON_Tella tella) tella.drawBands(g2);
+            }
             this.map.drawMiniMap(this.g2);
             this.csManager.draw(this.g2);
             this.ui.draw(this.g2);

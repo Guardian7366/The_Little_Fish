@@ -15,7 +15,7 @@ public final class FifthLighting {
     private final BufferedImage screen=new BufferedImage(320,192,BufferedImage.TYPE_INT_ARGB);
     private final int[] pixels=((DataBufferInt)screen.getRaster().getDataBuffer()).getData();
     private final byte[] lamp=new byte[320*192];
-    private int revision=-1, lampRadius=-1;
+    private int revision=-1, lampRadius=-1, cachedMap=-1;
     public FifthLighting(GamePanel gp) {
         this.gp=gp;width=gp.maxWorldCol*16;height=gp.maxWorldRow*16;
         worldAlpha=new byte[width*height];prepare();
@@ -27,17 +27,19 @@ public final class FifthLighting {
         for(int i=1;i<n;i++) {
             int col=(x+dx*i/n)/16,row=(y+dy*i/n)/16;
             if(col<0||row<0||col>=gp.maxWorldCol||row>=gp.maxWorldRow||
-                gp.tileM.tile[gp.tileM.mapTileNum[3][col][row]].collision) return false;
+                gp.tileM.tile[gp.tileM.mapTileNum[cachedMap][col][row]].collision) return false;
         }
         return true;
     }
     public void prepare() {
-        int next=gp.tileM.getMapRevision(3);
-        if(next!=revision) {
+        int map = main.SixthZone.usesAbyss(gp.currentMap) ? gp.currentMap : FifthZone.MAP;
+        int next=gp.tileM.getMapRevision(map);
+        if(next!=revision || map!=cachedMap) {
+            cachedMap=map;
             Arrays.fill(worldAlpha,(byte)AMBIENT_ALPHA);
             final int radius=44; // 2.75 tiles, native pixels.
             for(int col=0;col<gp.maxWorldCol;col++) for(int row=0;row<gp.maxWorldRow;row++) {
-                int tile=gp.tileM.mapTileNum[3][col][row];
+                int tile=gp.tileM.mapTileNum[map][col][row];
                 if(tile<FifthZone.GLOW_TOP||tile>FifthZone.GLOW_TOP+3) continue;
                 int cx=col*16+8,cy=row*16+8;
                 for(int y=Math.max(0,cy-radius);y<Math.min(height,cy+radius+1);y++)
