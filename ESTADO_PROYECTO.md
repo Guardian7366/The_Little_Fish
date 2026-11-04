@@ -65,3 +65,7 @@ El paquete se publicó en `ca4b3ad` y ya fue utilizado para la implementación l
 ## Sexta zona y Fishtella
 
 El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella. Se prepararon doce sprites nativos y el encargo de la expansión. La entrega incorpora el mapa 8, Fishtella con sus doce sprites, un primer encuentro aislado, encuentros mixtos con Sharky, el paso obligatorio de Iron y la migración de partidas. Pasaron las 20 suites. El usuario probó la zona y el enemigo, confirmó que funcionaban como esperaba y autorizó su publicación el 4 de noviembre de 2026. [Informe de la sexta zona](SEXTA-ZONA.md)
+
+## Preparación de séptima zona
+
+El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo sumergido con cuatro rocas y placas, murales sobre D y dos Secret ocultos. Se prepararon 71 recursos PNG y el encargo de integración. Se comprobaron dimensiones, datos RGBA y transparencia. La implementación y sus pruebas jugables quedan pendientes. [Encargo del templo](design/septima-zona/TAREA-CODEX.md).

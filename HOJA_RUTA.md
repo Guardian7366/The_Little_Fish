@@ -39,3 +39,7 @@ El usuario aprobó el comportamiento de Sharky, recorrido general y ambientació
 ## Próxima expansión
 
 Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron. La implementación aislada y la integración pasaron las 20 suites. El usuario probó la zona y Fishtella, confirmó el comportamiento esperado y aprobó la entrega para publicación. [Informe de la sexta zona](SEXTA-ZONA.md)
+
+## Séptima zona
+
+Siguiente rediseño: templo sumergido en mapa interno 4. Introducir Planta y Secret con las mecánicas aprobadas, integrar Fishtella, preparar cuatro galerías de empuje y conservar la transición al jefe. [Trazado, arte y criterios de aceptación](design/septima-zona/TAREA-CODEX.md).

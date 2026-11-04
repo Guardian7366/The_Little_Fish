@@ -1,0 +1,467 @@
+{
+  "nativeTile": [
+    16,
+    16
+  ],
+  "scale": 3,
+  "filter": "nearest-neighbor",
+  "assets": [
+    {
+      "file": "assets/flower/idle-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/idle-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/aim-up.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-mid-up.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-tip-up.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/aim-down.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-mid-down.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-tip-down.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/aim-left.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-mid-left.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-tip-left.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/aim-right.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-mid-right.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-tip-right.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/retract.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/flower/vine-cut.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-up-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-up-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-down-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-down-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-left-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-left-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-right-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/oculto-right-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-up-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-up-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-down-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-down-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-left-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-left-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-right-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/huida-right-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-up-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-up-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-down-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-down-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-left-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-left-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-right-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/agotado-right-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/decoy-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/secret/decoy-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/tiles/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/floor-2.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/wall-frieze.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/pillar.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/moss.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/rail-horizontal.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/rail-vertical.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/lamp-wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/puzzle/plate-off.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/puzzle/plate-on.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/puzzle/rock.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/puzzle/rune-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/puzzle/rune-2.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/puzzle/rune-3.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/puzzle/rune-4.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "file": "assets/puzzle/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/puzzle/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/return-arch.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/rest.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/murals/procession.png",
+      "width": 48,
+      "height": 32,
+      "alpha": false
+    },
+    {
+      "file": "assets/murals/d-threshold.png",
+      "width": 48,
+      "height": 32,
+      "alpha": false
+    },
+    {
+      "file": "assets/murals/four-weights.png",
+      "width": 48,
+      "height": 32,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/secret-relief-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/tiles/secret-relief-2.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "file": "assets/background/deep-naves.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false
+    },
+    {
+      "file": "assets/background/arcades.png",
+      "width": 320,
+      "height": 192,
+      "alpha": true
+    },
+    {
+      "file": "assets/background/statues.png",
+      "width": 320,
+      "height": 192,
+      "alpha": true
+    }
+  ],
+  "flower": {
+    "idle": [
+      "idle-0",
+      "idle-1"
+    ],
+    "aim": "aim-{up,down,left,right}",
+    "segments": "vine-{mid,tip}-{up,down,left,right}",
+    "retract": "retract",
+    "cut": "vine-cut"
+  },
+  "secret": {
+    "states": [
+      "oculto",
+      "huida",
+      "agotado"
+    ],
+    "directions": [
+      "up",
+      "down",
+      "left",
+      "right"
+    ],
+    "frames": [
+      0,
+      1
+    ]
+  },
+  "previews": [
+    "vista-templo.png",
+    "vista-sprites.png"
+  ]
+}

@@ -139,3 +139,7 @@ Las operaciones del dispositivo se trasladaron a un hilo propio con solicitudes 
 ## 2026-11-04 · Preparación de sexta zona
 
 Se añadieron el encargo de la nueva zona y los doce sprites de Fishtella, distribuidos en tres estados y cuatro direcciones. Se verificaron las dimensiones y el formato de los PNG y que la vista SVG abre como XML. Implementación y pruebas del juego pendientes.
+
+## 2026-11-04 · Arte y encargo del templo
+
+Se añadieron 71 PNG de séptima zona. Incluyen 16 archivos de Planta, 26 de Secret, 26 de tiles, rompecabezas y murales, y tres capas de fondo. Se añadieron dos vistas previas, el inventario y las instrucciones de integración. No se ejecutaron pruebas del juego para esta entrega de arte.
