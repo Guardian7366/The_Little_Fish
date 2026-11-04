@@ -61,3 +61,7 @@ Base consultada: bc0c1c9. Preparado [design/quinta-zona/README.md](design/quinta
 Reparto solicitado: ChatGPT razona decisiones, prepara visuales y publica lo autorizado; Codex programa y verifica. Esta entrega NO modifica Java, recursos activos, mapas ni JAR. Validación: dimensiones/alpha y hashes de 32 PNG, inspección de tres previews y documentación. Sin compilación ni pruebas del juego. Git identificará la publicación efectiva.
 
 El paquete se publicó en `ca4b3ad` y ya fue utilizado para la implementación local autorizada. Su estado «preparado, no integrado» describe la entrega histórica de arte; el resultado actual y las diferencias concretas están en [QUINTA-ZONA.md](QUINTA-ZONA.md). La autorización del 4 de noviembre de 2026 abarca la publicación de fuentes, recursos, pruebas y documentación.
+
+## Preparación de sexta zona y Fishtella
+
+El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella. Se prepararon doce sprites nativos y el encargo de la expansión. La implementación y la valoración en juego quedan pendientes. [Encargo y arte](design/sexta-zona/TAREA-CODEX.md).

@@ -35,3 +35,7 @@ ChatGPT consulta la información publicada. Una conversación, un archivo local 
 ## Siguiente entrega concreta: Sharky y quinta zona
 
 El usuario aprobó el comportamiento de Sharky, recorrido general y ambientación tras probar la primera implementación local. Desde esa misma base se corrigieron Iron obligatorio con dos bloques nuevos, las puertas originales 086 y la migración a revisión 2. Las 17 suites pasan; capturas y resultados reales en [QUINTA-ZONA.md](QUINTA-ZONA.md). El usuario aprobó las correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El JAR de prueba se genera en `build/`.
+
+## Próxima expansión
+
+Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron. Implementar primero Fishtella aislado y luego integrar recorrido, transiciones y guardado. [Encargo para Codex](design/sexta-zona/TAREA-CODEX.md).

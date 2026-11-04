@@ -127,3 +127,7 @@ Las operaciones del dispositivo se trasladaron a un hilo propio con solicitudes 
 - Previews, diagramas y referencia generada con procedencia documentada.
 - Estado compartido registra aprobación de la nueva cuarta y reparto ChatGPT visual/diseño/publicación – Codex código/pruebas.
 - Juego ejecutable, Java y recursos activos sin cambios. Validación de arte/documentación, sin nuevas suites.
+
+## 2026-11-04 · Preparación de sexta zona
+
+Se añadieron el encargo de la nueva zona y los doce sprites de Fishtella, distribuidos en tres estados y cuatro direcciones. Se verificaron las dimensiones y el formato de los PNG y que la vista SVG abre como XML. Implementación y pruebas del juego pendientes.
