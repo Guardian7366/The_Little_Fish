@@ -1,0 +1,281 @@
+{
+  "tile": [
+    16,
+    16
+  ],
+  "scale": 3,
+  "filter": "nearest",
+  "previews": [
+    "preview/chicken.png",
+    "preview/flower.png",
+    "preview/spiky.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/chicken/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/flower/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/spiky/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/chicken/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/flower/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/spiky/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/chicken/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/chicken/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/chicken/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/chicken/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/chicken/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/chicken/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/flower/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/flower/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/flower/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/flower/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/flower/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/flower/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/spiky/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/spiky/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/spiky/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/spiky/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/spiky/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/spiky/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/chicken/lantern-off.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/chicken/lantern-on.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/chicken/basket.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/chicken/jar.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/chicken/table-two.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/flower/pot-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/flower/pot-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/flower/remedy-shelf.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/spiky/cover.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/spiky/banner.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/spiky/cot.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/chicken/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/flower/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/spiky/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    }
+  ]
+}

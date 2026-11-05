@@ -159,3 +159,7 @@ Se añadieron 71 PNG de séptima zona. Incluyen 16 archivos de Planta, 26 de Sec
 ## 2026-11-04 · Encargo de la octava zona
 
 Añadidas tres estatuas PNG transparentes de 32 × 48, su vista conjunta, el inventario y las instrucciones de integración. Se comprobaron formato, dimensiones y transparencia. La integración jugable de este paquete se documenta en [OCTAVA-ZONA.md](OCTAVA-ZONA.md).
+
+## 2026-11-04 · Arte de las primeras tres salas extras
+
+Añadidos dos cuadros para cada NPC, tiles, decoración, estados visuales de los retos y tres fondos propios. Verificados 38 PNG y revisadas las tres composiciones. Se documentaron las parejas de NPC y cofre, el aislamiento y las pruebas de integración.

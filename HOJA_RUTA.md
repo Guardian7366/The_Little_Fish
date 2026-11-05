@@ -47,3 +47,7 @@ El templo del mapa interno 4 ya incluye a Planta, Secret, Fishtella y cuatro gal
 ## Extensión del templo antes del jefe
 
 El mapa 9 conecta el templo aprobado con el jefe. El usuario probó las galerías, confirmó que cumplen los requisitos y autorizó la publicación el 4 de noviembre de 2026. [Informe de la octava zona](OCTAVA-ZONA.md)
+
+## Primeros tres refugios de D
+
+Antes de rediseñar al jefe, integrar la despensa de Chicken, el vivero de Flower y el puesto de Spiky. Mantener el mapa interno 5 con salas independientes en cámara, dibujo y simulación. [Encargo y arte](design/salas-extras-1-3/TAREA-CODEX.md).

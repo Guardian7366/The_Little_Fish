@@ -74,3 +74,7 @@ El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo s
 ## Octava zona
 
 La séptima está aprobada y publicada en b56661a. La base b9d1104 incorpora el encargo y las estatuas. La octava conecta la séptima con el jefe mediante el mapa 9. Incluye siete Plantas y cuatro Fishtellas distribuidas por cámaras, tres estatuas con inscripciones opcionales de D y tres parejas de roca y placa, una con giro. Pasaron 24 suites, incluidas las seis órdenes, la recarga en el codo, las transiciones y la migración de tres partidas históricas. El usuario confirmó tras jugar que la zona cumple los requisitos y autorizó su publicación el 4 de noviembre de 2026. [Informe y capturas](OCTAVA-ZONA.md)
+
+## Preparación de las primeras tres salas extras
+
+El usuario aprobó tres retos independientes para Chicken con Linterna, Flower con poción y Spiky con cama portátil. Se prepararon 38 PNG, tres vistas y el encargo de integración, con límites de cámara y actividad por recinto. Programación y pruebas jugables pendientes. [Encargo](design/salas-extras-1-3/TAREA-CODEX.md).
