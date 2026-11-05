@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Pump, Hongui y Ghost — 5 de noviembre de 2026, entrega aprobada
+
+- Integrados los 43 PNG, los diálogos y los tres retos en los recintos originales del mapa 5. Se conservan slots y premios.
+- Pump se resuelve cortando ambas ataduras con cualquiera de las cuatro armas actuales. Hongui acepta dos ataques distintos resueltos con guardia frontal o parry, o la derrota del Picarón. Ghost presenta la secuencia fija y registra entradas completas en sus símbolos.
+- La revisión 2 del guardado conserva los retos anteriores y migra los nuevos desde cofres abiertos o cerrados. Pasaron 28 suites y seis partidas históricas de e982c07. El usuario probó las tres salas y aprobó su publicación. [Informe y capturas](SALAS-EXTRAS-4-6.md)
+
 ## Chicken, Flower y Spiky — 4 de noviembre de 2026, entrega aprobada
 
 - Integrados los 38 PNG del paquete en tres recintos del mapa 5. Se mantienen Chicken con Linterna, Flower con poción de +5 y Spiky con cama portátil.

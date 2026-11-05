@@ -4,13 +4,14 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]/'src/main/resources/maps'
 grid = [list(map(int,row.split())) for row in (root/'extraStage.txt').read_text().splitlines()]
 
-def decorate(x0,y0,x1,y1,base,door):
+def decorate(x0,y0,x1,y1,base,door,bottom_border=True):
     for y in range(y0,y1+1):
         for x in range(x0,x1+1):
             grid[y][x]=base+(x+y//2)%2
         grid[y][x0-1]=grid[y][x1+1]=base+2
     for x in range(x0-1,x1+2):
-        grid[y1+1][x]=base+2
+        if bottom_border:
+            grid[y1+1][x]=base+2
         grid[y0-1][x]=base+3
     x,y=door
     grid[y][x]=86
@@ -38,4 +39,39 @@ for x in range(28,36):
 for y in range(29,34):
     grid[y][30]=125
 grid[30][30]=119
+# Later refuges retain the original floor rectangles and reward identities.
+decorate(9,24,22,33,126,(9,29),bottom_border=False)
+decorate(9,14,22,22,132,(9,19),bottom_border=False)
+decorate(27,14,40,22,138,(40,19),bottom_border=False)
+for x,y in [(8,24),(23,33),(8,14),(23,22),(26,14),(41,22)]:
+    grid[y][x]=0
+
+# Pump. Both short routes can be approached from the entrance.
+for y in range(24,34):
+    grid[y][19]=128
+grid[31][19]=130
+for y in range(24,27):
+    grid[y][14]=128
+for y in range(28,30):
+    for x in range(14,18):
+        grid[y][x]=128
+for y in range(31,34):
+    grid[y][17]=128
+grid[27][14]=144
+grid[30][17]=144
+
+# Hongui. The NPC canopy and reward alcove sit outside the arena.
+for y in range(14,23):
+    grid[y][19]=134
+grid[21][19]=136
+for y in range(14,20):
+    grid[y][12]=134
+
+# Ghost. The symbols remain freely accessible without any equipment.
+for y in range(14,23):
+    grid[y][31]=140
+grid[21][31]=142
+for x,y,tile in [(34,16,146),(37,16,148),(35,20,150)]:
+    grid[y][x]=tile
+
 (root/'extraRefugios.txt').write_text(''.join(' '.join(map(str,row))+chr(10) for row in grid),encoding='utf-8')

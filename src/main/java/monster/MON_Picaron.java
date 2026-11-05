@@ -15,18 +15,44 @@ extends Entity {
     GamePanel gp;
     private int homeX, homeY;
     private boolean territorySet, returning;
+    private java.awt.Rectangle refugeTerritory;
+    private boolean guardRecorded;
+
+    public void setRefugeHome(int x,int y,java.awt.Rectangle bounds) {
+        setHome(x,y);
+        refugeTerritory=new java.awt.Rectangle(bounds);
+    }
+
+    public boolean registerRefugeGuard() {
+        if (refugeTerritory==null || !attacking || spriteCounter<=motion1_duration ||
+            spriteCounter>motion2_duration || guardRecorded) return false;
+        guardRecorded=true;
+        return true;
+    }
+
+    private boolean usesTerritory() {
+        return gp.currentMap==2 || gp.currentMap==3 || gp.currentMap==main.FourthZone.MAP ||
+            (gp.currentMap==main.ExtraRooms.MAP && refugeTerritory!=null);
+    }
+
+    @Override public void checkAttackOrNot(int rate,int straight,int horizontal) {
+        boolean previous=attacking;
+        super.checkAttackOrNot(rate,straight,horizontal);
+        if (!previous && attacking) guardRecorded=false;
+    }
 
     public void setHome(int x, int y) {
         homeX=x; homeY=y; territorySet=true; onPath=false;
     }
 
     private boolean inside(int x, int y) {
+        if (refugeTerritory!=null) return refugeTerritory.contains(x,y);
         return Math.abs(x-homeX)<=4*gp.tileSize && Math.abs(y-homeY)<=4*gp.tileSize;
     }
 
     @Override
     protected void moveInDirection(String movement) {
-        if ((gp.currentMap==2 || gp.currentMap==3 || gp.currentMap==main.FourthZone.MAP) && territorySet) {
+        if (usesTerritory() && territorySet) {
             int x=worldX+(movement.equals("right")?speed:movement.equals("left")?-speed:0);
             int y=worldY+(movement.equals("down")?speed:movement.equals("up")?-speed:0);
             if (!inside(x,y)) { returning=true; onPath=false; if(knockBack) finishKnockBack(); return; }
@@ -120,7 +146,7 @@ extends Entity {
 
     @Override
     public void setAction() {
-        if((gp.currentMap==2 || gp.currentMap==3 || gp.currentMap==main.FourthZone.MAP)) { territoryAction(); return; }
+        if(usesTerritory()) { territoryAction(); return; }
         if (this.onPath) {
             this.checkStopChasingOrNot(this.gp.player, 18, 100);
             this.searchPath(this.getGoalCol(this.gp.player), this.getGoalRow(this.gp.player));
@@ -136,7 +162,7 @@ extends Entity {
     @Override
     public void damageReaction() {
         this.actionLockCounter = 0;
-        this.onPath = (gp.currentMap!=2 && gp.currentMap!=3 && gp.currentMap!=main.FourthZone.MAP) || (territorySet && inside(gp.player.worldX,gp.player.worldY));
+        this.onPath = !usesTerritory() || (territorySet && inside(gp.player.worldX,gp.player.worldY));
     }
 
     @Override

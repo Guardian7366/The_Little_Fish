@@ -55,7 +55,7 @@ public final class ExtraRoomsRegression {
             var chest=gp.obj[MAP][CHESTS[i]];
             check(chest instanceof OBJ_Chest && ExtraRooms.at(chest.worldX/48,chest.worldY/48)==Room.values()[i] &&
                 gp.eGenerator.idOf(chest.loot).equals(LOOT[i]),"original reward "+i+" got "+chest.loot.name);
-            if (i>=3) {
+            if (i>=6) {
                 int[] accessible=route(gp,p[3],p[4]);
                 int cx=chest.worldX/48,cy=chest.worldY/48;
                 boolean adjacent=false;
@@ -93,7 +93,7 @@ public final class ExtraRoomsRegression {
             .findFirst().orElseThrow();
     }
 
-    private static void transition(FifthZoneRegression.Quiet gp,int map,int x,int y,int dest,Room room) {
+    static void transition(FifthZoneRegression.Quiet gp,int map,int x,int y,int dest,Room room) {
         gp.currentMap=map;
         gp.gameState=gp.playState;
         gp.eHandler=new EventHandler(gp);
@@ -111,7 +111,7 @@ public final class ExtraRoomsRegression {
         gp.drawToTempScreen();
     }
 
-    private static void setRoom(GamePanel gp,Room room,int x,int y) {
+    static void setRoom(GamePanel gp,Room room,int x,int y) {
         gp.currentMap=MAP;
         gp.currentArea=gp.nextArea=gp.indoor;
         gp.gameState=gp.playState;
@@ -121,7 +121,7 @@ public final class ExtraRoomsRegression {
         check(gp.extraRooms.active()==room,"active room "+room);
     }
 
-    private static void interact(GamePanel gp,String direction) {
+    static void interact(GamePanel gp,String direction) {
         gp.player.direction=direction;
         gp.keyH.enterPressed=true;
         gp.eHandler.checkEvent();
@@ -129,7 +129,7 @@ public final class ExtraRoomsRegression {
         gp.player.attackCanceled=false;
     }
 
-    private static SaveLoad roundTrip(GamePanel gp,String tag) throws Exception {
+    static SaveLoad roundTrip(GamePanel gp,String tag) throws Exception {
         Path file=Files.createTempDirectory(Path.of("build"),"refugios-"+tag+"-").resolve("save-v1.dat");
         SaveLoad save=new SaveLoad(gp,file);
         check(save.trySave(),save.getLastError());
@@ -145,13 +145,13 @@ public final class ExtraRoomsRegression {
         return route(gp,x,y)[ty*50+tx]>=0;
     }
 
-    private static void capture(FifthZoneRegression.Quiet gp,String name) throws Exception {
+    static void capture(FifthZoneRegression.Quiet gp,String name) throws Exception {
         gp.ui.message.clear();
         gp.ui.messageCounter.clear();
         FifthZoneRegression.capture(gp,OUT,name);
     }
 
-    private static void fullAndClaim(FifthZoneRegression.Quiet gp,Room room,int slot) throws Exception {
+    static void fullAndClaim(FifthZoneRegression.Quiet gp,Room room,int slot) throws Exception {
         Entity chest=gp.obj[MAP][slot];
         var inventory=new ArrayList<>(gp.player.inventory);
         while (gp.player.inventory.size()<gp.player.maxinventorySize) gp.player.inventory.add(new OBJ_Rock(gp));
@@ -168,7 +168,7 @@ public final class ExtraRoomsRegression {
         check(gp.obj[MAP][slot].opened,"claimed reward persists "+room);
     }
 
-    private static void useChest(GamePanel gp,Entity chest) {
+    static void useChest(GamePanel gp,Entity chest) {
         int dx=chest.worldX-gp.player.worldX,dy=chest.worldY-gp.player.worldY;
         gp.player.direction=Math.abs(dx)>Math.abs(dy) ? (dx<0?"left":"right") : (dy<0?"up":"down");
         press(gp,gp.player.direction);
@@ -299,7 +299,7 @@ public final class ExtraRoomsRegression {
         return image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());
     }
 
-    private static void corners(FifthZoneRegression.Quiet gp) throws Exception {
+    static void corners(FifthZoneRegression.Quiet gp) throws Exception {
         gp.map.miniMapOn=true;
         for (Room room : Room.values()) {
             Room foreign=room.x==9 ? FLOWER : CHICKEN;

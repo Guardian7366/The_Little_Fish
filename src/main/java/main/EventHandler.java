@@ -191,15 +191,15 @@ public class EventHandler {
             } else if (this.hit(5, 40, 29, "any")) {
                 this.teleportMap(1, 39, 23, this.gp.outside);
             } else if (this.hit(2, 39, 13, "any")) {
-                this.teleportMap(5, 9, 29, this.gp.indoor);
+                this.teleportMap(5, 10, 29, this.gp.indoor);
             } else if (this.hit(5, 9, 29, "any")) {
                 this.teleportMap(2, 39, 13, this.gp.outside);
             } else if (this.hit(2, 9, 17, "any")) {
-                this.teleportMap(5, 9, 19, this.gp.indoor);
+                this.teleportMap(5, 10, 19, this.gp.indoor);
             } else if (this.hit(5, 9, 19, "any")) {
                 this.teleportMap(2, 9, 17, this.gp.outside);
             } else if (this.hit(2, 19, 16, "any")) {
-                this.teleportMap(5, 40, 19, this.gp.indoor);
+                this.teleportMap(5, 39, 19, this.gp.indoor);
             } else if (this.hit(5, 40, 19, "any")) {
                 this.teleportMap(2, 19, 16, this.gp.outside);
             } else if (this.hit(3, 9, 5, "any")) {

@@ -80,8 +80,8 @@ public class AssetSetter {
         this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 21;
         this.gp.obj[mapNum][++i] = new OBJ_Chest(this.gp);
         this.gp.obj[mapNum][i].setLoot(new OBJ_Super_Shield(this.gp));
-        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 20;
-        this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 20;
+        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 21;
+        this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 15;
         this.gp.obj[mapNum][++i] = new OBJ_Chest(this.gp);
         this.gp.obj[mapNum][i].setLoot(new OBJ_Second_Weapon(this.gp));
         this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 20;
@@ -132,14 +132,14 @@ public class AssetSetter {
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
         this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 28;
         this.gp.npc[mapNum][++i] = new NPC_Pump(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 20;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 26;
+        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 11;
+        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 28;
         this.gp.npc[mapNum][++i] = new NPC_Hongui(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 20;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 15;
+        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 11;
+        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 18;
         this.gp.npc[mapNum][++i] = new NPC_Ghost(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 29;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 15;
+        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
+        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 18;
         this.gp.npc[mapNum][++i] = new NPC_Ic(this.gp);
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 20;
         this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 7;
@@ -204,32 +204,9 @@ public class AssetSetter {
         ThirdZone.configure(gp,gp.monster,true);
         FifthZone.populate(gp,gp.monster);
         ExtraRooms.populate(gp,gp.monster,gp.extraRooms.flags());
-        i = 72; // Preserve the slots in the other five side rooms.
+        RefugeChallenges.populate(gp,gp.monster,gp.extraRooms.later.state());
+        i = 80; // Preserve the remaining room slots and boss identity.
         mapNum = 5;
-        this.gp.monster[mapNum][++i] = new MON_Enfadillo(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 26;
-        this.gp.monster[mapNum][++i] = new MON_Enfadillo(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 31;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 17;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 26;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 30;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 14;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 17;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 22;
-        this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 15;
         i += 2; // Secrets keep their identities in the temple.
         this.gp.monster[mapNum][++i] = new MON_Sharky(this.gp);
         this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 14;

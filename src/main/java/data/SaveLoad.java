@@ -15,6 +15,7 @@ import java.util.List;
 import main.EventHandler;
 import main.GamePanel;
 import main.ExtraRooms;
+import main.RefugeChallenges;
 import main.FirstZone;
 import main.SecondZone;
 import main.ThirdZone;
@@ -181,6 +182,9 @@ public final class SaveLoad {
         s.templeRevision = main.Temple.REVISION;
         s.extraRoomsRevision = ExtraRooms.REVISION;
         s.extraRoomsFlags = gp.extraRooms.flags();
+        var later=gp.extraRooms.later.state();
+        s.pumpBindings=later.bindings(); s.honguiBlocks=later.blocks();
+        s.honguiDefeated=later.defeated(); s.ghostPrefix=later.prefix();
         s.templeExtensionRevision = main.TempleExtension.REVISION;
         s.templeReliefs = gp.temple.reliefs;
         s.templeDefeats = gp.temple.defeats;
@@ -388,11 +392,13 @@ public final class SaveLoad {
             if (!valid) main.Temple.place(player,24,42);
         }
         prepareTempleExtension(s,player,objects,npcs,monsters,tiles);
-        int refuges = prepareExtraRooms(s,player,objects,npcs,monsters);
+        RefugeState refuges = prepareExtraRooms(s,player,objects,npcs,monsters);
         return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats,refuges);
     }
 
-    private int prepareExtraRooms(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters) {
+    private record RefugeState(int flags,RefugeChallenges.State later) {}
+
+    private RefugeState prepareExtraRooms(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters) {
         int flags = s.extraRoomsFlags;
         if (s.extraRoomsRevision==0) {
             flags = ExtraRooms.openedRewards(objects);
@@ -403,15 +409,28 @@ public final class SaveLoad {
             require((flags&ExtraRooms.FLOWER_DONE)!=0 || monsters[ExtraRooms.MAP][ExtraRooms.GREENY] instanceof monster.MON_Normalillo,
                 "Missing refuge Greeny");
         }
+        var later=new RefugeChallenges.State(s.pumpBindings,s.honguiBlocks,s.honguiDefeated,s.ghostPrefix);
+        require(later.valid(),"Invalid later refuge progress");
+        if (s.extraRoomsRevision<2) {
+            later=RefugeChallenges.migrate(objects);
+            RefugeChallenges.placeFixtures(npcs,objects);
+            RefugeChallenges.populate(gp,monsters,later);
+        } else {
+            RefugeChallenges.configure(monsters,later);
+            require(later.defeated() || monsters[ExtraRooms.MAP][RefugeChallenges.PICARON] instanceof monster.MON_Picaron,
+                "Missing refuge Picaron");
+        }
         if (s.map==ExtraRooms.MAP) {
             var room=ExtraRooms.at(player.getCenterX()/48,player.getCenterY()/48);
             require(room!=null,"Invalid side-room position");
-            if (room.art!=null && !ExtraRooms.safePosition(gp,room,player,npcs,objects,monsters,flags)) {
-                require(s.extraRoomsRevision==0,"Invalid refuge position");
+            if (room.art!=null && !ExtraRooms.safePosition(gp,room,player,npcs,objects,monsters,flags,later)) {
+                boolean redesigned=s.extraRoomsRevision<2 && (room==ExtraRooms.Room.PUMP ||
+                    room==ExtraRooms.Room.HONGUI || room==ExtraRooms.Room.GHOST);
+                require(s.extraRoomsRevision==0 || redesigned,"Invalid refuge position");
                 main.Temple.place(player,room.arrivalX,room.arrivalY);
             }
         }
-        return flags;
+        return new RefugeState(flags,later);
     }
 
     private void prepareTempleExtension(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs,
@@ -517,7 +536,7 @@ public final class SaveLoad {
     }
 
     private record Prepared(Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters,
-                            InteractiveTile[][] tiles, EventHandler events, int reliefs, int defeats, int refuges) { }
+                            InteractiveTile[][] tiles, EventHandler events, int reliefs, int defeats, RefugeState refuges) { }
 
     private void apply(SaveSnapshot s, Prepared prepared) {
         // All operations which can fail have finished. Publish the prepared checkpoint together.
@@ -528,7 +547,8 @@ public final class SaveLoad {
         gp.currentMap = s.map; gp.currentArea = s.area; gp.nextArea = s.area;
         gp.temple.reliefs=prepared.reliefs; gp.temple.defeats=prepared.defeats;
         gp.temple.syncReliefs();
-        gp.extraRooms.restore(prepared.refuges);
+        gp.extraRooms.restore(prepared.refuges.flags);
+        gp.extraRooms.later.restore(prepared.refuges.later);
         gp.prepareAreaLighting();
         gp.bossBattleOn = s.bossBattleOn; Progress.GodFishDefeated = s.godFishDefeated;
         for (Entity[] row : gp.projectile) Arrays.fill(row, null);

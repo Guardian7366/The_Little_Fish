@@ -17,20 +17,15 @@ extends Entity {
     }
 
     public void getImage() {
-        this.left = this.setup("/npc/npcPump", this.gp.tileSize, this.gp.tileSize);
-        this.left2 = this.setup("/npc/npcPump2", this.gp.tileSize, this.gp.tileSize);
-        this.right = this.setup("/npc/npcPump", this.gp.tileSize, this.gp.tileSize);
-        this.right2 = this.setup("/npc/npcPump2", this.gp.tileSize, this.gp.tileSize);
-        this.up = this.setup("/npc/npcPump", this.gp.tileSize, this.gp.tileSize);
-        this.up2 = this.setup("/npc/npcPump2", this.gp.tileSize, this.gp.tileSize);
-        this.down = this.setup("/npc/npcPump", this.gp.tileSize, this.gp.tileSize);
-        this.down2 = this.setup("/npc/npcPump2", this.gp.tileSize, this.gp.tileSize);
+        left = right = up = down = setup("/refugios/pump/npc-0",gp.tileSize,gp.tileSize);
+        left2 = right2 = up2 = down2 = setup("/refugios/pump/npc-1",gp.tileSize,gp.tileSize);
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "Im pumpkim you know?";
-        this.dialogues[0][1] = "But well, just take this chest";
-        this.dialogues[0][2] = "! - !";
+        dialogues[0][0] = "D always asked me to save some seeds.";
+        dialogues[0][1] = "The last time, D brought back a basket\nfull of earth.";
+        dialogues[0][2] = "Nothing had been planted.";
+        dialogues[0][3] = "Cut both dry bindings with your weapon.";
     }
 
     @Override

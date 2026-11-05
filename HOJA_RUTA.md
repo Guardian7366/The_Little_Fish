@@ -1,6 +1,6 @@
 # Hoja de ruta hacia la versión definitiva
 
-Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
+Actualizada el **5 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
 
 ## Etapas
 
@@ -10,7 +10,7 @@ Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta a octava y tres primeros refugios completados y aprobados | Acordar el alcance de la próxima entrega |
+| 5. Implementar por entregas pequeñas | Quinta a octava y seis refugios completados y aprobados | Acordar el alcance de la próxima entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -54,4 +54,4 @@ Chicken, Flower y Spiky están integrados en el mapa 5 con sus retos y recompens
 
 ## Siguientes tres refugios de D
 
-Rediseñar Pump, Hongui y Ghost manteniendo sus cofres e aislamiento actual. Integrar el huerto, el abrigo de esporas y el archivo de memoria con estados independientes y pruebas de guardado. [Encargo](design/salas-extras-4-6/TAREA-CODEX.md).
+Los tres retos están integrados en el mapa 5 con sus premios originales y ExtraRooms revisión 2. El usuario confirmó tras jugar que las tres salas funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe](SALAS-EXTRAS-4-6.md)

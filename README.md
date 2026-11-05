@@ -1,8 +1,8 @@
 # The Little Fish
 
-Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La quinta zona publicada incorpora a Sharky y la progresión de Iron. La sexta zona aprobada añade a Fishtella, encuentros mixtos y un segundo paso de Iron. La séptima zona aprobada incorpora el templo sumergido, Planta, Secret y cuatro galerías de empuje. [Informe del templo](SEPTIMA-ZONA.md) La octava zona aprobada amplía el templo antes del jefe con tres estatuas, encuentros por cámaras y un rompecabezas de tres carriles. [Informe de las galerías](OCTAVA-ZONA.md) Los tres primeros refugios del mapa 5 están completados y aprobados, con los retos de Chicken, Flower y Spiky y aislamiento entre las ocho salas. [Informe de las salas](SALAS-EXTRAS-1-3.md) **La edición definitiva sigue en desarrollo.**
+Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La quinta zona publicada incorpora a Sharky y la progresión de Iron. La sexta zona aprobada añade a Fishtella, encuentros mixtos y un segundo paso de Iron. La séptima zona aprobada incorpora el templo sumergido, Planta, Secret y cuatro galerías de empuje. [Informe del templo](SEPTIMA-ZONA.md) La octava zona aprobada amplía el templo antes del jefe con tres estatuas, encuentros por cámaras y un rompecabezas de tres carriles. [Informe de las galerías](OCTAVA-ZONA.md) Los tres primeros refugios del mapa 5 están completados y aprobados, con los retos de Chicken, Flower y Spiky y aislamiento entre las ocho salas. [Informe de las salas](SALAS-EXTRAS-1-3.md) Pump, Hongui y Ghost están completados y aprobados, con sus retos de corte, guardia y memoria. [Informe de las nuevas salas](SALAS-EXTRAS-4-6.md) **La edición definitiva sigue en desarrollo.**
 
-Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión del **4 de noviembre de 2026**, sobre la base `6d1bd4c` para los tres primeros refugios de D. El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
+Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión del **5 de noviembre de 2026**, sobre la base `6d1bd4c` para los tres primeros refugios de D. El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
 
 ## Sistema de trabajo
 
@@ -83,7 +83,7 @@ Desde PowerShell en la raíz del repositorio:
 ./build.ps1 -Test
 ```
 
-También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 26 suites de regresión.
+También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 28 suites de regresión.
 
 Para reproducir además los guardados reales anteriores al rediseño, ejecuta primero `./tools/verify_fifth_baseline.ps1` y después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` para crear fixtures aislados bajo `build/`, sin reconstruir un JAR. `python tools/verify_fifth_resources.py` comprueba la conservación de recursos y ejecutable frente a esa base.
 

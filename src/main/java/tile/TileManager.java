@@ -53,6 +53,19 @@ public class TileManager {
         }
         fileNames.add("/refugios/spiky/cover.png");
         collisionStatus.add(true);
+        for (String room : new String[]{"pump","hongui","ghost"}) {
+            String[] parts={"floor-0","floor-1","wall","wall-trim","gate-closed","gate-open"};
+            for (int i=0;i<parts.length;i++) {
+                fileNames.add("/refugios/"+room+"/"+parts[i]+".png");
+                collisionStatus.add(i>=2 && i<=4);
+            }
+        }
+        fileNames.add("/refugios/pump/binding-intact.png"); collisionStatus.add(true);
+        fileNames.add("/refugios/pump/binding-cut.png"); collisionStatus.add(false);
+        for (int i=0;i<3;i++) for (int lit=0;lit<2;lit++) {
+            fileNames.add("/refugios/ghost/memory-"+i+"-"+lit+".png");
+            collisionStatus.add(false);
+        }
         tile = new Tile[fileNames.size()];
         getTileImage();
         List<String> firstMap = readLines(INITIAL_MAPS[0]);
@@ -139,7 +152,10 @@ public class TileManager {
     public void reloadCurrentMap() {
         if (isMapLoaded(gp.currentMap)) loadMap(mapResources[gp.currentMap], gp.currentMap);
         if (gp.currentMap==main.Temple.MAP) gp.temple.syncReliefs();
-        if (gp.currentMap==main.ExtraRooms.MAP) gp.extraRooms.syncTerrain();
+        if (gp.currentMap==main.ExtraRooms.MAP) {
+            gp.extraRooms.syncTerrain();
+            gp.extraRooms.later.resetTransient();
+        }
         if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
         for (var enemy : gp.monster[gp.currentMap]) {
             if (enemy instanceof monster.MON_Sharky shark) shark.resetAmbush();
@@ -186,6 +202,8 @@ public class TileManager {
                 if ((ocean || room!=null) && tileNumber == 0) continue;
                 int screenX = col * gp.tileSize - cameraX;
                 int screenY = row * gp.tileSize - cameraY;
+                if (gp.currentMap==main.ExtraRooms.MAP && (tileNumber==144 || tileNumber==145))
+                    graphics.drawImage(tile[126+(col+row/2)%2].image,screenX,screenY,null);
                 if (ocean && (tileNumber == 1 || tileNumber == 2)) {
                     graphics.setComposite(SHALLOW_WATER);
                     graphics.drawImage(tile[tileNumber].image, screenX, screenY, null);

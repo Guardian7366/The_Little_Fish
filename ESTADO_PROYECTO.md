@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Última revisión: **4 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
+Última revisión: **5 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
 
 ## Base y situación actual
 
@@ -14,9 +14,9 @@
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 96 archivos Java en `src/main/java` |
-| Pruebas | 27 archivos Java en `src/test/java`. El script ejecuta 26 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 494 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
+| Código del juego | 97 archivos Java en `src/main/java` |
+| Pruebas | 29 archivos Java en `src/test/java`. El script ejecuta 28 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 537 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -79,6 +79,6 @@ La séptima está aprobada y publicada en b56661a. La base b9d1104 incorpora el 
 
 El usuario aprobó tres retos independientes para Chicken con Linterna, Flower con poción y Spiky con cama portátil. La entrega sobre 6d1bd4c integra los 38 PNG, los dos faroles de Chicken, un solo Greeny en Flower y los dos tramos de Spiky. Las ocho salas tienen límites propios de cámara, dibujo, simulación y mapas. Se conservan los cofres y sus IDs. Pasaron las 26 suites, las 32 esquinas y seis guardados históricos. El usuario probó las tres salas, confirmó que funcionan como esperaba y aprobó la publicación el 4 de noviembre de 2026. [Informe de los refugios](SALAS-EXTRAS-1-3.md)
 
-## Preparación de Pump, Hongui y Ghost
+## Pump, Hongui y Ghost
 
-Base revisada 1a7129d. Se prepararon 43 PNG y tres vistas para las siguientes salas del mapa 5. Parejas verificadas: Pump con poción, Hongui con Super Shield y Ghost con Rocky. Se propone cortar ataduras, practicar guardia y reproducir un sendero de memoria. Integración y pruebas jugables pendientes. [Encargo y arte](design/salas-extras-4-6/TAREA-CODEX.md).
+Entrega sobre e982c07 con los 43 PNG del paquete. Pump conserva la poción de +5, Hongui el Super Shield y Ghost Rocky. Los cortes, la guardia o derrota y la secuencia de memoria se guardan por separado de los premios y de los tres retos anteriores. Pasaron 28 suites, seis guardados históricos nuevos y las 32 esquinas. El usuario probó las tres salas, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-4-6.md)

@@ -555,6 +555,7 @@ public class Entity {
             } else {
                 if (this == gp.player && main.Temple.usesTemple(gp.currentMap) && currentWeapon.type==type_bubble)
                     gp.temple.cutVines(main.Temple.bounds(this,worldX,worldY));
+                if (this==gp.player) gp.extraRooms.later.cutBindings(main.Temple.bounds(this,worldX,worldY));
                 int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster, room);
                 this.gp.player.damageMonster(monsterIndex, this, this.attack, this.currentWeapon.knockBackPower);
                 int iTileIndex = this.gp.cChecker.checkEntity(this, this.gp.iTile, room);
@@ -583,6 +584,7 @@ public class Entity {
             int damage = attack - this.gp.player.defense;
             String canGuardDirection = this.getOppositeDirection(attackDirection);
             if (this.gp.player.guarding && this.gp.player.direction.equals(canGuardDirection)) {
+                gp.extraRooms.later.blocked(this);
                 if (this.gp.player.guardCounter < 10) {
                     damage = 0;
                     this.gp.playSE(19);
