@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Handy e Ic — 5 de noviembre de 2026, entrega aprobada
+
+- Handy conserva el cofre de Iron. Dos cerrojos requieren dos golpes de Rocky cada uno. El centinela puede esquivarse o derrotarse.
+- Ic conserva la segunda arma. El hielo mantiene la dirección hasta un apoyo o un obstáculo. Dos marcas abren el portón. La red comprobada permite volver desde las 69 paradas, 44 contra paredes.
+- ExtraRooms revisión 3 conserva las seis salas aprobadas y migra guardados anteriores, incluidos los que ya alcanzaron quinta sin Rocky. Pasaron 30 suites y ocho partidas históricas. El usuario probó las dos salas y aprobó su publicación. [Informe y capturas](SALAS-EXTRAS-7-8.md)
+
 ## Pump, Hongui y Ghost — 5 de noviembre de 2026, entrega aprobada
 
 - Integrados los 43 PNG, los diálogos y los tres retos en los recintos originales del mapa 5. Se conservan slots y premios.

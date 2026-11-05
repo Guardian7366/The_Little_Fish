@@ -78,7 +78,7 @@ public final class StoryRegression {
         gp.setupGame();
         check("expanded world populations and ten playable maps", () -> {
             equal(10, gp.tileM.loadedMapCount(), "maps");
-            equal(89, count(gp.monster), "enemies including God Fish");
+            equal(87, count(gp.monster), "enemies including God Fish");
             equal(20, count(gp.npc), "NPC placements including TV and rocks");
             equal(13, count(gp.obj), "objects");
             equal(34, count(gp.iTile), "interactive tiles");
@@ -93,8 +93,8 @@ public final class StoryRegression {
             {2,39,13,5,10,29,51}, {5,9,29,2,39,13,50},
             {2,9,17,5,10,19,51}, {5,9,19,2,9,17,50},
             {2,19,16,5,39,19,51}, {5,40,19,2,19,16,50},
-            {3,9,5,5,40,9,51}, {5,40,9,3,9,5,52},
-            {3,14,40,5,9,9,51}, {5,9,9,3,14,40,52}
+            {3,9,5,5,39,9,51}, {5,40,9,3,9,5,52},
+            {3,14,40,5,10,9,51}, {5,9,9,3,14,40,52}
         };
         for (int[] route : routes) check("portal " + route[0] + ":" + route[1] + "," + route[2], () -> {
             place(route[0], route[1], route[2]);
@@ -289,7 +289,7 @@ public final class StoryRegression {
             gp.resetGame(true);
             equal(1, gp.player.level, "new game resets progression");
             truth(!Progress.GodFishDefeated, "new game resets boss victory");
-            equal(89, count(gp.monster), "new game restores current population");
+            equal(87, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
         check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);

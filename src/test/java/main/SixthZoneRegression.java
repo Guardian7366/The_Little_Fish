@@ -21,6 +21,7 @@ public final class SixthZoneRegression {
         check(gp.player.worldX == 25 * 48 && gp.player.worldY == 43 * 48, "safe sixth arrival");
         check(Arrays.stream(gp.monster[8]).filter(MON_Tella.class::isInstance).count() == 4, "four Fishtellas");
         check(Arrays.stream(gp.monster[8]).filter(MON_Sharky.class::isInstance).count() == 5, "five Sharkys");
+        gp.extraRooms.ending.restore(new FinalRefuges.State(3,0,0,false));
         var start = relaxedWorld(gp, cell(8,25,43));
         check(start[cell(8,24,21)] && start[cell(8,15,28)] && start[cell(8,32,29)], "both forks reach the gate");
         check(start[cell(5,28,12)], "can return to obtain Iron");

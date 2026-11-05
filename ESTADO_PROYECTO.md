@@ -14,9 +14,9 @@
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 97 archivos Java en `src/main/java` |
-| Pruebas | 29 archivos Java en `src/test/java`. El script ejecuta 28 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 537 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
+| Código del juego | 98 archivos Java en `src/main/java` |
+| Pruebas | 31 archivos Java en `src/test/java`. El script ejecuta 30 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 574 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -83,6 +83,6 @@ El usuario aprobó tres retos independientes para Chicken con Linterna, Flower c
 
 Entrega sobre e982c07 con los 43 PNG del paquete. Pump conserva la poción de +5, Hongui el Super Shield y Ghost Rocky. Los cortes, la guardia o derrota y la secuencia de memoria se guardan por separado de los premios y de los tres retos anteriores. Pasaron 28 suites, seis guardados históricos nuevos y las 32 esquinas. El usuario probó las tres salas, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-4-6.md)
 
-## Preparación de Handy e Ic
+## Handy e Ic
 
-Base revisada a404661. Se prepararon 37 PNG y dos vistas para los últimos recintos del mapa 5. Handy conserva Iron e Ic la segunda arma. El encargo contempla cerrojos de Rocky y pistas de hielo con apoyos, diálogos, aislamiento y migración. Se verificó el arte; integración y pruebas jugables pendientes. [Encargo y arte](design/salas-extras-7-8/TAREA-CODEX.md).
+Entrega sobre fe9f548 con los 37 PNG del paquete. Handy conserva Iron y usa dos cerrojos de Rocky. Ic conserva la segunda arma y usa dos marcas en una red de hielo. Se comprobaron 69 paradas, incluidas 44 contra paredes, y ocho guardados históricos. Pasaron las 30 suites. El usuario probó las dos salas y sus NPC, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-7-8.md)

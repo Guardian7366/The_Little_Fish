@@ -18,6 +18,8 @@ final class SaveSnapshot implements Serializable {
     int extraRoomsRevision, extraRoomsFlags;
     int pumpBindings, honguiBlocks, ghostPrefix;
     boolean honguiDefeated;
+    int handyLatches, handyDamaged, icMarks;
+    boolean handySentryDefeated;
     int fifthZoneRevision;
     int map, area, x, y;
     String direction;

@@ -74,4 +74,33 @@ grid[21][31]=142
 for x,y,tile in [(34,16,146),(37,16,148),(35,20,150)]:
     grid[y][x]=tile
 
+# Handy's two sides meet at one covered crossing. The reward has its own gate.
+decorate(27,5,40,12,152,(40,9),bottom_border=False)
+for y in range(5,13):
+    grid[y][30]=154
+    grid[y][36]=154
+grid[8][36]=152
+grid[11][30]=156
+grid[6][32]=164
+grid[11][37]=164
+grid[5][41]=0
+grid[12][26]=0
+
+# Ic's short tutorial leads to a hub, two turns and a wall stop.
+decorate(9,5,22,12,158,(9,9),bottom_border=False)
+for y in range(5,13):
+    grid[y][19]=173
+grid[10][19]=162
+for x in range(12,19):
+    grid[5][x]=173
+for x,y in [(12,9),(13,9),(14,9),(16,9),(17,9),(18,9),(15,8),(15,7),
+            (14,6),(12,6),(13,7),(15,10),(15,11),(16,12),(17,12),(18,11)]:
+    grid[y][x]=166+(x+y)%2
+for x,y in [(11,9),(15,9),(15,6),(15,12),(11,6),(18,8),(18,10)]:
+    grid[y][x]=168
+grid[6][13]=169
+grid[12][18]=171
+grid[5][8]=0
+grid[12][23]=0
+
 (root/'extraRefugios.txt').write_text(''.join(' '.join(map(str,row))+chr(10) for row in grid),encoding='utf-8')

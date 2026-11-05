@@ -17,19 +17,15 @@ extends Entity {
     }
 
     public void getImage() {
-        this.left = this.setup("/npc/Handi", this.gp.tileSize, this.gp.tileSize);
-        this.left2 = this.setup("/npc/Handi2", this.gp.tileSize, this.gp.tileSize);
-        this.right = this.setup("/npc/Handi", this.gp.tileSize, this.gp.tileSize);
-        this.right2 = this.setup("/npc/Handi2", this.gp.tileSize, this.gp.tileSize);
-        this.up = this.setup("/npc/Handi", this.gp.tileSize, this.gp.tileSize);
-        this.up2 = this.setup("/npc/Handi2", this.gp.tileSize, this.gp.tileSize);
-        this.down = this.setup("/npc/Handi", this.gp.tileSize, this.gp.tileSize);
-        this.down2 = this.setup("/npc/Handi2", this.gp.tileSize, this.gp.tileSize);
+        left = right = up = down = setup("/refugios/handy/npc-0",gp.tileSize,gp.tileSize);
+        left2 = right2 = up2 = down2 = setup("/refugios/handy/npc-1",gp.tileSize,gp.tileSize);
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "I give you this D";
-        this.dialogues[0][1] = "You can do it....";
+        dialogues[0][0] = "D asked for a tool to open\nwhat had been sealed.";
+        dialogues[0][1] = "When D came back,\nthere was nothing left to open.";
+        dialogues[0][2] = "Equip Rocky. Both latches need two hits.";
+        dialogues[1][0] = "Keep your hands steady, D.";
     }
 
     @Override
@@ -39,12 +35,8 @@ extends Entity {
 
     @Override
     public void speak() {
-        this.facePlayer();
-        this.startDialogue(this, this.dialogueSet);
-        ++this.dialogueSet;
-        if (this.dialogues[this.dialogueSet][0] == null) {
-            --this.dialogueSet;
-        }
+        facePlayer();
+        startDialogue(this,gp.extraRooms.isOpen(main.ExtraRooms.Room.HANDY)?1:0);
     }
 }
 

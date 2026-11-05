@@ -55,14 +55,6 @@ public final class ExtraRoomsRegression {
             var chest=gp.obj[MAP][CHESTS[i]];
             check(chest instanceof OBJ_Chest && ExtraRooms.at(chest.worldX/48,chest.worldY/48)==Room.values()[i] &&
                 gp.eGenerator.idOf(chest.loot).equals(LOOT[i]),"original reward "+i+" got "+chest.loot.name);
-            if (i>=6) {
-                int[] accessible=route(gp,p[3],p[4]);
-                int cx=chest.worldX/48,cy=chest.worldY/48;
-                boolean adjacent=false;
-                for (int[] step : new int[][]{{1,0},{-1,0},{0,1},{0,-1}})
-                    adjacent|=accessible[(cy+step[1])*50+cx+step[0]]>=0;
-                check(adjacent,"other five chests remain reachable "+i);
-            }
             if (i==1) {
                 int health=gp.player.life;
                 gp.player.life=0;
@@ -337,6 +329,8 @@ public final class ExtraRoomsRegression {
                 check(enemy.updates==0 && shot.updates==0 && enemy.draws==0 && shot.draws==0 && prop.draws==0,"foreign actors inactive");
                 gp.monster[MAP][99]=null; gp.projectile[MAP][49]=null; gp.obj[MAP][29]=null;
                 if (room.art!=null && x==room.x && y==room.y) capture(gp,room.art+"-esquina");
+                if (room==IC || room==HANDY)
+                    capture(gp,room.art+"-esquina-"+(y==room.y?"n":"s")+(x==room.x?"o":"e"));
             }
         }
     }

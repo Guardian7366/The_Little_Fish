@@ -11,7 +11,7 @@ import object.OBJ_Chest;
 
 /** Stable map-5 room bounds and independent refuge challenges. */
 public final class ExtraRooms {
-    public static final int MAP = 5, REVISION = 2, ALL_FLAGS = 63;
+    public static final int MAP = 5, REVISION = 3, ALL_FLAGS = 63;
     public static final int GREENY = 65, GUARD_ONE = 69, GUARD_TWO = 70;
     public static final int FLOWER_DONE = 4, SHORTCUT = 8, FIRST_CHEST = 1;
     private static final int[][] LANTERNS = {{12,40},{16,36}};
@@ -22,7 +22,8 @@ public final class ExtraRooms {
         SPIKY(27,24,33,"spiky",39,29,39,28,34,32,36,31,123),
         PUMP(9,24,33,"pump",10,29,11,28,20,30,19,31,130),
         HONGUI(9,14,22,"hongui",10,19,11,18,21,15,19,21,136),
-        GHOST(27,14,22,"ghost",39,19,39,18,29,21,31,21,142), IC(9,5,12), HANDY(27,5,12);
+        GHOST(27,14,22,"ghost",39,19,39,18,29,21,31,21,142), IC(9,5,12,"ic",10,9,11,10,21,10,19,10,162),
+        HANDY(27,5,12,"handy",39,9,39,10,28,11,30,11,156);
 
         public final int x,y,bottom,arrivalX,arrivalY,npcX,npcY,chestX,chestY,gateX,gateY,closed;
         public final String art;
@@ -45,8 +46,9 @@ public final class ExtraRooms {
     private final GamePanel gp;
     private int flags;
     public final RefugeChallenges later;
+    public final FinalRefuges ending;
 
-    public ExtraRooms(GamePanel gp) { this.gp=gp; later=new RefugeChallenges(gp); }
+    public ExtraRooms(GamePanel gp) { this.gp=gp; later=new RefugeChallenges(gp); ending=new FinalRefuges(gp); }
 
     public static Room at(int col,int row) {
         for (Room room : ROOMS) if (room.contains(col,row)) return room;
@@ -82,13 +84,14 @@ public final class ExtraRooms {
     }
 
     public boolean isOpen(Room room) {
-        return open(room,flags) || RefugeChallenges.open(room,later.state());
+        return open(room,flags) || RefugeChallenges.open(room,later.state()) || FinalRefuges.open(room,ending.state());
     }
 
     public void syncTerrain() {
         for (Room room : ROOMS) if (room.art!=null)
             gp.tileM.setTerrainCell(MAP,room.gateX,room.gateY,room.closed+(isOpen(room)?1:0));
         later.syncBindings();
+        ending.syncTerrain();
     }
 
     private void complete(int bit) {
@@ -134,7 +137,7 @@ public final class ExtraRooms {
 
     public boolean claimDefeat(int slot) {
         if (gp.currentMap!=MAP) return true;
-        if (!later.claimDefeat(slot)) return false;
+        if (!later.claimDefeat(slot) || !ending.claimDefeat(slot)) return false;
         int bit=switch(slot) {
             case GREENY -> FLOWER_DONE;
             case GUARD_ONE -> 16;
@@ -184,13 +187,14 @@ public final class ExtraRooms {
     }
 
     public static boolean safePosition(GamePanel gp,Room room,Entity player,Entity[][] npcs,Entity[][] objects,
-                                       Entity[][] monsters,int state,RefugeChallenges.State laterState) {
-        boolean gateOpen=open(room,state) || RefugeChallenges.open(room,laterState);
+                                       Entity[][] monsters,int state,RefugeChallenges.State laterState,
+                                       FinalRefuges.State finalState) {
+        boolean gateOpen=open(room,state) || RefugeChallenges.open(room,laterState) || FinalRefuges.open(room,finalState);
         int col=player.getCenterX()/48;
         if ((!gateOpen && room==Room.CHICKEN && col>room.gateX) ||
             (!gateOpen && room==Room.FLOWER && col<room.gateX)) return false;
-        if ((!gateOpen && (room==Room.PUMP || room==Room.HONGUI) && col>room.gateX) ||
-            (!gateOpen && room==Room.GHOST && col<room.gateX)) return false;
+        if ((!gateOpen && (room==Room.PUMP || room==Room.HONGUI || room==Room.IC) && col>room.gateX) ||
+            (!gateOpen && (room==Room.GHOST || room==Room.HANDY) && col<room.gateX)) return false;
         Rectangle body=Temple.bounds(player,player.worldX,player.worldY);
         for (int y=body.y/48;y<=(body.y+body.height-1)/48;y++)
             for (int x=body.x/48;x<=(body.x+body.width-1)/48;x++) {
@@ -202,6 +206,9 @@ public final class ExtraRooms {
                     for (int i=0;i<RefugeChallenges.BINDINGS.length;i++)
                         if (x==RefugeChallenges.BINDINGS[i][0] && y==RefugeChallenges.BINDINGS[i][1])
                             tile=(laterState.bindings()&(1<<i))==0?144:145;
+                    for (int i=0;i<FinalRefuges.LATCHES.length;i++)
+                        if (x==FinalRefuges.LATCHES[i][0] && y==FinalRefuges.LATCHES[i][1])
+                            tile=(finalState.latches()&(1<<i))==0?FinalRefuges.LATCH_INTACT:FinalRefuges.LATCH_BROKEN;
                     if (gp.tileM.tile[tile].collision) return false;
                 }
             }
@@ -230,6 +237,7 @@ public final class ExtraRooms {
 
     public void details(Graphics2D g,Room room) {
         later.draw(g,room);
+        ending.draw(g,room);
         if (room==Room.CHICKEN) {
             prop(g,room,"table-two",13,38,96);
             prop(g,room,"basket",21,36,48);

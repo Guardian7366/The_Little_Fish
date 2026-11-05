@@ -203,11 +203,11 @@ public class EventHandler {
             } else if (this.hit(5, 40, 19, "any")) {
                 this.teleportMap(2, 19, 16, this.gp.outside);
             } else if (this.hit(3, 9, 5, "any")) {
-                this.teleportMap(5, 40, 9, this.gp.indoor);
+                this.teleportMap(5, 39, 9, this.gp.indoor);
             } else if (this.hit(5, 40, 9, "any")) {
                 this.teleportMap(3, 9, 5, this.gp.dungeons);
             } else if (this.hit(3, 14, 40, "any")) {
-                this.teleportMap(5, 9, 9, this.gp.indoor);
+                this.teleportMap(5, 10, 9, this.gp.indoor);
             } else if (this.hit(5, 9, 9, "any")) {
                 this.teleportMap(3, 14, 40, this.gp.dungeons);
             } else if (this.hit(6, 25, 25, "any")) {

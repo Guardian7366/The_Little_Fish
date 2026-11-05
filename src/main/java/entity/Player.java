@@ -217,6 +217,8 @@ extends Entity {
             updatePlayerKnockBack();
         } else if (attacking) {
             attacking();
+        } else if (gp.extraRooms.ending.slide()) {
+            advanceWalkAnimation(11);
         } else if (keyH.spacePressed) {
             guarding = true;
             guardCounter++;
@@ -240,6 +242,7 @@ extends Entity {
         water = Math.min(water, maxWater);
         if (!keyH.godModeOn && life <= 0) {
             if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
+            gp.extraRooms.ending.resetTransient();
             gp.stopMusic();
             gp.gameState = gp.gameOverState;
             gp.ui.commandNum = -1;
@@ -263,15 +266,20 @@ extends Entity {
     }
 
     private boolean hasMovementOrInteractionInput() {
-        return keyH.upPressed || keyH.downPressed || keyH.leftPressed
-                || keyH.rightPressed || keyH.enterPressed;
+        return movementDirection()!=null || keyH.enterPressed;
+    }
+
+    private String movementDirection() {
+        if (keyH.upPressed && gp.extraRooms.ending.accepts(1)) return "up";
+        if (keyH.downPressed && gp.extraRooms.ending.accepts(2)) return "down";
+        if (keyH.leftPressed && gp.extraRooms.ending.accepts(4)) return "left";
+        if (keyH.rightPressed && gp.extraRooms.ending.accepts(8)) return "right";
+        return null;
     }
 
     private void updateMovementAndInteractions() {
-        if (keyH.upPressed) direction = "up";
-        else if (keyH.downPressed) direction = "down";
-        else if (keyH.leftPressed) direction = "left";
-        else if (keyH.rightPressed) direction = "right";
+        String movement=movementDirection();
+        if (movement!=null) direction=movement;
 
         collisionOn = false;
         gp.cChecker.checkTile(this);
@@ -280,7 +288,11 @@ extends Entity {
         contactMonster(gp.cChecker.checkEntity(this, gp.monster));
         gp.cChecker.checkEntity(this, gp.iTile);
         gp.eHandler.checkEvent();
-        if (!collisionOn && !keyH.enterPressed) moveInDirection(direction);
+        if (!collisionOn && !keyH.enterPressed) {
+            int oldX=worldX,oldY=worldY;
+            moveInDirection(direction);
+            gp.extraRooms.ending.walked(oldX,oldY,direction);
+        }
 
         if (keyH.enterPressed && !attackCanceled) {
             gp.playSE(9);

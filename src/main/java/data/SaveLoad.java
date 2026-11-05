@@ -16,6 +16,7 @@ import main.EventHandler;
 import main.GamePanel;
 import main.ExtraRooms;
 import main.RefugeChallenges;
+import main.FinalRefuges;
 import main.FirstZone;
 import main.SecondZone;
 import main.ThirdZone;
@@ -185,6 +186,9 @@ public final class SaveLoad {
         var later=gp.extraRooms.later.state();
         s.pumpBindings=later.bindings(); s.honguiBlocks=later.blocks();
         s.honguiDefeated=later.defeated(); s.ghostPrefix=later.prefix();
+        var ending=gp.extraRooms.ending.state();
+        s.handyLatches=ending.latches(); s.handyDamaged=ending.damaged();
+        s.icMarks=ending.marks(); s.handySentryDefeated=ending.sentryDefeated();
         s.templeExtensionRevision = main.TempleExtension.REVISION;
         s.templeReliefs = gp.temple.reliefs;
         s.templeDefeats = gp.temple.defeats;
@@ -396,7 +400,7 @@ public final class SaveLoad {
         return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats,refuges);
     }
 
-    private record RefugeState(int flags,RefugeChallenges.State later) {}
+    private record RefugeState(int flags,RefugeChallenges.State later,FinalRefuges.State ending) {}
 
     private RefugeState prepareExtraRooms(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters) {
         int flags = s.extraRoomsFlags;
@@ -420,17 +424,29 @@ public final class SaveLoad {
             require(later.defeated() || monsters[ExtraRooms.MAP][RefugeChallenges.PICARON] instanceof monster.MON_Picaron,
                 "Missing refuge Picaron");
         }
+        var ending=new FinalRefuges.State(s.handyLatches,s.handyDamaged,s.icMarks,s.handySentryDefeated);
+        require(ending.valid(),"Invalid final refuge progress");
+        if (s.extraRoomsRevision<3) {
+            ending=FinalRefuges.migrate(objects,player,s.map);
+            FinalRefuges.placeFixtures(npcs,objects);
+            FinalRefuges.populate(gp,monsters,ending);
+        } else {
+            FinalRefuges.configure(monsters,ending);
+            require(ending.sentryDefeated() || monsters[ExtraRooms.MAP][FinalRefuges.SENTRY] instanceof monster.MON_Enfadillo,
+                "Missing workshop sentry");
+        }
         if (s.map==ExtraRooms.MAP) {
             var room=ExtraRooms.at(player.getCenterX()/48,player.getCenterY()/48);
             require(room!=null,"Invalid side-room position");
-            if (room.art!=null && !ExtraRooms.safePosition(gp,room,player,npcs,objects,monsters,flags,later)) {
+            if (room.art!=null && !ExtraRooms.safePosition(gp,room,player,npcs,objects,monsters,flags,later,ending)) {
                 boolean redesigned=s.extraRoomsRevision<2 && (room==ExtraRooms.Room.PUMP ||
                     room==ExtraRooms.Room.HONGUI || room==ExtraRooms.Room.GHOST);
-                require(s.extraRoomsRevision==0 || redesigned,"Invalid refuge position");
+                boolean finalRedesign=s.extraRoomsRevision<3 && (room==ExtraRooms.Room.IC || room==ExtraRooms.Room.HANDY);
+                require(s.extraRoomsRevision==0 || redesigned || finalRedesign,"Invalid refuge position");
                 main.Temple.place(player,room.arrivalX,room.arrivalY);
             }
         }
-        return new RefugeState(flags,later);
+        return new RefugeState(flags,later,ending);
     }
 
     private void prepareTempleExtension(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs,
@@ -549,6 +565,7 @@ public final class SaveLoad {
         gp.temple.syncReliefs();
         gp.extraRooms.restore(prepared.refuges.flags);
         gp.extraRooms.later.restore(prepared.refuges.later);
+        gp.extraRooms.ending.restore(prepared.refuges.ending);
         gp.prepareAreaLighting();
         gp.bossBattleOn = s.bossBattleOn; Progress.GodFishDefeated = s.godFishDefeated;
         for (Entity[] row : gp.projectile) Arrays.fill(row, null);

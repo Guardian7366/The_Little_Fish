@@ -21,13 +21,10 @@ import entity.NPC_Tuti;
 import main.GamePanel;
 import monster.MON_Bomb;
 import monster.MON_Enfadillo;
-import monster.MON_Flower;
 import monster.MON_GodFish;
 import monster.MON_Normalillo;
 import monster.MON_Picaron;
 import monster.MON_Secret;
-import monster.MON_Sharky;
-import monster.MON_Tella;
 import object.OBJ_Chest;
 import object.OBJ_Door;
 import object.OBJ_DoorIron;
@@ -84,7 +81,7 @@ public class AssetSetter {
         this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 15;
         this.gp.obj[mapNum][++i] = new OBJ_Chest(this.gp);
         this.gp.obj[mapNum][i].setLoot(new OBJ_Second_Weapon(this.gp));
-        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 20;
+        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 21;
         this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 10;
         this.gp.obj[mapNum][++i] = new OBJ_Chest(this.gp);
         this.gp.obj[mapNum][i].setLoot(new OBJ_Iron(this.gp));
@@ -141,11 +138,11 @@ public class AssetSetter {
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
         this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 18;
         this.gp.npc[mapNum][++i] = new NPC_Ic(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 20;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 7;
+        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 11;
+        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 10;
         this.gp.npc[mapNum][++i] = new NPC_Handy(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 28;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 6;
+        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
+        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 10;
         mapNum = 6;
         this.gp.npc[mapNum][++i] = new NPC_TV(this.gp);
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 26;
@@ -205,21 +202,9 @@ public class AssetSetter {
         FifthZone.populate(gp,gp.monster);
         ExtraRooms.populate(gp,gp.monster,gp.extraRooms.flags());
         RefugeChallenges.populate(gp,gp.monster,gp.extraRooms.later.state());
-        i = 80; // Preserve the remaining room slots and boss identity.
-        mapNum = 5;
-        i += 2; // Secrets keep their identities in the temple.
-        this.gp.monster[mapNum][++i] = new MON_Sharky(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 14;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 6;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 14;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 11;
-        this.gp.monster[mapNum][++i] = new MON_Tella(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 12;
-        ++i;
+        FinalRefuges.populate(gp,gp.monster,gp.extraRooms.ending.state());
+        i = 87; // Keep the original boss identity.
         mapNum = 6;
-        ++i;
         if (!Progress.GodFishDefeated) {
             this.gp.monster[mapNum][i] = new MON_GodFish(this.gp);
             this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 23;

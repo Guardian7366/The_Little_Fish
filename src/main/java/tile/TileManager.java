@@ -66,6 +66,19 @@ public class TileManager {
             fileNames.add("/refugios/ghost/memory-"+i+"-"+lit+".png");
             collisionStatus.add(false);
         }
+        for (String room : new String[]{"handy","ic"}) {
+            String[] parts={"floor-0","floor-1","wall","wall-trim","gate-closed","gate-open"};
+            for (int i=0;i<parts.length;i++) {
+                fileNames.add("/refugios/"+room+"/"+parts[i]+".png");
+                collisionStatus.add(i>=2 && i<=4);
+            }
+        }
+        fileNames.add("/refugios/handy/stone-latch-intact.png"); collisionStatus.add(true);
+        fileNames.add("/refugios/handy/stone-latch-broken.png"); collisionStatus.add(false);
+        for (String tile : new String[]{"ice-0","ice-1","rough-stop","mark-0-0","mark-0-1","mark-1-0","mark-1-1","frost-wall"}) {
+            fileNames.add("/refugios/ic/"+tile+".png");
+            collisionStatus.add(tile.equals("frost-wall"));
+        }
         tile = new Tile[fileNames.size()];
         getTileImage();
         List<String> firstMap = readLines(INITIAL_MAPS[0]);
@@ -155,6 +168,7 @@ public class TileManager {
         if (gp.currentMap==main.ExtraRooms.MAP) {
             gp.extraRooms.syncTerrain();
             gp.extraRooms.later.resetTransient();
+            gp.extraRooms.ending.resetTransient();
         }
         if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
         for (var enemy : gp.monster[gp.currentMap]) {
@@ -204,6 +218,9 @@ public class TileManager {
                 int screenY = row * gp.tileSize - cameraY;
                 if (gp.currentMap==main.ExtraRooms.MAP && (tileNumber==144 || tileNumber==145))
                     graphics.drawImage(tile[126+(col+row/2)%2].image,screenX,screenY,null);
+                if (gp.currentMap==main.ExtraRooms.MAP &&
+                    (tileNumber==main.FinalRefuges.LATCH_INTACT || tileNumber==main.FinalRefuges.LATCH_BROKEN))
+                    graphics.drawImage(tile[152+(col+row/2)%2].image,screenX,screenY,null);
                 if (ocean && (tileNumber == 1 || tileNumber == 2)) {
                     graphics.setComposite(SHALLOW_WATER);
                     graphics.drawImage(tile[tileNumber].image, screenX, screenY, null);

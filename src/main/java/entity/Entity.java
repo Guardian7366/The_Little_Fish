@@ -555,7 +555,11 @@ public class Entity {
             } else {
                 if (this == gp.player && main.Temple.usesTemple(gp.currentMap) && currentWeapon.type==type_bubble)
                     gp.temple.cutVines(main.Temple.bounds(this,worldX,worldY));
-                if (this==gp.player) gp.extraRooms.later.cutBindings(main.Temple.bounds(this,worldX,worldY));
+                if (this==gp.player) {
+                    var strike=main.Temple.bounds(this,worldX,worldY);
+                    gp.extraRooms.later.cutBindings(strike);
+                    gp.extraRooms.ending.hitLatches(strike,spriteCounter==motion1_duration+1);
+                }
                 int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster, room);
                 this.gp.player.damageMonster(monsterIndex, this, this.attack, this.currentWeapon.knockBackPower);
                 int iTileIndex = this.gp.cChecker.checkEntity(this, this.gp.iTile, room);

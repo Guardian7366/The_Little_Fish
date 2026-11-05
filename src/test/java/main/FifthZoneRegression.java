@@ -97,6 +97,9 @@ public final class FifthZoneRegression {
 
     static void gate(Quiet gp)throws Exception {
         check(gp.player.inventory.stream().noneMatch(e->e instanceof OBJ_Iron),"start without Iron");
+        check(!relaxedWorld(gp)[cell(5,28,12)],"workshop gate protects Iron until Rocky opens both latches");
+        // The real workshop challenge is exercised in FinalRoomsRegression.
+        gp.extraRooms.ending.restore(new FinalRefuges.State(3,0,0,false));
         var reach=relaxedWorld(gp);
         check(reach[cell(5,28,12)],"Iron chest approach reachable without Iron, including its portal");
         check(!reach[cell(3,9,44)]&&!reach[cell(4,24,44)],"no optional route or portal bypasses the intact gate");
@@ -127,13 +130,13 @@ public final class FifthZoneRegression {
         }
         gp.player.currentLight=null;gp.player.lightUpdated=true;
         // Obtain the real reward, walk back, then equip it explicitly. No optional walls are broken.
-        walk(gp,25,23,9,5);portal(gp,3,9,5,5);walk(gp,40,9,28,12);
+        walk(gp,25,23,9,5);portal(gp,3,9,5,5);walk(gp,39,9,28,12);
         OBJ_Chest reward=(OBJ_Chest)gp.obj[5][8];Entity prior=gp.player.currentWeapon;
         while(gp.player.inventory.size()<gp.player.maxinventorySize)gp.player.inventory.add(new OBJ_Rock(gp));
         reward.interact();check(!reward.opened,"full inventory preserves real Iron while mandatory gate is intact");
         gp.gameState=gp.playState;walk(gp,28,12,40,9);portal(gp,5,40,9,3);walk(gp,9,5,25,23);
         check(!relaxedWorld(gp)[cell(4,24,44)],"leaving full-bag room cannot bypass gate");
-        walk(gp,25,23,9,5);portal(gp,3,9,5,5);walk(gp,40,9,28,12);
+        walk(gp,25,23,9,5);portal(gp,3,9,5,5);walk(gp,39,9,28,12);
         gp.player.inventory.remove(gp.player.inventory.size()-1);reward.interact();
         check(reward.opened&&gp.player.currentWeapon==prior,"actual Iron reward does not autoequip");
         Entity iron=gp.player.inventory.stream().filter(e->e instanceof OBJ_Iron).findFirst().orElseThrow();
@@ -184,7 +187,7 @@ public final class FifthZoneRegression {
         gp.player.currentWeapon=new OBJ_Iron(gp);check(!gp.iTile[3][4].isCorrectItem(gp.player),"Iron does not replace Rocky");
         gp.player.currentWeapon=new OBJ_Rock(gp);check(gp.iTile[3][4].isCorrectItem(gp.player),"optional Rocky stones");
         gp.iTile[3][4]=gp.iTile[3][4].getDestroyedForm();gp.iTile[3][5]=gp.iTile[3][5].getDestroyedForm();walk(gp,38,34,39,39);
-        portal(gp,3,9,5,5);walk(gp,40,9,28,12);
+        portal(gp,3,9,5,5);walk(gp,39,9,28,12);
         OBJ_Chest chest=(OBJ_Chest)gp.obj[5][8];check(chest.loot instanceof OBJ_Iron,"original Iron chest");
         while(gp.player.inventory.size()<gp.player.maxinventorySize)gp.player.inventory.add(new OBJ_Rock(gp));
         Entity equipped=gp.player.currentWeapon;chest.interact();check(!chest.opened,"full inventory preserves Iron");
@@ -192,7 +195,7 @@ public final class FifthZoneRegression {
         portal(gp,3,9,5,5);gp.player.inventory.remove(gp.player.inventory.size()-1);chest=(OBJ_Chest)gp.obj[5][8];chest.interact();
         check(chest.opened&&gp.player.inventory.stream().anyMatch(e->e instanceof OBJ_Iron),"Iron obtained on retry");
         check(gp.player.currentWeapon==equipped,"tool not autoequipped");
-        portal(gp,5,40,9,3);portal(gp,3,14,40,5);walk(gp,9,9,20,11);check(gp.obj[5][7].loot instanceof OBJ_Second_Weapon,"weapon reward retained");
+        portal(gp,5,40,9,3);portal(gp,3,14,40,5);walk(gp,10,9,11,9);check(gp.obj[5][7].loot instanceof OBJ_Second_Weapon,"weapon reward retained");
         portal(gp,5,9,9,3);portal(gp,7,25,45,3);check(gp.player.worldX==25*48&&gp.player.worldY==23*48,"fourth arrival retained");
         portal(gp,3,9,44,8);portal(gp,8,23,45,3);
         Path out=Path.of("build/fifth-zone-preview");Files.createDirectories(out);

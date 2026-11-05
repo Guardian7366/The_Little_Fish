@@ -140,6 +140,7 @@ implements Runnable {
     }
 
     public void resetGame(boolean restart) {
+        extraRooms.ending.resetTransient();
         extraRooms.later.resetTransient();
         temple.resetCombat();
         stopMusic();
@@ -158,6 +159,7 @@ implements Runnable {
             firstZoneGuide.reset();
             extraRooms.restore(0);
             extraRooms.later.restore(RefugeChallenges.EMPTY);
+            extraRooms.ending.restore(FinalRefuges.EMPTY);
             temple.reliefs = temple.defeats = 0;
             temple.syncReliefs();
             Progress.GodFishDefeated = false;
@@ -382,6 +384,7 @@ implements Runnable {
             if (currentMap!=ExtraRooms.MAP) this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
             extraRooms.later.drawNotice(g2);
+            extraRooms.ending.drawNotice(g2);
             if (currentMap == SixthZone.MAP || Temple.usesTemple(currentMap)) {
                 for (Entity enemy : monster[currentMap])
                     if (enemy instanceof monster.MON_Tella tella) tella.drawBands(g2);
@@ -451,6 +454,7 @@ implements Runnable {
     }
 
     public void changeArea() {
+        extraRooms.ending.resetTransient();
         extraRooms.later.resetTransient();
         temple.resetCombat();
         // Off-map projectiles no longer receive updates; release the reusable player shot.

@@ -30,6 +30,7 @@ implements KeyListener {
 
     private void clearHeldKeys() {
         upPressed = downPressed = leftPressed = rightPressed = false;
+        gp.extraRooms.ending.released(15);
         enterPressed = shotKeyPressed = spacePressed = false;
     }
     public boolean upPressed;
@@ -390,15 +391,19 @@ implements KeyListener {
     private void handleReleased(int code) {
         if (code == KeyEvent.VK_W) {
             this.upPressed = false;
+            gp.extraRooms.ending.released(1);
         }
         if (code == KeyEvent.VK_S) {
             this.downPressed = false;
+            gp.extraRooms.ending.released(2);
         }
         if (code == KeyEvent.VK_A) {
             this.leftPressed = false;
+            gp.extraRooms.ending.released(4);
         }
         if (code == KeyEvent.VK_D) {
             this.rightPressed = false;
+            gp.extraRooms.ending.released(8);
         }
         if (code == KeyEvent.VK_F) {
             this.shotKeyPressed = false;

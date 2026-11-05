@@ -10,7 +10,7 @@ Actualizada el **5 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta a octava y seis refugios completados y aprobados | Acordar el alcance de la próxima entrega |
+| 5. Implementar por entregas pequeñas | Quinta a octava y ocho refugios completados y aprobados | Acordar el alcance de la próxima entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -58,4 +58,4 @@ Los tres retos están integrados en el mapa 5 con sus premios originales y Extra
 
 ## Últimos dos refugios
 
-Integrar el taller de Handy y la cámara helada de Ic, conservando los seis retos aprobados. Comprobar el acceso a Iron en guardados antiguos y que el deslizamiento tenga salida desde todas las paradas. [Encargo](design/salas-extras-7-8/TAREA-CODEX.md).
+Handy e Ic están integrados en el mapa 5. La revisión 3 del guardado conserva sus avances y los de los otros seis recintos. El usuario probó las dos salas y aprobó su publicación el 5 de noviembre de 2026. [Informe](SALAS-EXTRAS-7-8.md)
