@@ -1,0 +1,162 @@
+{
+  "gameMap": 6,
+  "tile": [
+    16,
+    16
+  ],
+  "nativeScreen": [
+    320,
+    192
+  ],
+  "logicalScreen": [
+    960,
+    576
+  ],
+  "scale": 3,
+  "filter": "nearest-neighbor",
+  "backgroundOrder": [
+    "far-trench",
+    "basalt-sides",
+    "sediment"
+  ],
+  "previews": [
+    "preview/fondo.png",
+    "preview/arena.png",
+    "preview/tiles.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/tiles/basalt-floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/tiles/basalt-floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/tiles/basalt-floor-2.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/tiles/basalt-wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/rim-north.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/rim-south.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/rim-west.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/rim-east.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/corner-nw.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/corner-ne.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/corner-sw.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/tiles/corner-se.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/props/basalt-rubble.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "decoration"
+    },
+    {
+      "path": "assets/props/broken-column.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "decoration"
+    },
+    {
+      "path": "assets/props/silt.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "decoration"
+    },
+    {
+      "path": "assets/tiles/void.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "solid"
+    },
+    {
+      "path": "assets/background/far-trench.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/background/basalt-sides.png",
+      "width": 320,
+      "height": 192,
+      "alpha": true,
+      "role": "background"
+    },
+    {
+      "path": "assets/background/sediment.png",
+      "width": 320,
+      "height": 192,
+      "alpha": true,
+      "role": "background"
+    }
+  ]
+}

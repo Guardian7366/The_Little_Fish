@@ -94,3 +94,7 @@ Sobre `92fd83c`, el mapa interno 10 conecta la octava con la arena. TV atiende e
 `./build.ps1 -Test` pasó las 32 suites. Se cargaron cuatro partidas generadas con las fuentes de `92fd83c` y aisladas bajo `build/`. Cubren octava resuelta y arena antes, durante y después del combate. La importación `save.dat` se probó con una muestra del formato original de diez filas. La comprobación adicional con el ejecutable histórico `MyGame.jar` quedó omitida por falta de ese archivo. Se comprobaron los 32 PNG contra los bytes, dimensiones y transparencia del manifiesto. El registro está en `build/mercado-verification.txt` y las seis capturas en `build/mercado-preview/`.
 
 El usuario probó el mercado y a TV, confirmó que funcionan correctamente y autorizó publicar la implementación. El ejecutable de prueba se genera en `build/TheLittleFish.jar`. [Encargo y arte](design/mercado-tv/TAREA-CODEX.md)
+
+## Arte de la fosa final
+
+Base revisada c022bb7, mercado aprobado. El usuario aprobó seis fases para God Fish y pidió preparar primero los tiles y fondo. Se prepararon 19 PNG nativos y tres vistas. Formato y transparencia verificados. Quedan las siguientes etapas de arte y la integración jugable. [Paquete de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).

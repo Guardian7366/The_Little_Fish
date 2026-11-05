@@ -200,3 +200,7 @@ Añadidos dos cuadros para cada NPC, dos fondos, tiles y props, cuatro estados d
 ## 2026-11-05 · Arte y encargo del mercado de TV
 
 Añadidos 32 PNG de TV, mercado, consumibles y paneles CRT, junto con cuatro vistas y el encargo de implementación. Se comprobaron dimensiones, datos y transparencia. Los precios nuevos son propuestas para balance jugable.
+
+## 2026-11-05 · Arte de la fosa abismal
+
+Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres capas de fondo. Se incluyen tres vistas, inventario e indicaciones para integración. Verificados datos PNG, dimensiones y transparencia.

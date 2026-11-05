@@ -63,3 +63,7 @@ Handy e Ic están integrados en el mapa 5. La revisión 3 del guardado conserva 
 ## Mercado antes del jefe
 
 El mercado está completado en el mapa 10, con compra y venta CRT y migración de partidas comprobada. El usuario probó el mercado y a TV y aprobó la entrega para publicación. [Encargo](design/mercado-tv/TAREA-CODEX.md).
+
+## Preparación por etapas del jefe final
+
+Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Continuar con God Fish y los recursos del combate de seis fases en el orden que indique el usuario. [Arte de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
