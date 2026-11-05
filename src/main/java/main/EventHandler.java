@@ -38,6 +38,8 @@ public class EventHandler {
     }
 
     public void setDialogue() {
+        for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++)
+            eventMaster.dialogues[15+i][0]=TempleExtension.INSCRIPTIONS[i].text();
         eventMaster.dialogues[12][0]="The fish went down in single file.\nOne carried a small light.";
         eventMaster.dialogues[13][0]="The D was carved over much older marks.";
         eventMaster.dialogues[14][0]="Four weights guarded the way.\nD. I counted four and left a light on.";
@@ -59,6 +61,15 @@ public class EventHandler {
     }
 
     public void checkEvent() {
+        if (gp.currentMap==TempleExtension.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
+            for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++) {
+                var inscription = TempleExtension.INSCRIPTIONS[i];
+                if (hit(TempleExtension.MAP,inscription.readX(),inscription.readY(),inscription.facing())) {
+                    inspectSecret(15+i);
+                    return;
+                }
+            }
+        }
         if (gp.currentMap==Temple.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
             int x=(gp.player.worldX+24)/48, y=(gp.player.worldY+24)/48;
             for (int i=0;i<Temple.MURALS.length;i++) {
@@ -159,7 +170,13 @@ public class EventHandler {
             } else if (this.hit(8, 25, 41, "any")) {
                 this.healingPool(25, 41, this.gp.dialogueState);
             } else if (this.hit(4, 24, 5, "any")) {
-                if (gp.temple.solved()) this.teleportMap(6, 24, 44, this.gp.dungeons);
+                if (gp.temple.solved()) this.teleportMap(TempleExtension.MAP, 24, 43, this.gp.dungeons);
+            } else if (this.hit(TempleExtension.MAP, 24, 45, "any")) {
+                this.teleportMap(4, 24, 6, this.gp.dungeons);
+            } else if (this.hit(TempleExtension.MAP, 22, 41, "any")) {
+                this.healingPool(22, 41, gp.dialogueState);
+            } else if (this.hit(TempleExtension.MAP, 24, 5, "any")) {
+                if (TempleExtension.solved(gp.npc,gp.iTile)) this.teleportMap(6, 24, 44, this.gp.dungeons);
             } else if (this.hit(0, 28, 18, "any")) {
                 this.teleportMap(5, 9, 40, this.gp.indoor);
             } else if (this.hit(5, 9, 40, "any")) {

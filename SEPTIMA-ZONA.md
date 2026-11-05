@@ -4,7 +4,7 @@ Implementación sobre f160c37. El 4 de noviembre de 2026, el usuario confirmó t
 
 ## Recorrido y combate
 
-El mapa interno 4 conserva la entrada (24,42) desde el mapa 8, el retorno (24,44) y la salida (24,5) hacia el mapa 6. Conserva el descanso original y añade uno al sur. El circuito pasa primero por una Planta aislada y luego ofrece cámaras con Planta y Fishtella. Se integraron los 71 PNG del paquete, tres murales de D y tres capas con desplazamiento independiente. Las lámparas iluminan los puntos de lectura y empuje. La linterna amplía la visibilidad de los tramos oscuros.
+El mapa interno 4 conserva la entrada (24,42) desde el mapa 8, el retorno (24,44) y la salida (24,5). En la entrega aprobada llevaba al mapa 6. La extensión aprobada enlaza ese umbral con el mapa 9 y conserva la llegada al jefe. [Galerías del templo](OCTAVA-ZONA.md) Conserva el descanso original y añade uno al sur. El circuito pasa primero por una Planta aislada y luego ofrece cámaras con Planta y Fishtella. Se integraron los 71 PNG del paquete, tres murales de D y tres capas con desplazamiento independiente. Las lámparas iluminan los puntos de lectura y empuje. La linterna amplía la visibilidad de los tramos oscuros.
 
 Planta avisa durante 36 ticks y tira hasta 24 ticks usando colisiones reales. Se puede cortar la liana con el ataque normal mientras el jugador está enganchado. El parry frontal y una obstrucción también interrumpen el ataque. Secret huye durante 180 ticks, deja hasta dos señuelos visuales y descansa durante 90 ticks. Cada ejemplar de los nichos oeste y este concede 100 EXP una vez por partida.
 

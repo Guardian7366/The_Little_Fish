@@ -42,11 +42,16 @@ extends Entity {
     }
 
     @Override public void draw(java.awt.Graphics2D g) {
-        if (gp.currentMap!=main.Temple.MAP) { super.draw(g); return; }
+        if (!main.Temple.usesTemple(gp.currentMap)) { super.draw(g); return; }
         if (!inCamera()) return;
         main.Temple.sprite(g,gp,"puzzle/rock",worldX,worldY,48,48);
-        for (int i=0; i<main.Temple.LANES.length; i++)
-            if (gp.npc[gp.currentMap][main.Temple.LANES[i].rockSlot()]==this) gp.temple.rune(g,i,worldX,worldY);
+        if (gp.currentMap==main.Temple.MAP) {
+            for (int i=0; i<main.Temple.LANES.length; i++)
+                if (gp.npc[gp.currentMap][main.Temple.LANES[i].rockSlot()]==this) gp.temple.rune(g,i,worldX,worldY);
+        } else {
+            for (int i=0; i<main.TempleExtension.LANES.length; i++)
+                if (gp.npc[gp.currentMap][main.TempleExtension.LANES[i].rockSlot()]==this) gp.temple.rune(g,i,worldX,worldY);
+        }
     }
 
     public void setDialogue() {
@@ -73,7 +78,7 @@ extends Entity {
 
     @Override
     public void move(String d) {
-        if (gp.currentMap==main.Temple.MAP) { gp.temple.push(this,d); return; }
+        if (main.Temple.usesTemple(gp.currentMap)) { gp.temple.push(this,d); return; }
         block16: {
             this.direction = d;
             this.checkCollision();
@@ -100,7 +105,7 @@ extends Entity {
     }
 
     public void detectedPlate() {
-        if (gp.currentMap==main.Temple.MAP) return;
+        if (main.Temple.usesTemple(gp.currentMap)) return;
         ArrayList<InteractiveTile> plateList = new ArrayList<InteractiveTile>();
         ArrayList<Entity> rockList = new ArrayList<Entity>();
         int i = 0;

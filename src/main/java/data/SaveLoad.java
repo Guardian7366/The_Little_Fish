@@ -178,6 +178,7 @@ public final class SaveLoad {
         s.fifthZoneRevision = FifthZone.REVISION;
         s.sixthZoneRevision = main.SixthZone.REVISION;
         s.templeRevision = main.Temple.REVISION;
+        s.templeExtensionRevision = main.TempleExtension.REVISION;
         s.templeReliefs = gp.temple.reliefs;
         s.templeDefeats = gp.temple.defeats;
         s.map = gp.currentMap; s.area = gp.currentArea;
@@ -255,6 +256,9 @@ public final class SaveLoad {
         require(gp.tileM.isMapLoaded(s.map), "Invalid map");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
         require(s.templeRevision >= 0 && s.templeRevision <= main.Temple.REVISION, "Unsupported temple layout");
+        require(s.templeExtensionRevision >= 0 && s.templeExtensionRevision <= main.TempleExtension.REVISION,
+            "Unsupported temple extension layout");
+        require(s.map!=main.TempleExtension.MAP || s.templeExtensionRevision>0,"Missing temple extension state");
         require((s.templeReliefs & ~3) == 0 && (s.templeDefeats & ~3) == 0, "Invalid temple flags");
         require(s.sixthZoneRevision >= 0 && s.sixthZoneRevision <= main.SixthZone.REVISION, "Unsupported sixth-zone layout");
         require(s.fifthZoneRevision>=0 && s.fifthZoneRevision<=FifthZone.REVISION,"Unsupported fifth-zone layout");
@@ -378,7 +382,39 @@ public final class SaveLoad {
             for (Entity enemy : monsters[4]) if (enemy!=null && body.intersects(main.Temple.bounds(enemy,enemy.worldX,enemy.worldY))) valid=false;
             if (!valid) main.Temple.place(player,24,42);
         }
+        prepareTempleExtension(s,player,objects,npcs,monsters,tiles);
         return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats);
+    }
+
+    private void prepareTempleExtension(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs,
+                                        Entity[][] monsters, InteractiveTile[][] tiles) {
+        int map = main.TempleExtension.MAP;
+        if (s.templeExtensionRevision==0) {
+            main.TempleExtension.rocks(gp,npcs);
+            main.TempleExtension.plates(gp,tiles);
+            main.TempleExtension.populate(gp,monsters);
+        } else {
+            for (var lane : main.TempleExtension.LANES)
+                require(main.TempleExtension.valid(npcs[map][lane.rockSlot()],tiles[map][lane.plateSlot()],lane),
+                    "Invalid temple extension lane or pair");
+            main.TempleExtension.configure(monsters);
+        }
+        boolean open = main.TempleExtension.solved(npcs,tiles);
+        if (open) {
+            if (objects[map][0] instanceof object.OBJ_DoorIron) objects[map][0]=null;
+        } else {
+            require(objects[map][0]==null || objects[map][0] instanceof object.OBJ_DoorIron,"Extension gate slot occupied");
+            objects[map][0]=main.Temple.gate(gp,main.TempleExtension.GATE_X,main.TempleExtension.GATE_Y);
+        }
+        if (s.map==map) {
+            var body = main.Temple.bounds(player,player.worldX,player.worldY);
+            require(main.Temple.terrainClear(gp,map,body) &&
+                (open || body.y>=7*48),"Invalid temple extension player position");
+            for (var lane : main.TempleExtension.LANES) {
+                Entity rock = npcs[map][lane.rockSlot()];
+                require(!body.intersects(main.Temple.bounds(rock,rock.worldX,rock.worldY)),"Player inside extension rock");
+            }
+        }
     }
 
     private Entity[][] prepareActors(Actor[][] saved, Entity[][] shape, String category) {
@@ -394,7 +430,7 @@ public final class SaveLoad {
                 require(a.amount > 0 && a.dialogueSet >= -1 && a.dialogueSet < 30 &&
                     a.dialogueIndex >= 0 && a.dialogueIndex < 30 && a.life >= 0, "Invalid entity state");
                 Entity entity = category.equals("object") ? gp.eGenerator.requireObject(a.id) : registry.create(a.id, category, gp);
-                int maxLife = map == main.SixthZone.MAP && entity instanceof monster.MON_Tella
+                int maxLife = (map == main.SixthZone.MAP || map == main.TempleExtension.MAP) && entity instanceof monster.MON_Tella
                     ? monster.MON_Tella.ABYSS_MAX_LIFE : entity.maxLife;
                 require(!category.equals("monster") || a.life <= maxLife, "Invalid enemy health");
                 entity.worldX = a.x; entity.worldY = a.y; entity.direction = a.direction;

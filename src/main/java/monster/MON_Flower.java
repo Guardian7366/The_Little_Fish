@@ -21,7 +21,7 @@ extends Entity {
     private java.awt.image.BufferedImage[] idle, aim, mid, tip;
     private java.awt.image.BufferedImage retract, cutSprite;
 
-    public boolean templePlant() { return gp.currentMap == main.Temple.MAP; }
+    public boolean templePlant() { return main.Temple.usesTemple(gp.currentMap); }
     public Vine vine() { return vine; }
     public int vineLength() { return length; }
 
@@ -121,7 +121,7 @@ extends Entity {
                 }
                 int nextX=gp.player.worldX-dx()*4,nextY=gp.player.worldY-dy()*4;
                 if (!main.Temple.clear(gp,gp.player,nextX,nextY) ||
-                    main.Temple.portalOverlap(main.Temple.bounds(gp.player,nextX,nextY)) ||
+                    main.Temple.portalOverlap(gp,main.Temple.bounds(gp.player,nextX,nextY)) ||
                     !segment(Math.min(limit,reach())).intersects(player)) { release(false); return; }
                 gp.player.worldX=nextX; gp.player.worldY=nextY;
                 length=Math.min(limit,distance);

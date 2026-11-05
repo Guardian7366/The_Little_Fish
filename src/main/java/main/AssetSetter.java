@@ -52,6 +52,7 @@ public class AssetSetter {
 
     public void setObject() {
         SixthZone.reward(gp, gp.obj);
+        gp.obj[TempleExtension.MAP][0] = Temple.gate(gp,TempleExtension.GATE_X,TempleExtension.GATE_Y);
         int mapNum = 0;
         int i = 0;
         mapNum = 4;
@@ -100,6 +101,7 @@ public class AssetSetter {
     }
 
     public void setNPC() {
+        TempleExtension.rocks(gp,gp.npc);
         int mapNum = 0;
         int i = 0;
         this.gp.npc[mapNum][i] = new NPC_Shadow(this.gp);
@@ -155,6 +157,7 @@ public class AssetSetter {
         FourthZone.populate(gp,gp.monster);
         SixthZone.populate(gp, gp.monster);
         Temple.monsters(gp, gp.monster, gp.temple.defeats);
+        TempleExtension.populate(gp,gp.monster);
         int mapNum = 0;
         int i = 0;
         FirstZone.populate(gp);
@@ -284,6 +287,7 @@ public class AssetSetter {
     }
 
     public void setInteractiveTile() {
+        TempleExtension.plates(gp,gp.iTile);
         FourthZone.rocks(gp,gp.iTile);
         SixthZone.obstacles(gp, gp.iTile);
         int mapNum = 0;

@@ -40,7 +40,10 @@ public final class Temple {
 
     public Temple(GamePanel gp) { this.gp = gp; }
 
+    public static boolean usesTemple(int map) { return map==MAP || map==TempleExtension.MAP; }
+
     public void prepareArt() {
+        TempleExtension.prepareArt();
         for (String mural : new String[]{"procession","d-threshold","four-weights"})
             SpriteCache.load("/septima/murals/"+mural+".png",144,96);
         for (String detail : new String[]{"gate-open","plate-on","plate-off","rock","rune-1","rune-2","rune-3","rune-4"})
@@ -89,7 +92,11 @@ public final class Temple {
     }
 
     public static Entity gate(GamePanel gp) {
-        Entity gate = place(new OBJ_DoorIron(gp),24,5);
+        return gate(gp,24,5);
+    }
+
+    public static Entity gate(GamePanel gp, int x, int y) {
+        Entity gate = place(new OBJ_DoorIron(gp),x,y);
         gate.down = SpriteCache.load("/septima/puzzle/gate-closed.png",48,48);
         gate.solidArea.setBounds(0,0,48,48);
         gate.solidAreaDefaultX = gate.solidAreaDefaultY = 0;
@@ -111,27 +118,11 @@ public final class Temple {
     public boolean solved() { return solved(gp.npc,gp.iTile); }
 
     public void push(NPC_BigRock rock, String direction) {
+        if (gp.currentMap==TempleExtension.MAP) { TempleExtension.push(gp,rock,direction); return; }
         for (Lane lane : LANES) {
             if (gp.npc[MAP][lane.rockSlot] != rock || !lane.direction.equals(direction)) continue;
             if (paired(rock,gp.iTile[MAP][lane.plateSlot],lane) || !onLane(rock,lane)) return;
-            Rectangle player = bounds(gp.player,gp.player.worldX,gp.player.worldY);
-            Rectangle stone = bounds(rock,rock.worldX,rock.worldY);
-            boolean behind = switch (direction) {
-                case "up" -> player.y >= stone.y+stone.height-1 && player.y-stone.y-stone.height<=gp.player.speed &&
-                    player.getCenterX() >= stone.x && player.getCenterX() < stone.x+stone.width;
-                case "down" -> player.y+player.height <= stone.y+1 && stone.y-player.y-player.height<=gp.player.speed &&
-                    player.getCenterX() >= stone.x && player.getCenterX() < stone.x+stone.width;
-                case "left" -> player.x >= stone.x+stone.width-1 && player.x-stone.x-stone.width<=gp.player.speed &&
-                    player.getCenterY() >= stone.y && player.getCenterY() < stone.y+stone.height;
-                default -> player.x+player.width <= stone.x+1 && stone.x-player.x-player.width<=gp.player.speed &&
-                    player.getCenterY() >= stone.y && player.getCenterY() < stone.y+stone.height;
-            };
-            if (!behind) return;
-            for (int step = 4; step <= 48; step += 4)
-                if (!clear(gp,rock,rock.worldX+lane.dx()*step,rock.worldY+lane.dy()*step)) return;
-            // One atomic tile step. Save snapshots can only see aligned positions.
-            rock.worldX += lane.dx()*48;
-            rock.worldY += lane.dy()*48;
+            if (!pushStep(gp,rock,direction,lane.dx(),lane.dy())) return;
             if (rock.worldX == lane.endX*48 && rock.worldY == lane.endY*48) {
                 rock.linkedEntity = gp.iTile[MAP][lane.plateSlot];
                 gp.playSE(14);
@@ -142,6 +133,30 @@ public final class Temple {
             }
             return;
         }
+    }
+
+    static boolean pushStep(GamePanel gp, NPC_BigRock rock, String direction, int dx, int dy) {
+        String expected = dx>0 ? "right" : dx<0 ? "left" : dy>0 ? "down" : "up";
+        if (!expected.equals(direction)) return false;
+        Rectangle player = bounds(gp.player,gp.player.worldX,gp.player.worldY);
+        Rectangle stone = bounds(rock,rock.worldX,rock.worldY);
+        boolean behind = switch (direction) {
+            case "up" -> player.y >= stone.y+stone.height-1 && player.y-stone.y-stone.height<=gp.player.speed &&
+                player.getCenterX() >= stone.x && player.getCenterX() < stone.x+stone.width;
+            case "down" -> player.y+player.height <= stone.y+1 && stone.y-player.y-player.height<=gp.player.speed &&
+                player.getCenterX() >= stone.x && player.getCenterX() < stone.x+stone.width;
+            case "left" -> player.x >= stone.x+stone.width-1 && player.x-stone.x-stone.width<=gp.player.speed &&
+                player.getCenterY() >= stone.y && player.getCenterY() < stone.y+stone.height;
+            default -> player.x+player.width <= stone.x+1 && stone.x-player.x-player.width<=gp.player.speed &&
+                player.getCenterY() >= stone.y && player.getCenterY() < stone.y+stone.height;
+        };
+        if (!behind) return false;
+        for (int step = 4; step <= 48; step += 4)
+            if (!clear(gp,rock,rock.worldX+dx*step,rock.worldY+dy*step)) return false;
+        // One atomic tile step. Save snapshots can only see aligned positions.
+        rock.worldX += dx*48;
+        rock.worldY += dy*48;
+        return true;
     }
 
     public static boolean onLane(Entity rock, Lane lane) {
@@ -157,39 +172,43 @@ public final class Temple {
     }
 
     public static boolean terrainClear(GamePanel gp, Rectangle box) {
+        return terrainClear(gp,MAP,box);
+    }
+
+    public static boolean terrainClear(GamePanel gp, int map, Rectangle box) {
         for (int x = Math.floorDiv(box.x,48); x <= Math.floorDiv(box.x+box.width-1,48); x++)
             for (int y = Math.floorDiv(box.y,48); y <= Math.floorDiv(box.y+box.height-1,48); y++)
                 if (x<0 || y<0 || x>=gp.maxWorldCol || y>=gp.maxWorldRow ||
-                    gp.tileM.tile[gp.tileM.mapTileNum[MAP][x][y]].collision) return false;
+                    gp.tileM.tile[gp.tileM.mapTileNum[map][x][y]].collision) return false;
         return true;
     }
 
-    public static boolean portalOverlap(Rectangle box) {
-        return box.intersects(24*48,44*48,48,48) || box.intersects(24*48,5*48,48,48);
+    public static boolean portalOverlap(GamePanel gp, Rectangle box) {
+        return box.intersects(24*48,(gp.currentMap==TempleExtension.MAP ? 45 : 44)*48,48,48) || box.intersects(24*48,5*48,48,48);
     }
 
     public static boolean vineBlocked(GamePanel gp, Rectangle box) {
-        if (!terrainClear(gp,box)) return true;
-        for (Entity npc : gp.npc[MAP])
+        if (!terrainClear(gp,gp.currentMap,box)) return true;
+        for (Entity npc : gp.npc[gp.currentMap])
             if (npc != null && box.intersects(bounds(npc,npc.worldX,npc.worldY))) return true;
-        for (Entity object : gp.obj[MAP])
+        for (Entity object : gp.obj[gp.currentMap])
             if (object != null && object.collision && box.intersects(bounds(object,object.worldX,object.worldY))) return true;
-        for (InteractiveTile tile : gp.iTile[MAP])
+        for (InteractiveTile tile : gp.iTile[gp.currentMap])
             if (tile != null && (tile.collision || tile.destructible) && box.intersects(bounds(tile,tile.worldX,tile.worldY))) return true;
         return false;
     }
 
     public static boolean clear(GamePanel gp, Entity actor, int x, int y) {
         Rectangle box = bounds(actor,x,y);
-        if (!terrainClear(gp,box)) return false;
-        for (Entity npc : gp.npc[MAP])
+        if (!terrainClear(gp,gp.currentMap,box)) return false;
+        for (Entity npc : gp.npc[gp.currentMap])
             if (npc != null && npc != actor && box.intersects(bounds(npc,npc.worldX,npc.worldY))) return false;
-        for (Entity enemy : gp.monster[MAP])
+        for (Entity enemy : gp.monster[gp.currentMap])
             if (enemy != null && enemy != actor && enemy.alive && !enemy.dying &&
                 box.intersects(bounds(enemy,enemy.worldX,enemy.worldY))) return false;
-        for (Entity object : gp.obj[MAP])
+        for (Entity object : gp.obj[gp.currentMap])
             if (object != null && object.collision && box.intersects(bounds(object,object.worldX,object.worldY))) return false;
-        for (InteractiveTile tile : gp.iTile[MAP])
+        for (InteractiveTile tile : gp.iTile[gp.currentMap])
             if (tile != null && (tile.collision || tile.destructible) && box.intersects(bounds(tile,tile.worldX,tile.worldY))) return false;
         return actor == gp.player || !box.intersects(bounds(gp.player,gp.player.worldX,gp.player.worldY));
     }
@@ -225,7 +244,7 @@ public final class Temple {
     public void release(MON_Flower flower) { if (tether == flower) tether = null; }
     public void resetCombat() {
         tether = null;
-        for (Entity e : gp.monster[MAP]) {
+        for (int map : new int[]{MAP,TempleExtension.MAP}) for (Entity e : gp.monster[map]) {
             if (e instanceof MON_Flower flower) flower.resetVine();
             if (e instanceof MON_Secret secret) secret.resetEscape();
             if (e instanceof MON_Tella tella) tella.resetPulse();
@@ -233,7 +252,7 @@ public final class Temple {
     }
 
     public void cutVines(Rectangle attack) {
-        for (Entity e : gp.monster[MAP])
+        for (Entity e : gp.monster[gp.currentMap])
             if (e instanceof MON_Flower flower) flower.cut(attack);
     }
 

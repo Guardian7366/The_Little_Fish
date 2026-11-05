@@ -552,7 +552,7 @@ public class Entity {
                     this.damagePlayer(this.attack);
                 }
             } else {
-                if (this == gp.player && gp.currentMap==main.Temple.MAP && currentWeapon.type==type_bubble)
+                if (this == gp.player && main.Temple.usesTemple(gp.currentMap) && currentWeapon.type==type_bubble)
                     gp.temple.cutVines(main.Temple.bounds(this,worldX,worldY));
                 int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster);
                 this.gp.player.damageMonster(monsterIndex, this, this.attack, this.currentWeapon.knockBackPower);

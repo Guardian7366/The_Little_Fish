@@ -47,13 +47,13 @@ public final class TempleRegression {
         gp.eHandler.checkEvent();
         check(!gp.temple.solved() && gp.gameState==gp.playState,"four occupied positions with a wrong identity still block the portal");
         rock.linkedEntity=gp.iTile[4][first.plateSlot()];
-        FifthZoneRegression.portal(gp,4,24,5,6);
+        FifthZoneRegression.portal(gp,4,24,5,9);
         FifthZoneRegression.portal(gp,4,24,44,8);
         gp.stopGame();
         System.out.println("TEMPLE PASS: 24 orders, live push collision, partial checkpoints, vines, mixed encounter, two unique Secrets and portals");
     }
 
-    private static void capture(FifthZoneRegression.Quiet gp,Path out,String name,int x,int y,boolean lamp) throws Exception {
+    static void capture(FifthZoneRegression.Quiet gp,Path out,String name,int x,int y,boolean lamp) throws Exception {
         Temple.place(gp.player,x,y);
         gp.player.currentLight=lamp?new OBJ_Lantern(gp):null;
         gp.player.lightUpdated=true;
@@ -64,7 +64,7 @@ public final class TempleRegression {
         gp.player.lightUpdated=true;
     }
 
-    private static void press(GamePanel gp,String dir) {
+    static void press(GamePanel gp,String dir) {
         gp.keyH.upPressed=dir.equals("up"); gp.keyH.downPressed=dir.equals("down");
         gp.keyH.leftPressed=dir.equals("left"); gp.keyH.rightPressed=dir.equals("right");
     }
@@ -73,7 +73,7 @@ public final class TempleRegression {
         return x>=0 && x<50 && y>=0 && y<50 && Temple.clear(gp,gp.player,x*48,y*48);
     }
 
-    private static int[] route(GamePanel gp,int sx,int sy) {
+    static int[] route(GamePanel gp,int sx,int sy) {
         int[] previous=new int[2500];
         Arrays.fill(previous,-1);
         ArrayDeque<Integer> queue=new ArrayDeque<>();
@@ -91,7 +91,7 @@ public final class TempleRegression {
         return previous;
     }
 
-    private static void swim(GamePanel gp,int sx,int sy,int tx,int ty) {
+    static void swim(GamePanel gp,int sx,int sy,int tx,int ty) {
         int[] route=route(gp,sx,sy);
         int start=sy*50+sx,target=ty*50+tx;
         check(route[target]>=0,"route to "+tx+","+ty);

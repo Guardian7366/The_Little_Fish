@@ -66,13 +66,13 @@ public final class FifthZoneRegression {
     static boolean[] relaxedWorld(Quiet gp, int start) throws Exception {
         var transfers=new HashMap<Integer,Integer>();
         String source=Files.readString(Path.of("src/main/java/main/EventHandler.java"));
-        Matcher m=Pattern.compile("this\\.hit\\((\\d+|FourthZone\\.MAP),\\s*(\\d+),\\s*(\\d+),\\s*\"any\"\\)\\)\\s*\\{\\s*this\\.teleportMap\\((\\d+|FourthZone\\.MAP),\\s*(\\d+),\\s*(\\d+),").matcher(source);
+        Matcher m=Pattern.compile("this\\.hit\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP),\\s*(\\d+),\\s*(\\d+),\\s*\"any\"\\)\\)\\s*\\{\\s*this\\.teleportMap\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP),\\s*(\\d+),\\s*(\\d+),").matcher(source);
         while(m.find()) {
-            int a=m.group(1).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(1));
-            int b=m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
+            int a=m.group(1).equals("TempleExtension.MAP")?9:m.group(1).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(1));
+            int b=m.group(4).equals("TempleExtension.MAP")?9:m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
             transfers.put(cell(a,Integer.parseInt(m.group(2)),Integer.parseInt(m.group(3))),cell(b,Integer.parseInt(m.group(5)),Integer.parseInt(m.group(6))));
         }
-        check(transfers.size()==24,"all 24 unconditional portal directions included in reachability proof");
+        check(transfers.size()==25,"all 25 unconditional portal directions included in reachability proof");
         boolean[] seen=new boolean[gp.maxMap*2500];ArrayDeque<Integer> queue=new ArrayDeque<>();
         seen[start]=true;queue.add(start);
         while(!queue.isEmpty()) {
@@ -151,7 +151,7 @@ public final class FifthZoneRegression {
         Quiet gp=new Quiet();gp.setupGame();gp.currentMap=3;gp.currentArea=gp.dungeons;gp.gameState=gp.playState;
         check(Arrays.stream(gp.monster[3]).filter(e->e instanceof MON_Sharky).count()==6,"six sharks");
         check(Arrays.stream(gp.monster[3]).filter(Objects::nonNull).count()==9,"nine enemies");
-        check(gp.tileM.loadedMapCount()==9,"stable map IDs");
+        check(gp.tileM.loadedMapCount()==10,"stable map IDs");
         gate(gp);
         for(int[] safe:new int[][]{{25,23},{25,20},{9,5},{14,40},{9,44},{14,9},{14,8},{17,44}}) {
             gp.player.worldX=safe[0]*48;gp.player.worldY=safe[1]*48;

@@ -33,16 +33,16 @@ public final class FifthLighting {
         return true;
     }
     public void prepare() {
-        int map = (main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap==main.Temple.MAP) ? gp.currentMap : FifthZone.MAP;
+        int map = (main.SixthZone.usesAbyss(gp.currentMap) || main.Temple.usesTemple(gp.currentMap)) ? gp.currentMap : FifthZone.MAP;
         int next=gp.tileM.getMapRevision(map);
         if(next!=revision || map!=cachedMap) {
             cachedMap=map;
-            ambient = map==main.Temple.MAP ? 198 : AMBIENT_ALPHA;
+            ambient = main.Temple.usesTemple(map) ? 198 : AMBIENT_ALPHA;
             Arrays.fill(worldAlpha,(byte)ambient);
             final int radius=44; // 2.75 tiles, native pixels.
             for(int col=0;col<gp.maxWorldCol;col++) for(int row=0;row<gp.maxWorldRow;row++) {
                 int tile=gp.tileM.mapTileNum[map][col][row];
-                if (map==main.Temple.MAP) {
+                if (main.Temple.usesTemple(map)) {
                     if (tile!=main.Temple.LAMP) continue;
                     for (int[] d : new int[][]{{1,0},{-1,0},{0,1},{0,-1}}) {
                         int x=col+d[0],y=row+d[1];

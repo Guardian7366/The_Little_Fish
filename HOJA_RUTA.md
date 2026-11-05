@@ -10,7 +10,7 @@ Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta, sexta y séptima completadas y aprobadas | Acordar el alcance de la próxima entrega |
+| 5. Implementar por entregas pequeñas | Quinta, sexta, séptima y octava completadas y aprobadas | Acordar el alcance de la próxima entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -46,4 +46,4 @@ El templo del mapa interno 4 ya incluye a Planta, Secret, Fishtella y cuatro gal
 
 ## Extensión del templo antes del jefe
 
-Usar el mapa interno 9 para el recorrido de octava. Reutilizar Planta, Fishtella y la ambientación de séptima. Introducir tres carriles de rocas, uno con giro, y tres inscripciones opcionales de D. [Encargo para Codex](design/octava-zona/TAREA-CODEX.md).
+El mapa 9 conecta el templo aprobado con el jefe. El usuario probó las galerías, confirmó que cumplen los requisitos y autorizó la publicación el 4 de noviembre de 2026. [Informe de la octava zona](OCTAVA-ZONA.md)

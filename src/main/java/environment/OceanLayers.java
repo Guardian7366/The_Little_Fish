@@ -88,7 +88,7 @@ public final class OceanLayers {
     public long cachedPixelBytes() { return 12L * WIDTH * HEIGHT * 4; }
 
     public void drawBackground(Graphics2D target, GamePanel gp) {
-        if (gp.currentMap==main.Temple.MAP) {
+        if (main.Temple.usesTemple(gp.currentMap)) {
             for (int layer=0; layer<templeLayers.length; layer++) {
                 int x=-80-gp.player.worldX*(layer+1)/55, y=-48-gp.player.worldY*(layer+1)/55;
                 target.drawImage(templeLayers[layer],x,y,null);

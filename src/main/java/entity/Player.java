@@ -220,7 +220,7 @@ extends Entity {
         } else if (keyH.spacePressed) {
             guarding = true;
             guardCounter++;
-        } else if (gp.currentMap == main.Temple.MAP && gp.temple.pulled()) {
+        } else if (main.Temple.usesTemple(gp.currentMap) && gp.temple.pulled()) {
             if (keyH.upPressed) direction = "up";
             else if (keyH.downPressed) direction = "down";
             else if (keyH.leftPressed) direction = "left";
@@ -239,7 +239,7 @@ extends Entity {
         life = Math.min(life, maxLife);
         water = Math.min(water, maxWater);
         if (!keyH.godModeOn && life <= 0) {
-            if (gp.currentMap==main.Temple.MAP) gp.temple.resetCombat();
+            if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
             gp.stopMusic();
             gp.gameState = gp.gameOverState;
             gp.ui.commandNum = -1;
@@ -347,7 +347,7 @@ extends Entity {
     public void interactNPC(int i) {
         if (i != 999) {
             if (this.gp.keyH.enterPressed) {
-                if (gp.currentMap==main.Temple.MAP && gp.npc[gp.currentMap][i] instanceof NPC_BigRock) return;
+                if (main.Temple.usesTemple(gp.currentMap) && gp.npc[gp.currentMap][i] instanceof NPC_BigRock) return;
                 this.attackCanceled = true;
                 this.gp.npc[this.gp.currentMap][i].speak();
             }
@@ -356,7 +356,7 @@ extends Entity {
     }
 
     public void contactMonster(int i) {
-        if (i!=999 && gp.currentMap==main.Temple.MAP &&
+        if (i!=999 && main.Temple.usesTemple(gp.currentMap) &&
             (gp.monster[gp.currentMap][i] instanceof monster.MON_Flower ||
              gp.monster[gp.currentMap][i] instanceof monster.MON_Secret)) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) return;

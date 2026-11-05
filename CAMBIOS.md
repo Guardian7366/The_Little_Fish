@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Galerías del templo — 4 de noviembre de 2026, entrega aprobada
+
+- El mapa 9 amplía el templo entre la séptima zona y el jefe. Reutiliza sus tres capas, iluminación, Planta y Fishtella en cámaras separadas.
+- Velo, Fauce y Centinela ocupan nichos con inscripciones opcionales de D. Tres parejas de roca y placa controlan el nuevo portón, con un carril que cambia de dirección.
+- Se comprobaron las seis órdenes, el guardado en el giro y la migración de partidas de b9d1104. El usuario probó la zona, confirmó que cumple los requisitos y aprobó su publicación. [Informe y capturas](OCTAVA-ZONA.md)
+
 ## Templo sumergido en el mapa 4 — 4 de noviembre de 2026, entrega aprobada
 
 - Planta aparece sola antes de los encuentros con Fishtella. Su liana se corta con el golpe normal y usa colisiones para el tirón.
@@ -152,4 +158,4 @@ Se añadieron 71 PNG de séptima zona. Incluyen 16 archivos de Planta, 26 de Sec
 
 ## 2026-11-04 · Encargo de la octava zona
 
-Añadidas tres estatuas PNG transparentes de 32 × 48, su vista conjunta, el inventario y las instrucciones de integración. Se comprobaron formato, dimensiones y transparencia. El mapa jugable queda pendiente.
+Añadidas tres estatuas PNG transparentes de 32 × 48, su vista conjunta, el inventario y las instrucciones de integración. Se comprobaron formato, dimensiones y transparencia. La integración jugable de este paquete se documenta en [OCTAVA-ZONA.md](OCTAVA-ZONA.md).

@@ -76,12 +76,12 @@ public final class StoryRegression {
         saveDirectory = Files.createTempDirectory(Path.of("build", "story-fixtures"), "run-");
         gp = new QuietPanel();
         gp.setupGame();
-        check("expanded world populations and eight playable maps", () -> {
-            equal(9, gp.tileM.loadedMapCount(), "maps");
-            equal(94, count(gp.monster), "enemies including God Fish");
-            equal(17, count(gp.npc), "NPC placements including TV and rocks");
-            equal(12, count(gp.obj), "objects");
-            equal(31, count(gp.iTile), "interactive tiles");
+        check("expanded world populations and ten playable maps", () -> {
+            equal(10, gp.tileM.loadedMapCount(), "maps");
+            equal(105, count(gp.monster), "enemies including God Fish");
+            equal(20, count(gp.npc), "NPC placements including TV and rocks");
+            equal(13, count(gp.obj), "objects");
+            equal(34, count(gp.iTile), "interactive tiles");
         });
         // Source map, trigger tile, destination map/tile/area. The main route and every side-room return.
         int[][] routes = {
@@ -157,7 +157,7 @@ public final class StoryRegression {
                     spoken++;
                 }
             }
-            equal(17, spoken, "every placed NPC checked");
+            equal(20, spoken, "every placed NPC checked");
         });
         check("eight reward chests retain their original loot and open once", () -> {
             int chests = 0;
@@ -289,7 +289,7 @@ public final class StoryRegression {
             gp.resetGame(true);
             equal(1, gp.player.level, "new game resets progression");
             truth(!Progress.GodFishDefeated, "new game resets boss victory");
-            equal(94, count(gp.monster), "new game restores current population");
+            equal(105, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
         check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);
