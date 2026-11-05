@@ -143,11 +143,7 @@ public class AssetSetter {
         this.gp.npc[mapNum][++i] = new NPC_Handy(this.gp);
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
         this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 10;
-        mapNum = 6;
-        this.gp.npc[mapNum][++i] = new NPC_TV(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 26;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 40;
-        ++i;
+        gp.npc[Market.MAP][Market.TV_SLOT] = Market.placeTV(new NPC_TV(gp), gp.tileSize);
     }
 
     public void setMonster() {

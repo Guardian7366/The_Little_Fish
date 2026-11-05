@@ -62,4 +62,4 @@ Handy e Ic están integrados en el mapa 5. La revisión 3 del guardado conserva 
 
 ## Mercado antes del jefe
 
-Tras las ocho salas extras, integrar un mercado de TV entre octava y el jefe. Añadir compra y venta con interfaz propia, conservar la mochila habitual y probar el nuevo mapa y los guardados. [Encargo](design/mercado-tv/TAREA-CODEX.md).
+El mercado está completado en el mapa 10, con compra y venta CRT y migración de partidas comprobada. El usuario probó el mercado y a TV y aprobó la entrega para publicación. [Encargo](design/mercado-tv/TAREA-CODEX.md).

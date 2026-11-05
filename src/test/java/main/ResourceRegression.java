@@ -45,7 +45,7 @@ public final class ResourceRegression {
         try (var files = Files.walk(assets)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".png")).toList()) {
                 String resource = "/" + assets.relativize(file).toString().replace('\\', '/');
-                if(resource.startsWith("/quinta/") || resource.startsWith("/sexta/") || resource.startsWith("/septima/") || resource.startsWith("/octava/") || resource.startsWith("/refugios/")) continue; // Native candidate art has its own manifest/hash suite.
+                if(resource.startsWith("/quinta/") || resource.startsWith("/sexta/") || resource.startsWith("/septima/") || resource.startsWith("/octava/") || resource.startsWith("/refugios/") || resource.startsWith("/mercado/")) continue; // Native candidate art has its own manifest/hash suite.
                 BufferedImage original = ImageIO.read(file.toFile());
                 int width = original.getWidth() * 3, height = original.getHeight() * 3;
                 BufferedImage reference = new UtilityTool().scaleImage(original, width, height);
@@ -61,7 +61,7 @@ public final class ResourceRegression {
     }
     private static void checkMaps(QuietPanel gp) {
         Map preview = gp.map;
-        check(gp.tileM.loadedMapCount() == 10, "Ten maps must be loaded");
+        check(gp.tileM.loadedMapCount() == 11, "Eleven maps must be loaded");
         check(preview.cachedPixelBytes() == 0, "Map constructor must not allocate previews");
         for (int map = 0; map < gp.maxMap; map++) {
             BufferedImage image = preview.getWorldMap(map);
@@ -69,7 +69,7 @@ public final class ResourceRegression {
             check(image == preview.getWorldMap(map), "Preview must be cached");
         }
         check(preview.getWorldMap(gp.maxMap) == null, "Invalid map must not allocate a preview");
-        check(preview.cachedPixelBytes() == 10L * 800 * 800 * 4, "Unexpected map cache size");
+        check(preview.cachedPixelBytes() == 11L * 800 * 800 * 4, "Unexpected map cache size");
         long allMaps = preview.cachedPixelBytes();
         gp.currentMap = 2;
         BufferedImage before = preview.getWorldMap(2);
@@ -105,8 +105,8 @@ public final class ResourceRegression {
                     for (int x = 0; x < 50; x++) for (int y = 0; y < 50; y++) {
                         int id = gp.tileM.mapTileNum[map][x][y];
                         reference.drawImage(gp.tileM.tile[id].image,
-                                x * 48 - gp.player.worldX + gp.player.screenX,
-                                y * 48 - gp.player.worldY + gp.player.screenY, null);
+                                x * 48 - gp.cameraX(),
+                                y * 48 - gp.cameraY(), null);
                     }
                     gp.tileM.draw(rendered);
                 } finally { reference.dispose(); rendered.dispose(); }

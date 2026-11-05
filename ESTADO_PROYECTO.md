@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. El alcance de la siguiente entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -87,6 +87,10 @@ Entrega sobre e982c07 con los 43 PNG del paquete. Pump conserva la poción de +5
 
 Entrega sobre fe9f548 con los 37 PNG del paquete. Handy conserva Iron y usa dos cerrojos de Rocky. Ic conserva la segunda arma y usa dos marcas en una red de hielo. Se comprobaron 69 paradas, incluidas 44 contra paredes, y ocho guardados históricos. Pasaron las 30 suites. El usuario probó las dos salas y sus NPC, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-7-8.md)
 
-## Preparación del mercado de TV
+## TV Supply · Mercado aprobado
 
-Base revisada 3067a6d, Handy e Ic aprobados. Se prepararon 32 PNG y cuatro vistas para el mercado previo al jefe, con interfaz CRT, sprites de TV y catálogo de tres consumibles. La integración, la migración a once mapas y las pruebas jugables quedan pendientes. [Encargo y arte](design/mercado-tv/TAREA-CODEX.md).
+Sobre `92fd83c`, el mapa interno 10 conecta la octava con la arena. TV atiende en el mostrador y la esmeralda permite descansar y guardar en el mercado. El CRT usa la mochila real para vender, confirma cada unidad y protege equipo puesto y recompensas únicas. Red Poti, Strong Potion y Water Tonic cuestan 4, 9 y 5 monedas respectivamente.
+
+`./build.ps1 -Test` pasó las 32 suites. Se cargaron cuatro partidas generadas con las fuentes de `92fd83c` y aisladas bajo `build/`. Cubren octava resuelta y arena antes, durante y después del combate. La importación `save.dat` se probó con una muestra del formato original de diez filas. La comprobación adicional con el ejecutable histórico `MyGame.jar` quedó omitida por falta de ese archivo. Se comprobaron los 32 PNG contra los bytes, dimensiones y transparencia del manifiesto. El registro está en `build/mercado-verification.txt` y las seis capturas en `build/mercado-preview/`.
+
+El usuario probó el mercado y a TV, confirmó que funcionan correctamente y autorizó publicar la implementación. El ejecutable de prueba se genera en `build/TheLittleFish.jar`. [Encargo y arte](design/mercado-tv/TAREA-CODEX.md)

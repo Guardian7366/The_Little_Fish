@@ -128,7 +128,7 @@ public class UI {
             this.drawTransition();
         }
         if (this.gp.gameState == this.gp.tradeState) {
-            this.drawTradeScreen();
+            gp.shop.draw(g2);
         }
         if (this.gp.gameState == this.gp.sleepState) {
             this.drawSleepScreen();
@@ -658,111 +658,6 @@ public class UI {
     public void drawTransition() {
         this.g2.setColor(new Color(0, 0, 0, Math.min(255, this.counter * 5)));
         this.g2.fillRect(0, 0, this.gp.screenWidht, this.gp.screenHeight);
-    }
-
-    public void drawTradeScreen() {
-        switch (this.subState) {
-            case 0: {
-                this.trade_select();
-                break;
-            }
-            case 1: {
-                this.trade_buy();
-                break;
-            }
-            case 2: {
-                this.trade_sell();
-            }
-        }
-    }
-
-    public void trade_select() {
-        this.drawDialogueScreen();
-        int x = this.gp.tileSize * 15;
-        int y = this.gp.tileSize * 4;
-        int width = this.gp.tileSize * 3;
-        int height = (int)((double)this.gp.tileSize * 3.5);
-        this.drawSubWindow(x, y, width, height);
-        this.g2.drawString("Buy", x += this.gp.tileSize, y += this.gp.tileSize);
-        if (this.commandNum == 0) {
-            this.g2.drawString(">", x - 24, y);
-
-        }
-        this.g2.drawString("Sell", x, y += this.gp.tileSize);
-        if (this.commandNum == 1) {
-            this.g2.drawString(">", x - 24, y);
-
-        }
-        this.g2.drawString("Leave", x, y += this.gp.tileSize);
-        if (this.commandNum == 2) {
-            this.g2.drawString(">", x - 24, y);
-
-        }
-    }
-
-    public void trade_buy() {
-        this.drawInventory(this.gp.player, false);
-        this.drawInventory(this.npc, true);
-        this.g2.setFont(this.kong.deriveFont(1, 15.0f));
-        int x = this.gp.tileSize * 2;
-        int y = this.gp.tileSize * 9;
-        int width = this.gp.tileSize * 6;
-        int height = this.gp.tileSize * 2;
-        this.drawSubWindow(x, y, width, height);
-        this.g2.drawString("[ESC] Back", x + 24, y + 60);
-        x = this.gp.tileSize * 12;
-        y = this.gp.tileSize * 9;
-        width = this.gp.tileSize * 6;
-        height = this.gp.tileSize * 2;
-        this.drawSubWindow(x, y, width, height);
-        this.g2.drawString("Your coins: " + this.gp.player.coin, x + 24, y + 60);
-        int itemIndex = this.getItemIndexOnSlot(this.npcSlotCol, this.npcSlotRow);
-        this.g2.setFont(this.purisaB.deriveFont(1, 29.0f));
-        if (itemIndex < this.npc.inventory.size()) {
-            x = (int)((double)this.gp.tileSize * 5.5);
-            y = (int)((double)this.gp.tileSize * 5.5);
-            width = (int)((double)this.gp.tileSize * 2.5);
-            height = this.gp.tileSize;
-            this.drawSubWindow(x, y, width, height);
-            this.g2.drawImage(this.coin, x + 10, y + 8, 32, 32, null);
-            int price = this.npc.inventory.get((int)itemIndex).price;
-            String text = "" + price;
-            x = this.getXforAligntToRightText(text, this.gp.tileSize * 8 - 20);
-            this.g2.drawString(text, x, y + 34);
-
-        }
-    }
-
-    public void trade_sell() {
-        this.drawInventory(this.gp.player, true);
-        this.g2.setFont(this.kong.deriveFont(1, 15.0f));
-        int x = this.gp.tileSize * 2;
-        int y = this.gp.tileSize * 9;
-        int width = this.gp.tileSize * 6;
-        int height = this.gp.tileSize * 2;
-        this.drawSubWindow(x, y, width, height);
-        this.g2.drawString("[ESC] Back", x + 24, y + 60);
-        x = this.gp.tileSize * 12;
-        y = this.gp.tileSize * 9;
-        width = this.gp.tileSize * 6;
-        height = this.gp.tileSize * 2;
-        this.drawSubWindow(x, y, width, height);
-        this.g2.drawString("Your coins: " + this.gp.player.coin, x + 24, y + 60);
-        int itemIndex = this.getItemIndexOnSlot(this.playerSlotCol, this.playerSlotRow);
-        this.g2.setFont(this.purisaB.deriveFont(1, 29.0f));
-        if (itemIndex < this.gp.player.inventory.size()) {
-            x = (int)((double)this.gp.tileSize * 15.5);
-            y = (int)((double)this.gp.tileSize * 5.5);
-            width = (int)((double)this.gp.tileSize * 2.5);
-            height = this.gp.tileSize;
-            this.drawSubWindow(x, y, width, height);
-            this.g2.drawImage(this.coin, x + 10, y + 8, 32, 32, null);
-            int price = ((Entity)this.gp.player.inventory.get((int)itemIndex)).price / 2;
-            String text = "" + price;
-            x = this.getXforAligntToRightText(text, this.gp.tileSize * 18 - 20);
-            this.g2.drawString(text, x, y + 34);
-
-        }
     }
 
     public void drawSleepScreen() {

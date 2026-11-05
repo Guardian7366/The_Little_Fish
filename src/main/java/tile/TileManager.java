@@ -18,7 +18,7 @@ public class TileManager {
     private static final AlphaComposite SHALLOW_WATER = AlphaComposite.SrcOver.derive(0.78f);
     private static final String[] INITIAL_MAPS = {
         "/maps/stage1.txt", "/maps/stage2.txt", "/maps/stage3.txt", "/maps/stage4.txt",
-        "/maps/temple.txt", "/maps/extraRefugios.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt"
+        "/maps/temple.txt", "/maps/extraRefugios.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt", "/maps/market.txt"
     };
     private final GamePanel gp;
     public Tile[] tile;
@@ -78,6 +78,12 @@ public class TileManager {
         for (String tile : new String[]{"ice-0","ice-1","rough-stop","mark-0-0","mark-0-1","mark-1-0","mark-1-1","frost-wall"}) {
             fileNames.add("/refugios/ic/"+tile+".png");
             collisionStatus.add(tile.equals("frost-wall"));
+        }
+        String[] marketTiles = {"floor-0", "floor-1", "wall", "wall-trim", "pillar", "runner", "arch-return", "arch-forward"};
+        if (fileNames.size() != main.Market.FIRST_TILE) throw new IllegalStateException("Unexpected market tile offset");
+        for (int i=0; i<marketTiles.length; i++) {
+            fileNames.add("/mercado/tiles/" + marketTiles[i] + ".png");
+            collisionStatus.add(i >= 2 && i <= 4);
         }
         tile = new Tile[fileNames.size()];
         getTileImage();
@@ -197,7 +203,7 @@ public class TileManager {
 
     public void drawLayered(Graphics2D graphics) {
         Graphics2D layer = (Graphics2D) graphics.create();
-        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || main.Temple.usesTemple(gp.currentMap) || main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap == main.FourthZone.MAP);
+        drawTerrain(layer, gp.currentMap == main.Market.MAP || gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || main.Temple.usesTemple(gp.currentMap) || main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap == main.FourthZone.MAP);
         layer.dispose();
     }
 

@@ -110,6 +110,7 @@ public class Lighting {
     }
 
     public void draw(Graphics2D g2) {
+        if (gp.currentMap == main.Market.MAP) return;
         if(main.SixthZone.usesAbyss(gp.currentMap) || main.Temple.usesTemple(gp.currentMap)) {fifth.draw(g2);return;}
         if (this.gp.currentArea == this.gp.outside) {
             g2.setComposite(AlphaComposite.getInstance(3, this.filterAlpha));

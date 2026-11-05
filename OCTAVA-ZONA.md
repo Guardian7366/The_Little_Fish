@@ -4,7 +4,7 @@ Implementación sobre b9d1104. El 4 de noviembre de 2026, el usuario confirmó t
 
 ## Recorrido y encuentros
 
-Tras resolver las cuatro parejas de séptima, su salida en (24,5) lleva al mapa 9 en (24,43). El retorno en (24,45) deja al jugador en (24,6) de séptima, fuera del activador. El descanso en (22,41) recupera vida y agua y guarda la partida. El portón en (24,6) protege el único paso al activador (24,5), que lleva a la posición original del jefe, (24,44) del mapa 6.
+Tras resolver las cuatro parejas de séptima, su salida en (24,5) lleva al mapa 9 en (24,43). El retorno en (24,45) deja al jugador en (24,6) de séptima, fuera del activador. El descanso en (22,41) recupera vida y agua y guarda la partida. El portón en (24,6) protege el único paso al activador (24,5), que lleva al mercado de TV del mapa 10. Desde allí se alcanza la llegada original a la arena, (24,44) del mapa 6. El regreso desde el mercado deja al jugador en la casilla del portón abierto, fuera del activador de ida. Una partida antigua que llegue desde la arena con el portón aún cerrado retorna al sur de ese portón.
 
 Se mantuvieron siete Plantas y cuatro Fishtellas. Las casillas son columna y fila desde cero. Se comprobaron los avisos en estos puntos del recorrido.
 

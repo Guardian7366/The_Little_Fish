@@ -28,6 +28,8 @@ public final class EntityGenerator {
         register("lantern", "Lantern", OBJ_Lantern.class, OBJ_Lantern::new);
         register("key", "Key", OBJ_Key.class, OBJ_Key::new);
         register("red-potion", "Red Poti", OBJ_HealHP.class, OBJ_HealHP::new);
+        register("strong-potion", "Strong Potion", OBJ_StrongPotion.class, OBJ_StrongPotion::new);
+        register("water-tonic", "Water Tonic", OBJ_WaterTonic.class, OBJ_WaterTonic::new);
         register("toxic-bubble", "Toxic Bubble", OBJ_Second_Weapon.class, OBJ_Second_Weapon::new);
         register("super-shield", "Super Bubble", OBJ_Super_Shield.class, OBJ_Super_Shield::new);
         register("normal-bubble", "Normal buuble", OBJ_Weapon_Normal.class, OBJ_Weapon_Normal::new);

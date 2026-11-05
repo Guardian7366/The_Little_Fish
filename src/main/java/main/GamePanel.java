@@ -53,7 +53,9 @@ implements Runnable {
     Color testing = new Color(0, 0, 139);
     public int maxWorldCol;
     public int maxWorldRow;
-    public final int maxMap = 10;
+    public final int maxMap = 11;
+    public final Market market = new Market(this);
+    public final MarketShop shop = new MarketShop(this);
     public final ExtraRooms extraRooms = new ExtraRooms(this);
     public final Temple temple = new Temple(this);
     public int currentMap = 0;
@@ -84,11 +86,11 @@ implements Runnable {
     private final Object frameLock = new Object();
     public final GameFlowController flow = new GameFlowController(this);
     public Player player = new Player(this, this.keyH);
-    public Entity[][] obj = new Entity[10][30];
-    public Entity[][] npc = new Entity[10][40];
-    public Entity[][] monster = new Entity[10][100];
-    public InteractiveTile[][] iTile = new InteractiveTile[10][50];
-    public Entity[][] projectile = new Entity[10][50];
+    public Entity[][] obj = new Entity[maxMap][30];
+    public Entity[][] npc = new Entity[maxMap][40];
+    public Entity[][] monster = new Entity[maxMap][100];
+    public InteractiveTile[][] iTile = new InteractiveTile[maxMap][50];
+    public Entity[][] projectile = new Entity[maxMap][50];
     public ArrayList<Entity> particleList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
     public int gameState;
@@ -289,11 +291,13 @@ implements Runnable {
     }
 
     public int cameraX() {
+        if (currentMap == Market.MAP) return market.cameraX();
         var room=extraRooms.active();
         return room==null ? player.worldX-player.screenX : extraRooms.cameraX(room);
     }
 
     public int cameraY() {
+        if (currentMap == Market.MAP) return market.cameraY();
         var room=extraRooms.active();
         return room==null ? player.worldY-player.screenY : extraRooms.cameraY(room);
     }
@@ -312,6 +316,7 @@ implements Runnable {
         } else {
             var room=extraRooms.active();
             if (currentMap==ExtraRooms.MAP) extraRooms.background(g2,room);
+            else if (currentMap==Market.MAP) market.drawBackground(g2);
             else this.ocean.drawBackground(this.g2, this);
             var previousClip=g2.getClip();
             if (room!=null) {
@@ -320,6 +325,7 @@ implements Runnable {
             }
             this.tileM.drawLayered(this.g2);
             extraRooms.details(g2,room);
+            if (currentMap==Market.MAP) market.drawStalls(g2);
             int i = 0;
             while (i < this.iTile[1].length) {
                 if (extraRooms.visible(this.iTile[this.currentMap][i])) {
@@ -381,8 +387,10 @@ implements Runnable {
             }
             this.entityList.clear();
             g2.setClip(previousClip);
-            if (currentMap!=ExtraRooms.MAP) this.ocean.drawForeground(this.g2, this);
+            if (currentMap==Market.MAP) market.drawCounter(g2);
+            else if (currentMap!=ExtraRooms.MAP) this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
+            market.drawPrompt(g2);
             extraRooms.later.drawNotice(g2);
             extraRooms.ending.drawNotice(g2);
             if (currentMap == SixthZone.MAP || Temple.usesTemple(currentMap)) {
@@ -480,7 +488,7 @@ implements Runnable {
 
     public void removeTempEntity() {
         int mapNum = 0;
-        while (mapNum < 10) {
+        while (mapNum < maxMap) {
             int i = 0;
             while (i < this.obj[1].length) {
                 if (this.obj[mapNum][i] != null && this.obj[mapNum][i].temp) {

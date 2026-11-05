@@ -1,5 +1,12 @@
 # Historial de cambios
 
+## TV Supply — 5 de noviembre de 2026, entrega aprobada
+
+- Mercado seguro en el mapa 10, con TV trasladada desde la arena, mostrador sólido, esmeralda y retornos señalizados.
+- Compra y venta mediante CRT con confirmación por unidad. Se protege el equipo activo y los objetos únicos. Se añaden Strong Potion y Water Tonic al catálogo de Red Poti.
+- Migración de diez a once mapas con una sola TV. Las partidas de arena conservan posición, combate y desenlace. Pasaron 32 suites, incluidas cuatro partidas de `92fd83c`. El usuario probó el mercado y a TV, confirmó que funcionan correctamente y autorizó publicar la entrega.
+
+
 ## Handy e Ic — 5 de noviembre de 2026, entrega aprobada
 
 - Handy conserva el cofre de Iron. Dos cerrojos requieren dos golpes de Rocky cada uno. El centinela puede esquivarse o derrotarse.

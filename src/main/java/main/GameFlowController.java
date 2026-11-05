@@ -15,7 +15,7 @@ public final class GameFlowController {
             case 3 -> updateDialogue();
             case 5 -> updateOptions();
             case 7 -> updateTransition();
-            case 8 -> updateTrade();
+            case 8 -> gp.shop.update();
             case 9 -> updateSleep();
             default -> { }
         }
@@ -96,42 +96,6 @@ public final class GameFlowController {
         gp.changeArea();
         gp.prepareAreaLighting();
         gp.gameState = gp.playState;
-    }
-
-    private void updateTrade() {
-        if (ui.npc == null) return;
-        if (ui.subState == 0) { ui.npc.dialogueSet = 0; updateDialogue(); }
-        if (!gp.keyH.enterPressed) return;
-        gp.keyH.enterPressed = false;
-        if (ui.subState == 0) {
-            if (ui.commandNum == 0) ui.subState = 1;
-            else if (ui.commandNum == 1) ui.subState = 2;
-            else { ui.commandNum = 0; resetDialogue(); ui.npc.startDialogue(ui.npc, 1); }
-        } else if (ui.subState == 1) {
-            int index = ui.getItemIndexOnSlot(ui.npcSlotCol, ui.npcSlotRow);
-            if (index >= ui.npc.inventory.size()) return;
-            Entity item = ui.npc.inventory.get(index);
-            if (item.price > gp.player.coin) tradeError(2);
-            else if (gp.player.canObtainItem(item)) gp.player.coin -= item.price;
-            else tradeError(3);
-        } else if (ui.subState == 2) {
-            int index = ui.getItemIndexOnSlot(ui.playerSlotCol, ui.playerSlotRow);
-            if (index >= gp.player.inventory.size()) return;
-            Entity item = gp.player.inventory.get(index);
-            if (item == gp.player.currentWeapon || item == gp.player.currentShield || item == gp.player.currentLight) {
-                ui.commandNum = 0; tradeError(4);
-            } else {
-                if (item.amount > 1) item.amount--;
-                else gp.player.inventory.remove(index);
-                gp.player.coin += item.price / 2;
-            }
-        }
-    }
-
-    private void tradeError(int dialogue) {
-        ui.subState = 0;
-        resetDialogue();
-        ui.npc.startDialogue(ui.npc, dialogue);
     }
 
     public void resetDialogue() {

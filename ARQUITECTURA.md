@@ -19,7 +19,8 @@ El juego sigue utilizando Java Swing y Java2D. La reconstrucción inicial compil
 | `main.Main` | Crea la ventana en el hilo de Swing y conecta el cierre con la liberación de recursos |
 | `main.GamePanel` | Coordina el mundo y la cadencia de actualización; solicita el repintado |
 | `main.KeyHandler` | Recibe entradas y las entrega a la simulación mediante una cola cuando el juego está en marcha |
-| `main.GameFlowController` | Avanza diálogos, comercio, opciones, sueño y cambios de zona una vez por actualización |
+| `main.GameFlowController` | Avanza diálogos, animación de tienda, opciones, sueño y cambios de zona una vez por actualización |
+| `main.MarketShop` | Procesa las confirmaciones CRT por unidad sobre el catálogo y la mochila real, y dibuja la tienda |
 | `main.UI` | Dibuja la interfaz sin ejecutar compras, transiciones ni avance de diálogos |
 | `main.CutsceneManager` | Mantiene las secuencias originales y separa su avance de su dibujo |
 | `entity.Player`, `Entity`, `Projectile` | Movimiento, combate, equipo y estados de entidades; los temporizadores visuales avanzan durante la actualización |
@@ -54,6 +55,8 @@ Agregar un tipo de objeto requiere registrarlo; agregar una nueva entidad persis
 La quinta añade `fifthZoneRevision` compatible con su ausencia en archivos anteriores, manteniendo UID y esquema 1. Su migración conserva los slots retenidos y escombros, retira los obsoletos y agrega los metales nuevos con slots distintos. Sharky reanuda sin una embestida pendiente y con espera inicial; cambiar de área sigue repoblando enemigos. Los fixtures se pueden generar desde las fuentes de `ca4b3ad` con `tools/verify_fifth_baseline.ps1`.
 
 La revisión 2 añade una barrera física en slots 21–22 y adapta también los archivos de la primera quinta local, sin cambiar el evento de salida: reubica posiciones afectadas por el nuevo cuello y conserva el paso superado por partidas ya en mapas posteriores. Los detalles de recuperación del cofre de Iron y las pruebas de compatibilidad están en QUINTA-ZONA. Los escombros de la revisión 2 se cargan tal cual; no se recrea el metal al cambiar de área.
+
+La revisión `marketRevision` conserva los IDs 0–9 y añade el mapa 10. Antes de preparar las entidades, los snapshots de diez filas reciben una fila nueva por categoría. La migración traslada el NPC `npc:tv` al mostrador y conserva ubicación y progreso del jugador. Los consumibles nuevos usan `strong-potion` y `water-tonic`. La confirmación CRT es transitoria y se cancela al perder el foco.
 
 ## Límites que siguen presentes
 

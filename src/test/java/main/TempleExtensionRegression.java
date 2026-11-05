@@ -50,7 +50,8 @@ public final class TempleExtensionRegression {
         FifthZoneRegression.portal(gp,MAP,24,45,4);
         check(gp.player.worldY==6*48 && gp.temple.solved(),"return south of the seventh gate");
         FifthZoneRegression.portal(gp,4,24,5,MAP);
-        FifthZoneRegression.portal(gp,MAP,24,5,6);
+        FifthZoneRegression.portal(gp,MAP,24,5,Market.MAP);
+        FifthZoneRegression.portal(gp,Market.MAP,24,19,6);
         check(gp.player.worldY==44*48,"original boss arrival");
         gp.resetGame(false);
         check(solved(gp.npc,gp.iTile) && gp.obj[MAP][0]==null,"retry retains resolved extension");

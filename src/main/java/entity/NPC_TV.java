@@ -1,51 +1,37 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package entity;
 
-import entity.Entity;
 import main.GamePanel;
-import object.OBJ_HealHP;
+import main.Market;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-public class NPC_TV
-extends Entity {
+public class NPC_TV extends Entity {
+    private static final BufferedImage DIM = Market.image("tv/idle-dim");
+    private static final BufferedImage LIT = Market.image("tv/idle-lit");
+    private static final BufferedImage BLINK = Market.image("tv/blink");
+    private static final BufferedImage SALE = Market.image("tv/sale");
+    private int frame;
+
     public NPC_TV(GamePanel gp) {
         super(gp);
-        this.direction = "down";
-        this.speed = 0;
-        this.getImage();
-        this.setDialogue();
-        this.setItems();
+        direction = "down";
+        down = up = left = right = DIM;
+        down2 = up2 = left2 = right2 = LIT;
     }
 
-    public void getImage() {
-        this.left = this.setup("/npc/TV", this.gp.tileSize, this.gp.tileSize);
-        this.left2 = this.setup("/npc/TV2", this.gp.tileSize, this.gp.tileSize);
-        this.right = this.setup("/npc/TV", this.gp.tileSize, this.gp.tileSize);
-        this.right2 = this.setup("/npc/TV2", this.gp.tileSize, this.gp.tileSize);
-        this.up = this.setup("/npc/TV", this.gp.tileSize, this.gp.tileSize);
-        this.up2 = this.setup("/npc/TV2", this.gp.tileSize, this.gp.tileSize);
-        this.down = this.setup("/npc/TV", this.gp.tileSize, this.gp.tileSize);
-        this.down2 = this.setup("/npc/TV2", this.gp.tileSize, this.gp.tileSize);
+    @Override public void update() { frame = (frame + 1) % 160; }
+
+    public static BufferedImage portrait(int frame, boolean sale) {
+        if (sale) return SALE;
+        if (frame >= 150) return BLINK;
+        return frame < 72 ? DIM : LIT;
     }
 
-    public void setDialogue() {
-        this.dialogues[0][0] = "Hello, im a TV!! \nNeed something D?";
-        this.dialogues[1][0] = "See you, D";
-        this.dialogues[2][0] = "You need more coins";
-        this.dialogues[3][0] = "You need more space";
-        this.dialogues[4][0] = "You cannot sell an equipped item :c";
+    @Override public void draw(Graphics2D g) {
+        g.drawImage(portrait(frame, false), getScreenX() - 24, getScreenY() - 42, 96, 96, null);
     }
 
-    public void setItems() {
-        this.inventory.add(new OBJ_HealHP(this.gp));
-    }
-
-    @Override
-    public void speak() {
-        this.facePlayer();
-        this.gp.gameState = this.gp.tradeState;
-        this.gp.ui.npc = this;
+    @Override public void speak() {
+        if (gp.currentMap == Market.MAP && gp.gameState == gp.playState) gp.shop.open();
     }
 }
-

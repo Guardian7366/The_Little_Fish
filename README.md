@@ -25,10 +25,11 @@ ChatGPT puede consultar la versión publicada en GitHub. Los cambios locales est
 - [Tercera zona](TERCERA-ZONA.md): progresión con Rocky, territorios de Picarones, Enfadillos estacionarios y ambientación profunda con ajuste visual aprobado.
 - [Nueva cuarta zona](CUARTA-ZONA.md): profundidades con ocho Picarones, pasos de Rocky, atajos y tres secretos. Conecta la tercera con la antigua cuarta, ahora quinta en el recorrido. Usa el mapa interno 7 y conserva los IDs anteriores 0–6.
 - [Quinta zona y Sharky](QUINTA-ZONA.md): mapa interno 3, seis Sharkys y tres Picarones, cámaras amplias, doce luces fijas y fondo abisal. El usuario aprobó Sharky, recorrido general y ambientación. La revisión 2 aprobada hace obligatorio utilizar Iron con dos bloques físicos en el corredor final y restaura las dos puertas adicionales al tile original 086.
+- Mercado de TV, completado y aprobado. Es una parada opcional antes del jefe con tienda CRT y punto de guardado. [Estado y pruebas](ESTADO_PROYECTO.md#tv-supply--mercado-aprobado)
 - [Menú marino](MENU-MARINO.md): GIF aprobado, proporciones conservadas y textos con mayor contraste.
 - [Audio](CORRECCION-AUDIO.md): solicitudes asíncronas para evitar que el juego espere al dispositivo.
 
-Se conservan los sprites y sonidos originales según los informes de las entregas previas. Hay mapas renovados y uno nuevo; la base ya supera los siete mapas jugables originales. La procedencia histórica se registra en [ORIGEN.json](ORIGEN.json).
+Se conservan los sprites y sonidos originales según los informes de las entregas previas. La base actual contiene once mapas internos, incluido el mercado de TV. La procedencia histórica se registra en [ORIGEN.json](ORIGEN.json).
 
 ## Jugar
 
@@ -67,6 +68,8 @@ Para experimentar el nuevo inicio con sus encuentros completos, elige NEW GAME e
 Al migrar desde la distribución anterior al rediseño de quinta (revisión 0), las partidas que estaban en mapa 3 se reubican en (25,23). Se conserva el progreso de enemigos retenidos, cofres, inventario y escombros, y se configuran las ubicaciones nuevas. Las partidas de otros mapas conservan su posición. Los estados transitorios de Sharky se reinician con espera de seguridad; cargar no escribe el archivo. Los slots retirados y los obstáculos nuevos se detallan en [QUINTA-ZONA.md](QUINTA-ZONA.md).
 
 La revisión 2 adapta también los guardados de la primera quinta local: reubica al jugador si quedó dentro del nuevo metal, sobre el suelo eliminado o detrás de la barrera; conserva el paso abierto si ya había avanzado a mapas 4/6. Si el cofre figuraba abierto sin Iron en el inventario, vuelve a ofrecerlo en ese mismo cofre. No se concede ni equipa automáticamente. La barrera destruida sigue abierta al cambiar de equipo, guardar/cargar o cambiar de área.
+
+La revisión del mercado amplía el mundo de diez a once mapas. Quien guardó en la arena carga en su posición original y conserva el estado del jefe.
 
 Para importar una partida antigua, **copia** su `save.dat` a una carpeta del juego que todavía no tenga `save-v1.dat` y selecciona cargar. El archivo antiguo permanece intacto. Al guardar en un punto de descanso se crea el formato nuevo. El formato antiguo no incluía posición ni todo el estado del mundo: se reanuda al inicio con atributos, inventario y objetos recuperables. No es posible recuperar información que nunca se guardó.
 

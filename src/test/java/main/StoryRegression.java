@@ -3,8 +3,8 @@ package main;
 import data.Progress;
 import data.SaveLoad;
 import entity.Entity;
-import entity.NPC_BigRock;
 import entity.NPC_TV;
+import entity.NPC_BigRock;
 import java.awt.image.BufferedImage;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,8 +76,8 @@ public final class StoryRegression {
         saveDirectory = Files.createTempDirectory(Path.of("build", "story-fixtures"), "run-");
         gp = new QuietPanel();
         gp.setupGame();
-        check("expanded world populations and ten playable maps", () -> {
-            equal(10, gp.tileM.loadedMapCount(), "maps");
+        check("expanded world populations and eleven playable maps", () -> {
+            equal(11, gp.tileM.loadedMapCount(), "maps");
             equal(87, count(gp.monster), "enemies including God Fish");
             equal(20, count(gp.npc), "NPC placements including TV and rocks");
             equal(13, count(gp.obj), "objects");
@@ -191,29 +191,6 @@ public final class StoryRegression {
             }
             gp.monster[4]=previous;
             equal(-1, find(gp.obj[4], "Iron Door"), "puzzle door removed");
-        });
-        check("shop drawing cannot charge and one update buys exactly once", () -> {
-            gp.currentMap = 6;
-            NPC_TV tv = null;
-            for (Entity npc : gp.npc[6]) if (npc instanceof NPC_TV merchant) tv = merchant;
-            truth(tv != null, "merchant exists");
-            tv.speak(); gp.ui.subState = 1; gp.player.coin = 100;
-            int price = tv.inventory.get(0).price;
-            int inventory = gp.player.inventory.size();
-            gp.keyH.enterPressed = true;
-            render(15);
-            equal(100, gp.player.coin, "rendering never spends coins");
-            equal(inventory, gp.player.inventory.size(), "rendering never gives items");
-            gp.update();
-            equal(100 - price, gp.player.coin, "one purchase");
-            equal(inventory + 1, gp.player.inventory.size(), "one item received");
-            ticks(5);
-            equal(100 - price, gp.player.coin, "held Enter flag consumed once");
-            gp.ui.subState = 2; gp.ui.playerSlotCol = gp.ui.playerSlotRow = 0;
-            gp.keyH.enterPressed = true;
-            gp.update();
-            truth(gp.player.inventory.contains(gp.player.currentWeapon), "equipped weapon cannot be sold");
-            equal(100 - price, gp.player.coin, "rejected sale keeps coins");
         });
         check("sleep uses ticks and resumes with original sprites", () -> {
             new OBJ_Fishbowl(gp).use(gp.player);

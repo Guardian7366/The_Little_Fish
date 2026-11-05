@@ -288,7 +288,7 @@ extends Entity {
         contactMonster(gp.cChecker.checkEntity(this, gp.monster));
         gp.cChecker.checkEntity(this, gp.iTile);
         gp.eHandler.checkEvent();
-        if (!collisionOn && !keyH.enterPressed) {
+        if (gp.gameState != gp.tradeState && !collisionOn && !keyH.enterPressed) {
             int oldX=worldX,oldY=worldY;
             moveInDirection(direction);
             gp.extraRooms.ending.walked(oldX,oldY,direction);
@@ -506,22 +506,22 @@ extends Entity {
     }
 
     public boolean canObtainItem(Entity item) {
-        boolean canObtain = false;
-        Entity newItem = this.gp.eGenerator.getObject(item.name);
-        if (newItem.stackable) {
-            int index = this.searchItemInInventory(newItem.name);
+        return obtainFreshItem(gp.eGenerator.getObject(item.name));
+    }
+
+    public boolean obtainFreshItem(Entity item) {
+        if (item.stackable) {
+            int index = searchItemInInventory(item.name);
             if (index != 999) {
-                ++((Entity)this.inventory.get((int)index)).amount;
-                canObtain = true;
-            } else if (this.inventory.size() < maxinventorySize) {
-                this.inventory.add(newItem);
-                canObtain = true;
+                Entity stack = inventory.get(index);
+                if (stack.amount == Integer.MAX_VALUE) return false;
+                stack.amount++;
+                return true;
             }
-        } else if (this.inventory.size() < maxinventorySize) {
-            this.inventory.add(newItem);
-            canObtain = true;
         }
-        return canObtain;
+        if (inventory.size() >= maxinventorySize) return false;
+        inventory.add(item);
+        return true;
     }
 
     @Override

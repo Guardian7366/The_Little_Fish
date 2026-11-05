@@ -62,6 +62,7 @@ public class EventHandler {
 
     public void checkEvent() {
         if (gp.extraRooms.interact()) return;
+        if (gp.market.interact()) return;
         if (gp.currentMap==TempleExtension.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
             for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++) {
                 var inscription = TempleExtension.INSCRIPTIONS[i];
@@ -177,7 +178,14 @@ public class EventHandler {
             } else if (this.hit(TempleExtension.MAP, 22, 41, "any")) {
                 this.healingPool(22, 41, gp.dialogueState);
             } else if (this.hit(TempleExtension.MAP, 24, 5, "any")) {
-                if (TempleExtension.solved(gp.npc,gp.iTile)) this.teleportMap(6, 24, 44, this.gp.dungeons);
+                if (TempleExtension.solved(gp.npc,gp.iTile)) this.teleportMap(Market.MAP, 24, 27, gp.indoor);
+            } else if (this.hit(Market.MAP, 24, 19, "any")) {
+                this.teleportMap(6, 24, 44, gp.dungeons);
+            } else if (this.hit(Market.MAP, 28, 27, "any")) {
+                this.healingPool(28, 27, gp.dialogueState);
+            } else if (this.hit(Market.MAP, 24, 29, "any")) {
+                int returnRow = TempleExtension.solved(gp.npc, gp.iTile) ? TempleExtension.GATE_Y : TempleExtension.GATE_Y + 1;
+                this.teleportMap(TempleExtension.MAP, 24, returnRow, gp.dungeons);
             } else if (this.hit(0, 28, 18, "any")) {
                 this.teleportMap(5, 10, 40, this.gp.indoor);
             } else if (this.hit(5, 9, 40, "any")) {

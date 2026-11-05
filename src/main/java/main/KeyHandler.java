@@ -28,7 +28,15 @@ implements KeyListener {
         else clearHeldKeys();
     }
 
+    private boolean enterHeld;
+
     private void clearHeldKeys() {
+        enterHeld = false;
+        gp.shop.cancelConfirmation();
+        clearPlayKeys();
+    }
+
+    void clearPlayKeys() {
         upPressed = downPressed = leftPressed = rightPressed = false;
         gp.extraRooms.ending.released(15);
         enterPressed = shotKeyPressed = spacePressed = false;
@@ -58,6 +66,10 @@ implements KeyListener {
     }
 
     private void handlePressed(int code) {
+        if (code == KeyEvent.VK_ENTER) {
+            if (enterHeld && gp.gameState == gp.tradeState) return;
+            enterHeld = true;
+        }
         if (this.gp.gameState == this.gp.titleState) {
             this.titleState(code);
         } else if (this.gp.gameState == this.gp.playState) {
@@ -76,7 +88,7 @@ implements KeyListener {
             } else if (this.gp.gameState == this.gp.gameOverState) {
                 this.gameOverState(code);
             } else if (this.gp.gameState == this.gp.tradeState) {
-                this.tradeState(code);
+                gp.shop.keyPressed(code);
             } else {
                 int n2 = this.gp.gameState;
                 this.gp.getClass();
@@ -304,40 +316,6 @@ implements KeyListener {
         }
     }
 
-    public void tradeState(int code) {
-        if (code == KeyEvent.VK_ENTER) {
-            this.enterPressed = true;
-        }
-        if (this.gp.ui.subState == 0) {
-            if (code == KeyEvent.VK_W) {
-                --this.gp.ui.commandNum;
-                if (this.gp.ui.commandNum < 0) {
-                    this.gp.ui.commandNum = 2;
-                }
-                this.gp.playSE(2);
-            }
-            if (code == KeyEvent.VK_S) {
-                ++this.gp.ui.commandNum;
-                if (this.gp.ui.commandNum > 2) {
-                    this.gp.ui.commandNum = 0;
-                }
-                this.gp.playSE(2);
-            }
-        }
-        if (this.gp.ui.subState == 1) {
-            this.npcInventory(code);
-            if (code == KeyEvent.VK_ESCAPE) {
-                this.gp.ui.subState = 0;
-            }
-        }
-        if (this.gp.ui.subState == 2) {
-            this.playerInventory(code);
-            if (code == KeyEvent.VK_ESCAPE) {
-                this.gp.ui.subState = 0;
-            }
-        }
-    }
-
     public void mapState(int code) {
         if (code == KeyEvent.VK_M) {
             this.gp.gameState = this.gp.playState;
@@ -363,25 +341,6 @@ implements KeyListener {
         }
     }
 
-    public void npcInventory(int code) {
-        if (code == KeyEvent.VK_W && this.gp.ui.npcSlotRow != 0) {
-            --this.gp.ui.npcSlotRow;
-            this.gp.playSE(2);
-        }
-        if (code == KeyEvent.VK_A && this.gp.ui.npcSlotCol != 0) {
-            --this.gp.ui.npcSlotCol;
-            this.gp.playSE(2);
-        }
-        if (code == KeyEvent.VK_S && this.gp.ui.npcSlotRow != 3) {
-            ++this.gp.ui.npcSlotRow;
-            this.gp.playSE(2);
-        }
-        if (code == KeyEvent.VK_D && this.gp.ui.npcSlotCol != 4) {
-            ++this.gp.ui.npcSlotCol;
-            this.gp.playSE(2);
-        }
-    }
-
     @Override
     public void keyReleased(KeyEvent e) {
         if (gp.gameThread != null) pending.add(new Input(e.getKeyCode(), false));
@@ -389,6 +348,7 @@ implements KeyListener {
     }
 
     private void handleReleased(int code) {
+        if (code == KeyEvent.VK_ENTER) enterHeld = false;
         if (code == KeyEvent.VK_W) {
             this.upPressed = false;
             gp.extraRooms.ending.released(1);

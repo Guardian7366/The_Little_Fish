@@ -5,6 +5,7 @@ import data.SaveSnapshot.Item;
 import data.SaveSnapshot.World;
 import entity.Entity;
 import entity.NPC_BigRock;
+import entity.NPC_TV;
 import entity.Player;
 import entity.PlayerDummy;
 import java.io.*;
@@ -22,6 +23,8 @@ import main.SecondZone;
 import main.ThirdZone;
 import main.FourthZone;
 import main.FifthZone;
+import main.Market;
+import main.Temple;
 import monster.MON_GodFish;
 import object.OBJ_Chest;
 import tile_interactive.IT_MetalPlate;
@@ -32,6 +35,7 @@ import tile_interactive.InteractiveTile;
  * Versioned files coexist with the original save.dat, which is only ever read.
  */
 public final class SaveLoad {
+    private static final int PRE_MARKET_MAPS = 10, MARKET_REVISION = 1;
     private final GamePanel gp;
     private final Path file;
     private final Path legacyFile;
@@ -174,6 +178,7 @@ public final class SaveLoad {
     private SaveSnapshot capture() {
         Player player = gp.player;
         SaveSnapshot s = new SaveSnapshot();
+        s.marketRevision = MARKET_REVISION;
         s.firstZoneRevision = FirstZone.REVISION;
         s.secondZoneRevision = SecondZone.REVISION;
         s.thirdZoneRevision = ThirdZone.REVISION;
@@ -264,7 +269,8 @@ public final class SaveLoad {
         require(s.firstZoneRevision >= 0 && s.firstZoneRevision <= FirstZone.REVISION,
             "Unsupported first-zone layout");
         require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
-        require(gp.tileM.isMapLoaded(s.map), "Invalid map");
+        require(s.marketRevision == 0 || s.marketRevision == MARKET_REVISION, "Unsupported market layout");
+        require(gp.tileM.isMapLoaded(s.map) && (s.marketRevision != 0 || s.map < PRE_MARKET_MAPS), "Invalid map");
         require(s.extraRoomsRevision>=0 && s.extraRoomsRevision<=ExtraRooms.REVISION &&
             (s.extraRoomsFlags & ~ExtraRooms.ALL_FLAGS)==0,"Unsupported refuge state");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
@@ -301,17 +307,18 @@ public final class SaveLoad {
         player.getAttack(); player.getDefense(); player.getAttackImage(); player.setDialogue();
         player.lightUpdated = true;
         require(s.world != null, "Missing world");
-        Entity[][] objects = prepareActors(s.world.objects, gp.obj, "object");
-        Entity[][] npcs = prepareActors(s.world.npcs, gp.npc, "npc");
-        Entity[][] monsters = prepareActors(s.world.monsters, gp.monster, "monster");
-        Entity[][] restoredTiles = prepareActors(s.world.tiles, gp.iTile, "tile");
+        World world = s.marketRevision == 0 ? expandPreMarketWorld(s.world) : s.world;
+        Entity[][] objects = prepareActors(world.objects, gp.obj, "object");
+        Entity[][] npcs = prepareActors(world.npcs, gp.npc, "npc");
+        Entity[][] monsters = prepareActors(world.monsters, gp.monster, "monster");
+        Entity[][] restoredTiles = prepareActors(world.tiles, gp.iTile, "tile");
         InteractiveTile[][] tiles = new InteractiveTile[gp.maxMap][gp.iTile[0].length];
         for (int map = 0; map < tiles.length; map++)
             for (int slot = 0; slot < tiles[map].length; slot++)
                 tiles[map][slot] = (InteractiveTile)restoredTiles[map][slot];
         for (int map = 0; map < npcs.length; map++) {
             for (int slot = 0; slot < npcs[map].length; slot++) {
-                Actor actor = s.world.npcs[map][slot];
+                Actor actor = world.npcs[map][slot];
                 if (actor == null || actor.linkedTile == -1) continue;
                 require(npcs[map][slot] instanceof NPC_BigRock && actor.linkedTile >= 0 &&
                     actor.linkedTile < tiles[map].length && tiles[map][actor.linkedTile] instanceof IT_MetalPlate,
@@ -323,6 +330,13 @@ public final class SaveLoad {
             }
             for (Entity monster : monsters[map])
                 require(!s.godFishDefeated || !(monster instanceof MON_GodFish), "Defeated boss is still present");
+        }
+        prepareMarketTV(npcs, s.marketRevision == 0);
+        if (s.map == Market.MAP) {
+            var body = Temple.bounds(player, player.worldX, player.worldY);
+            Entity tv = npcs[Market.MAP][Market.TV_SLOT];
+            require(s.area == gp.indoor && !s.bossBattleOn && Temple.terrainClear(gp, Market.MAP, body)
+                && !body.intersects(Temple.bounds(tv, tv.worldX, tv.worldY)), "Invalid market position");
         }
         FirstZone.adaptSavedActors(gp, player, s.map, npcs, monsters, objects, s.firstZoneRevision == 0);
         SecondZone.adapt(gp, player, s.map, monsters, objects, s.secondZoneRevision == 0);
@@ -480,6 +494,41 @@ public final class SaveLoad {
         }
     }
 
+    private World expandPreMarketWorld(World old) {
+        World expanded = new World();
+        expanded.objects = appendMarketRow(old.objects, gp.obj[Market.MAP].length);
+        expanded.npcs = appendMarketRow(old.npcs, gp.npc[Market.MAP].length);
+        expanded.monsters = appendMarketRow(old.monsters, gp.monster[Market.MAP].length);
+        expanded.tiles = appendMarketRow(old.tiles, gp.iTile[Market.MAP].length);
+        return expanded;
+    }
+
+    private static Actor[][] appendMarketRow(Actor[][] old, int slots) {
+        require(old != null && old.length == PRE_MARKET_MAPS, "Invalid pre-market map count");
+        Actor[][] expanded = Arrays.copyOf(old, PRE_MARKET_MAPS + 1);
+        expanded[Market.MAP] = new Actor[slots];
+        return expanded;
+    }
+
+    private void prepareMarketTV(Entity[][] npcs, boolean migrating) {
+        NPC_TV merchant = null;
+        for (int map = 0; map < npcs.length; map++) {
+            for (int slot = 0; slot < npcs[map].length; slot++) {
+                if (!(npcs[map][slot] instanceof NPC_TV tv)) continue;
+                require(merchant == null, "Duplicate TV");
+                merchant = tv;
+                if (migrating) npcs[map][slot] = null;
+                else require(map == Market.MAP && slot == Market.TV_SLOT
+                    && tv.worldX == 22 * gp.tileSize && tv.worldY == 23 * gp.tileSize, "Invalid TV position");
+            }
+        }
+        if (migrating) {
+            if (merchant == null) merchant = new NPC_TV(gp);
+            merchant.inventory.clear();
+            npcs[Market.MAP][Market.TV_SLOT] = Market.placeTV(merchant, gp.tileSize);
+        } else require(merchant != null, "Missing market TV");
+    }
+
     private Entity[][] prepareActors(Actor[][] saved, Entity[][] shape, String category) {
         require(saved != null && saved.length == shape.length, "Invalid " + category + " map count");
         Entity[][] result = new Entity[shape.length][];
@@ -571,8 +620,7 @@ public final class SaveLoad {
         for (Entity[] row : gp.projectile) Arrays.fill(row, null);
         gp.particleList.clear();
         gp.csManager.sceneNum = gp.csManager.NA; gp.csManager.scenePhase = 0;
-        gp.keyH.upPressed = gp.keyH.downPressed = gp.keyH.leftPressed = gp.keyH.rightPressed = false;
-        gp.keyH.enterPressed = gp.keyH.shotKeyPressed = gp.keyH.spacePressed = false;
+        gp.keyH.releaseAll();
         gp.ui.npc = null;
     }
 
@@ -597,10 +645,15 @@ public final class SaveLoad {
         World world = new World();
         world.npcs = initialWorld.npcs; world.monsters = initialWorld.monsters; world.tiles = initialWorld.tiles;
         world.objects = new Actor[gp.maxMap][gp.obj[0].length];
-        require(old.mapObjectNames != null && old.mapObjectNames.length == gp.maxMap, "Invalid original world");
-        for (int map = 0; map < gp.maxMap; map++) {
-            require(old.mapObjectNames[map] != null && old.mapObjectNames[map].length == gp.obj[map].length,
-                "Invalid original object slots");
+        Object[][] original = {old.mapObjectNames, old.mapObjectWorldX, old.mapObjectWorldY,
+            old.mapObjectOpened, old.mapObjectLootNames};
+        for (Object[] rows : original) {
+            require(rows != null && rows.length == PRE_MARKET_MAPS, "Invalid original world");
+            for (int map = 0; map < rows.length; map++)
+                require(rows[map] != null && java.lang.reflect.Array.getLength(rows[map]) == gp.obj[map].length,
+                    "Invalid original object slots");
+        }
+        for (int map = 0; map < PRE_MARKET_MAPS; map++) {
             for (int slot = 0; slot < gp.obj[map].length; slot++) {
                 String name = old.mapObjectNames[map][slot];
                 require(name != null, "Missing original object identifier");
@@ -615,6 +668,7 @@ public final class SaveLoad {
             }
         }
         s.templeRevision = main.Temple.REVISION;
+        s.marketRevision = MARKET_REVISION;
         world.objects[4][0] = initialWorld.objects[4][0];
         s.world = world;
         return s;

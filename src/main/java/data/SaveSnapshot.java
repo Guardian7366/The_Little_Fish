@@ -21,6 +21,7 @@ final class SaveSnapshot implements Serializable {
     int handyLatches, handyDamaged, icMarks;
     boolean handySentryDefeated;
     int fifthZoneRevision;
+    int marketRevision;
     int map, area, x, y;
     String direction;
     int level, maxLife, life, maxWater, water, strength, dexterity, exp, nextLevelExp, coin;
