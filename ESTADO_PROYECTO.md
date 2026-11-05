@@ -78,3 +78,7 @@ La séptima está aprobada y publicada en b56661a. La base b9d1104 incorpora el 
 ## Primeras tres salas extras
 
 El usuario aprobó tres retos independientes para Chicken con Linterna, Flower con poción y Spiky con cama portátil. La entrega sobre 6d1bd4c integra los 38 PNG, los dos faroles de Chicken, un solo Greeny en Flower y los dos tramos de Spiky. Las ocho salas tienen límites propios de cámara, dibujo, simulación y mapas. Se conservan los cofres y sus IDs. Pasaron las 26 suites, las 32 esquinas y seis guardados históricos. El usuario probó las tres salas, confirmó que funcionan como esperaba y aprobó la publicación el 4 de noviembre de 2026. [Informe de los refugios](SALAS-EXTRAS-1-3.md)
+
+## Preparación de Pump, Hongui y Ghost
+
+Base revisada 1a7129d. Se prepararon 43 PNG y tres vistas para las siguientes salas del mapa 5. Parejas verificadas: Pump con poción, Hongui con Super Shield y Ghost con Rocky. Se propone cortar ataduras, practicar guardia y reproducir un sendero de memoria. Integración y pruebas jugables pendientes. [Encargo y arte](design/salas-extras-4-6/TAREA-CODEX.md).

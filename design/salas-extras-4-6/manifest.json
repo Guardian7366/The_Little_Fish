@@ -1,0 +1,316 @@
+{
+  "tile": [
+    16,
+    16
+  ],
+  "scale": 3,
+  "filter": "nearest-neighbor",
+  "previews": [
+    "preview/pump.png",
+    "preview/hongui.png",
+    "preview/ghost.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/pump/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/hongui/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/ghost/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/pump/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/hongui/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/ghost/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/pump/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/pump/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/pump/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/pump/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/pump/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/pump/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/hongui/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/hongui/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/hongui/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/hongui/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/hongui/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/hongui/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ghost/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ghost/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ghost/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/pump/planter.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/pump/binding-intact.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/pump/binding-cut.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/pump/seed-jar.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/hongui/shelter.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/hongui/glow-mushroom.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/hongui/guard-mark-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/hongui/guard-mark-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/ghost/memory-0-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/memory-0-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/memory-1-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/memory-1-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/memory-2-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/memory-2-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ghost/echo-pedestal-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/ghost/echo-pedestal-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/pump/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/hongui/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/ghost/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    }
+  ]
+}

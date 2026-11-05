@@ -51,3 +51,7 @@ El mapa 9 conecta el templo aprobado con el jefe. El usuario probó las galería
 ## Primeros tres refugios de D
 
 Chicken, Flower y Spiky están integrados en el mapa 5 con sus retos y recompensas originales. El usuario confirmó tras jugar que las tres salas funcionan como esperaba y autorizó su publicación el 4 de noviembre de 2026. El siguiente alcance queda por acordar. [Informe](SALAS-EXTRAS-1-3.md)
+
+## Siguientes tres refugios de D
+
+Rediseñar Pump, Hongui y Ghost manteniendo sus cofres e aislamiento actual. Integrar el huerto, el abrigo de esporas y el archivo de memoria con estados independientes y pruebas de guardado. [Encargo](design/salas-extras-4-6/TAREA-CODEX.md).

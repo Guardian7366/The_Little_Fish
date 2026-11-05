@@ -169,3 +169,7 @@ Añadidas tres estatuas PNG transparentes de 32 × 48, su vista conjunta, el inv
 ## 2026-11-04 · Arte de las primeras tres salas extras
 
 Añadidos dos cuadros para cada NPC, tiles, decoración, estados visuales de los retos y tres fondos propios. Verificados 38 PNG y revisadas las tres composiciones. Se documentaron las parejas de NPC y cofre, el aislamiento y las pruebas de integración.
+
+## 2026-11-04 · Arte de Pump, Hongui y Ghost
+
+Añadidos dos cuadros por NPC, tiles y decoración propios, indicadores de retos y tres fondos. Verificados 43 PNG y revisadas tres vistas compuestas. Documentadas recompensas, retos, diálogos, migración y criterios de integración.
