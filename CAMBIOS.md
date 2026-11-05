@@ -149,3 +149,7 @@ Se añadieron el encargo de la nueva zona y los doce sprites de Fishtella, distr
 ## 2026-11-04 · Arte y encargo del templo
 
 Se añadieron 71 PNG de séptima zona. Incluyen 16 archivos de Planta, 26 de Secret, 26 de tiles, rompecabezas y murales, y tres capas de fondo. Se añadieron dos vistas previas, el inventario y las instrucciones de integración. No se ejecutaron pruebas del juego para esta entrega de arte.
+
+## 2026-11-04 · Encargo de la octava zona
+
+Añadidas tres estatuas PNG transparentes de 32 × 48, su vista conjunta, el inventario y las instrucciones de integración. Se comprobaron formato, dimensiones y transparencia. El mapa jugable queda pendiente.

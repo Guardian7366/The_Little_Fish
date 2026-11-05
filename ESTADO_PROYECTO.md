@@ -70,3 +70,7 @@ El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella
 ## Séptima zona
 
 El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo sumergido con cuatro rocas y placas, murales sobre D y dos Secret ocultos. El templo del mapa interno 4 incorpora los 71 PNG del paquete, un encuentro aislado con Planta antes de combinarla con Fishtella, dos Secret en nichos independientes con 100 EXP únicos por ejemplar, los murales de D y el fondo de tres capas. Las cuatro galerías tienen pasillos laterales y el portón solo abre con las cuatro parejas correctas. Pasaron las 24 órdenes de resolución, los guardados parciales y las pruebas de migración, combate y transiciones. [Informe y capturas](SEPTIMA-ZONA.md)
+
+## Preparación de la octava zona
+
+La séptima está aprobada y publicada en b56661a. Se prepararon las tres estatuas, la distribución propuesta de encuentros y el encargo del tramo previo al jefe. La integración y la prueba jugable están pendientes. [Encargo y arte](design/octava-zona/TAREA-CODEX.md).

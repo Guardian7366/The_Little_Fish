@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "path": "assets/estatua-velo.png",
+      "width": 32,
+      "height": 48,
+      "alpha": true,
+      "anchor": [
+        16,
+        48
+      ],
+      "scale": 3,
+      "collider": false
+    },
+    {
+      "path": "assets/estatua-fauce.png",
+      "width": 32,
+      "height": 48,
+      "alpha": true,
+      "anchor": [
+        16,
+        48
+      ],
+      "scale": 3,
+      "collider": false
+    },
+    {
+      "path": "assets/estatua-centinela.png",
+      "width": 32,
+      "height": 48,
+      "alpha": true,
+      "anchor": [
+        16,
+        48
+      ],
+      "scale": 3,
+      "collider": false
+    }
+  ],
+  "preview": "vista-estatuas.png"
+}

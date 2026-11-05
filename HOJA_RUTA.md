@@ -43,3 +43,7 @@ Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron
 ## Séptima zona
 
 El templo del mapa interno 4 ya incluye a Planta, Secret, Fishtella y cuatro galerías. Pasaron las pruebas de colisión, guardado y acceso al jefe. El usuario probó y aprobó la zona y los dos enemigos rediseñados el 4 de noviembre de 2026 y autorizó la publicación. [Informe de la séptima zona](SEPTIMA-ZONA.md)
+
+## Extensión del templo antes del jefe
+
+Usar el mapa interno 9 para el recorrido de octava. Reutilizar Planta, Fishtella y la ambientación de séptima. Introducir tres carriles de rocas, uno con giro, y tres inscripciones opcionales de D. [Encargo para Codex](design/octava-zona/TAREA-CODEX.md).
