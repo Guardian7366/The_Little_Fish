@@ -54,6 +54,7 @@ implements Runnable {
     public int maxWorldCol;
     public int maxWorldRow;
     public final int maxMap = 10;
+    public final Temple temple = new Temple(this);
     public int currentMap = 0;
     int screenWidth2 = 960;
     int screenHeight2 = 576;
@@ -125,6 +126,7 @@ implements Runnable {
         this.aSetter.setNPC();
         this.aSetter.setMonster();
         this.aSetter.setInteractiveTile();
+        temple.prepareArt();
         this.saveLoad.captureInitialWorld();
         this.eManager.setup();
         this.gameState = 0;
@@ -137,6 +139,7 @@ implements Runnable {
     }
 
     public void resetGame(boolean restart) {
+        temple.resetCombat();
         stopMusic();
         keyH.releaseAll();
         flow.reset();
@@ -151,6 +154,8 @@ implements Runnable {
         player.drawing = true;
         if (restart) {
             firstZoneGuide.reset();
+            temple.reliefs = temple.defeats = 0;
+            temple.syncReliefs();
             Progress.GodFishDefeated = false;
             player.setDefaultValues();
             player.setItems();
@@ -293,10 +298,12 @@ implements Runnable {
             int i = 0;
             while (i < this.iTile[1].length) {
                 if (this.iTile[this.currentMap][i] != null) {
-                    this.iTile[this.currentMap][i].draw(this.g2);
+                    if (currentMap!=Temple.MAP || !(iTile[currentMap][i] instanceof tile_interactive.IT_MetalPlate))
+                        this.iTile[this.currentMap][i].draw(this.g2);
                 }
                 ++i;
             }
+            if (currentMap==Temple.MAP) temple.drawDetails(g2);
             this.entityList.add(this.player);
             i = 0;
             while (i < this.npc[1].length) {
@@ -349,7 +356,7 @@ implements Runnable {
             this.entityList.clear();
             this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
-            if (currentMap == SixthZone.MAP) {
+            if (currentMap == SixthZone.MAP || currentMap == Temple.MAP) {
                 for (Entity enemy : monster[currentMap])
                     if (enemy instanceof monster.MON_Tella tella) tella.drawBands(g2);
             }
@@ -412,7 +419,13 @@ implements Runnable {
         this.se.requestPlay(i, false);
     }
 
+    public void prepareAreaLighting() {
+        if (eManager.lighting!=null && (SixthZone.usesAbyss(currentMap) || currentMap==Temple.MAP))
+            eManager.lighting.fifth.prepare();
+    }
+
     public void changeArea() {
+        temple.resetCombat();
         // Off-map projectiles no longer receive updates; release the reusable player shot.
         for (Entity[] mapProjectiles : projectile) Arrays.fill(mapProjectiles, null);
         player.projectile.alive = false;

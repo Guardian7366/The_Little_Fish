@@ -5,6 +5,7 @@
 ## Base y situación actual
 
 - Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish), rama `main`.
+- Base de la séptima zona: f160c37. El usuario probó y aprobó el templo, Planta y Secret el 4 de noviembre de 2026 y autorizó publicar la entrega. Pasaron 22 suites. [Informe del templo](SEPTIMA-ZONA.md)
 - Base de la sexta zona: `c7ae5e8`, paquete de Fishtella y encargo de la expansión. La quinta aprobada se publicó en `6f2f887`.
 - La edición definitiva todavía no está terminada. La base incluye estabilización, menú marino, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades.
 - El usuario probó y aprobó Sharky, el recorrido general y la ambientación de la quinta. Se continuó desde esos cambios locales, sin reiniciar ni modificar lo aprobado. La revisión 2 añade Iron obligatorio y corrige las dos puertas adicionales; el usuario aprobó estas correcciones y autorizó el commit y la publicación el 4 de noviembre de 2026. El ejecutable de prueba se genera en `build/TheLittleFish.jar`.
@@ -13,9 +14,9 @@
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 93 archivos Java en `src/main/java` |
-| Pruebas | 21 archivos Java en `src/test/java`. El script ejecuta 20 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 377 archivos visibles en `src/main/resources` con 335 PNG, 28 WAV, 2 TTF, 1 GIF y 11 TXT |
+| Código del juego | 94 archivos Java en `src/main/java` |
+| Pruebas | 23 archivos Java en `src/test/java`. El script ejecuta 22 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 451 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
@@ -51,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta y la nueva sexta están completadas y aprobadas. La siguiente entrega de contenido se acordará con el usuario.
+La quinta, la sexta y la séptima zona están completadas y aprobadas. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -66,6 +67,6 @@ El paquete se publicó en `ca4b3ad` y ya fue utilizado para la implementación l
 
 El usuario aprobó la quinta zona y el ciclo de combate propuesto para Fishtella. Se prepararon doce sprites nativos y el encargo de la expansión. La entrega incorpora el mapa 8, Fishtella con sus doce sprites, un primer encuentro aislado, encuentros mixtos con Sharky, el paso obligatorio de Iron y la migración de partidas. Pasaron las 20 suites. El usuario probó la zona y el enemigo, confirmó que funcionaban como esperaba y autorizó su publicación el 4 de noviembre de 2026. [Informe de la sexta zona](SEXTA-ZONA.md)
 
-## Preparación de séptima zona
+## Séptima zona
 
-El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo sumergido con cuatro rocas y placas, murales sobre D y dos Secret ocultos. Se prepararon 71 recursos PNG y el encargo de integración. Se comprobaron dimensiones, datos RGBA y transparencia. La implementación y sus pruebas jugables quedan pendientes. [Encargo del templo](design/septima-zona/TAREA-CODEX.md).
+El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo sumergido con cuatro rocas y placas, murales sobre D y dos Secret ocultos. El templo del mapa interno 4 incorpora los 71 PNG del paquete, un encuentro aislado con Planta antes de combinarla con Fishtella, dos Secret en nichos independientes con 100 EXP únicos por ejemplar, los murales de D y el fondo de tres capas. Las cuatro galerías tienen pasillos laterales y el portón solo abre con las cuatro parejas correctas. Pasaron las 24 órdenes de resolución, los guardados parciales y las pruebas de migración, combate y transiciones. [Informe y capturas](SEPTIMA-ZONA.md)

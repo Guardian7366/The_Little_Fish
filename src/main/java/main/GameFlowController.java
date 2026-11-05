@@ -94,7 +94,7 @@ public final class GameFlowController {
         gp.eHandler.previousEventX = gp.player.worldX;
         gp.eHandler.previousEventY = gp.player.worldY;
         gp.changeArea();
-        if(SixthZone.usesAbyss(gp.currentMap)) gp.eManager.lighting.fifth.prepare();
+        gp.prepareAreaLighting();
         gp.gameState = gp.playState;
     }
 

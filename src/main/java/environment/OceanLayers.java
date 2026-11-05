@@ -16,6 +16,11 @@ public final class OceanLayers {
     private int tick;
     private int deepTick;
     public final FifthAbyss fifth=new FifthAbyss();
+    private final BufferedImage[] templeLayers = {
+        main.SpriteCache.load("/septima/background/deep-naves.png",1280,768),
+        main.SpriteCache.load("/septima/background/arcades.png",1280,768),
+        main.SpriteCache.load("/septima/background/statues.png",1280,768)
+    };
 
     public OceanLayers() {
         Graphics2D a=abyss.createGraphics();
@@ -83,6 +88,13 @@ public final class OceanLayers {
     public long cachedPixelBytes() { return 12L * WIDTH * HEIGHT * 4; }
 
     public void drawBackground(Graphics2D target, GamePanel gp) {
+        if (gp.currentMap==main.Temple.MAP) {
+            for (int layer=0; layer<templeLayers.length; layer++) {
+                int x=-80-gp.player.worldX*(layer+1)/55, y=-48-gp.player.worldY*(layer+1)/55;
+                target.drawImage(templeLayers[layer],x,y,null);
+            }
+            return;
+        }
         if(main.SixthZone.usesAbyss(gp.currentMap)) {fifth.draw(target,gp);return;}
         if (gp.currentMap != 0 && gp.currentMap != 1 && gp.currentMap != 2 && gp.currentMap != main.FourthZone.MAP) return;
         Graphics2D g = (Graphics2D) target.create();

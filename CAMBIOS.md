@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Templo sumergido en el mapa 4 — 4 de noviembre de 2026, entrega aprobada
+
+- Planta aparece sola antes de los encuentros con Fishtella. Su liana se corta con el golpe normal y usa colisiones para el tirón.
+- Cuatro carriles con paso lateral unen las rocas y sus placas. El portón se abre al verificar las cuatro parejas. Los dos relieves abren nichos independientes y cada Secret registra su recompensa de 100 EXP.
+- Se incorporaron los murales de D, las tres capas de fondo, la iluminación y la revisión de guardado del templo. Pasaron 22 suites, incluidas las 24 órdenes del rompecabezas. El usuario probó y aprobó la zona, Planta y Secret y autorizó su publicación. [Informe y capturas](SEPTIMA-ZONA.md)
+
 ## Nueva sexta zona y Fishtella — 4 de noviembre de 2026
 
 El usuario probó y aprobó la zona y el comportamiento de Fishtella. Autorizó publicar la entrega en `main`.

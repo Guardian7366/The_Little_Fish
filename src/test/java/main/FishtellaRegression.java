@@ -94,7 +94,7 @@ public final class FishtellaRegression {
         for (int i = 0; i < 60; i++) tella.update();
         check(tella.phase() == Phase.ARMORED, "offscreen actor cannot start an attack");
 
-        gp.currentMap = 4;
+        gp.currentMap = 5;
         var old = new MON_Tella(gp);
         check(!old.usesPulse() && old.life == 100 && old.speed == 10, "legacy appearance unchanged");
         try (var files = Files.list(Path.of("design/sexta-zona/assets/fishtella"))) {

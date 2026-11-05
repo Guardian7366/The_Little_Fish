@@ -38,6 +38,10 @@ public class EventHandler {
     }
 
     public void setDialogue() {
+        eventMaster.dialogues[12][0]="The fish went down in single file.\nOne carried a small light.";
+        eventMaster.dialogues[13][0]="The D was carved over much older marks.";
+        eventMaster.dialogues[14][0]="Four weights guarded the way.\nD. I counted four and left a light on.";
+        eventMaster.dialogues[14][1]="The old lamp and fish marks hide a seam.";
         eventMaster.dialogues[11][0]="Someone tested a tool here.\nThe last mark points toward the refuge.";
         eventMaster.dialogues[8][0]="The marks continue on the other side\nof the stone.";
         eventMaster.dialogues[9][0]="Someone wrote: GO BACK.\nThe arrow points down.";
@@ -55,6 +59,21 @@ public class EventHandler {
     }
 
     public void checkEvent() {
+        if (gp.currentMap==Temple.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
+            int x=(gp.player.worldX+24)/48, y=(gp.player.worldY+24)/48;
+            for (int i=0;i<Temple.MURALS.length;i++) {
+                int[] mural=Temple.MURALS[i];
+                if (y==mural[1]+2 && x>=mural[0] && x<mural[0]+3 && gp.player.direction.equals("up")) {
+                    inspectSecret(12+i);
+                    return;
+                }
+            }
+            if ((x==8 && y==21 && gp.player.direction.equals("left") && gp.temple.openRelief(0)) ||
+                (x==41 && y==23 && gp.player.direction.equals("right") && gp.temple.openRelief(1))) {
+                gp.player.attackCanceled=true;
+                return;
+            }
+        }
         if(gp.currentMap==3 && gp.gameState==gp.playState && gp.keyH.enterPressed &&
             (gp.player.worldX+24)/48==14 && (gp.player.worldY+24)/48==5 && gp.player.direction.equals("up")) {
             inspectSecret(11);return;
@@ -107,7 +126,7 @@ public class EventHandler {
             } else if (this.hit(3, 25, 20, "any")) {
                 this.gp.getClass();
                 this.healingPool(25, 20, 3);
-            } else if (this.hit(4, 24, 30, "any")) {
+            } else if (this.hit(4, 21, 41, "any") || this.hit(4, 24, 30, "any")) {
                 this.gp.getClass();
                 this.healingPool(25, 20, 3);
             } else if (this.hit(4, 25, 30, "any")) {
@@ -140,7 +159,7 @@ public class EventHandler {
             } else if (this.hit(8, 25, 41, "any")) {
                 this.healingPool(25, 41, this.gp.dialogueState);
             } else if (this.hit(4, 24, 5, "any")) {
-                this.teleportMap(6, 24, 44, this.gp.dungeons);
+                if (gp.temple.solved()) this.teleportMap(6, 24, 44, this.gp.dungeons);
             } else if (this.hit(0, 28, 18, "any")) {
                 this.teleportMap(5, 9, 40, this.gp.indoor);
             } else if (this.hit(5, 9, 40, "any")) {

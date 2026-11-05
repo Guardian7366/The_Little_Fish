@@ -18,7 +18,7 @@ public class TileManager {
     private static final AlphaComposite SHALLOW_WATER = AlphaComposite.SrcOver.derive(0.78f);
     private static final String[] INITIAL_MAPS = {
         "/maps/stage1.txt", "/maps/stage2.txt", "/maps/stage3.txt", "/maps/stage4.txt",
-        "/maps/stage5.txt", "/maps/extraStage.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt"
+        "/maps/temple.txt", "/maps/extraStage.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt"
     };
     private final GamePanel gp;
     public Tile[] tile;
@@ -37,6 +37,12 @@ public class TileManager {
         if(fileNames.size()!=main.FifthZone.WALL) throw new IllegalStateException("Unexpected original tile table size");
         for(String name:new String[]{"abyss-wall","glow-coral-top","glow-coral-bottom","glow-coral-left","glow-coral-right"}) {
             fileNames.add("/quinta/tiles/"+name+".png"); collisionStatus.add(name.equals("abyss-wall"));
+        }
+        String[] templeTiles = {"wall","wall-frieze","pillar","lamp-wall","floor-0","floor-1","floor-2",
+            "moss","rail-horizontal","rail-vertical","rest","return-arch","secret-relief-1","secret-relief-2"};
+        for (int index=0; index<templeTiles.length; index++) {
+            fileNames.add("/septima/tiles/"+templeTiles[index]+".png");
+            collisionStatus.add(index<4 || index>=12);
         }
         tile = new Tile[fileNames.size()];
         getTileImage();
@@ -115,8 +121,15 @@ public class TileManager {
         mapRevisions[map]++;
     }
 
+    public void setTerrainCell(int map, int x, int y, int tileId) {
+        if (mapTileNum[map][x][y] == tileId) return;
+        mapTileNum[map][x][y] = tileId;
+        mapRevisions[map]++;
+    }
+
     public void reloadCurrentMap() {
         if (isMapLoaded(gp.currentMap)) loadMap(mapResources[gp.currentMap], gp.currentMap);
+        if (gp.currentMap==main.Temple.MAP) { gp.temple.syncReliefs(); gp.temple.resetCombat(); }
         for (var enemy : gp.monster[gp.currentMap]) {
             if (enemy instanceof monster.MON_Sharky shark) shark.resetAmbush();
             if (enemy instanceof monster.MON_Tella tella && tella.usesPulse()) tella.resetPulse();
@@ -143,7 +156,7 @@ public class TileManager {
 
     public void drawLayered(Graphics2D graphics) {
         Graphics2D layer = (Graphics2D) graphics.create();
-        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap == main.FourthZone.MAP);
+        drawTerrain(layer, gp.currentMap == 0 || gp.currentMap == 1 || gp.currentMap == 2 || gp.currentMap == main.Temple.MAP || main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap == main.FourthZone.MAP);
         layer.dispose();
     }
 

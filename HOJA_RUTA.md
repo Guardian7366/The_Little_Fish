@@ -10,7 +10,7 @@ Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta y sexta completadas y aprobadas | Acordar el alcance de la siguiente entrega |
+| 5. Implementar por entregas pequeñas | Quinta, sexta y séptima completadas y aprobadas | Acordar el alcance de la próxima entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -42,4 +42,4 @@ Nueva sexta zona de 50 × 50 con Fishtella, Sharky y un paso obligatorio de Iron
 
 ## Séptima zona
 
-Siguiente rediseño: templo sumergido en mapa interno 4. Introducir Planta y Secret con las mecánicas aprobadas, integrar Fishtella, preparar cuatro galerías de empuje y conservar la transición al jefe. [Trazado, arte y criterios de aceptación](design/septima-zona/TAREA-CODEX.md).
+El templo del mapa interno 4 ya incluye a Planta, Secret, Fishtella y cuatro galerías. Pasaron las pruebas de colisión, guardado y acceso al jefe. El usuario probó y aprobó la zona y los dos enemigos rediseñados el 4 de noviembre de 2026 y autorizó la publicación. [Informe de la séptima zona](SEPTIMA-ZONA.md)

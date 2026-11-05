@@ -41,6 +41,14 @@ extends Entity {
         this.down2 = this.setup("/npc/bigRock", this.gp.tileSize, this.gp.tileSize);
     }
 
+    @Override public void draw(java.awt.Graphics2D g) {
+        if (gp.currentMap!=main.Temple.MAP) { super.draw(g); return; }
+        if (!inCamera()) return;
+        main.Temple.sprite(g,gp,"puzzle/rock",worldX,worldY,48,48);
+        for (int i=0; i<main.Temple.LANES.length; i++)
+            if (gp.npc[gp.currentMap][main.Temple.LANES[i].rockSlot()]==this) gp.temple.rune(g,i,worldX,worldY);
+    }
+
     public void setDialogue() {
         this.dialogues[0][0] = "Its you?...";
     }
@@ -65,6 +73,7 @@ extends Entity {
 
     @Override
     public void move(String d) {
+        if (gp.currentMap==main.Temple.MAP) { gp.temple.push(this,d); return; }
         block16: {
             this.direction = d;
             this.checkCollision();
@@ -91,6 +100,7 @@ extends Entity {
     }
 
     public void detectedPlate() {
+        if (gp.currentMap==main.Temple.MAP) return;
         ArrayList<InteractiveTile> plateList = new ArrayList<InteractiveTile>();
         ArrayList<Entity> rockList = new ArrayList<Entity>();
         int i = 0;

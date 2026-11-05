@@ -220,6 +220,17 @@ extends Entity {
         } else if (keyH.spacePressed) {
             guarding = true;
             guardCounter++;
+        } else if (gp.currentMap == main.Temple.MAP && gp.temple.pulled()) {
+            if (keyH.upPressed) direction = "up";
+            else if (keyH.downPressed) direction = "down";
+            else if (keyH.leftPressed) direction = "left";
+            else if (keyH.rightPressed) direction = "right";
+            if (keyH.enterPressed) {
+                attacking = true;
+                spriteCounter = 0;
+                keyH.enterPressed = false;
+                gp.playSE(9);
+            }
         } else if (hasMovementOrInteractionInput()) {
             updateMovementAndInteractions();
         }
@@ -228,6 +239,7 @@ extends Entity {
         life = Math.min(life, maxLife);
         water = Math.min(water, maxWater);
         if (!keyH.godModeOn && life <= 0) {
+            if (gp.currentMap==main.Temple.MAP) gp.temple.resetCombat();
             gp.stopMusic();
             gp.gameState = gp.gameOverState;
             gp.ui.commandNum = -1;
@@ -335,6 +347,7 @@ extends Entity {
     public void interactNPC(int i) {
         if (i != 999) {
             if (this.gp.keyH.enterPressed) {
+                if (gp.currentMap==main.Temple.MAP && gp.npc[gp.currentMap][i] instanceof NPC_BigRock) return;
                 this.attackCanceled = true;
                 this.gp.npc[this.gp.currentMap][i].speak();
             }
@@ -343,6 +356,9 @@ extends Entity {
     }
 
     public void contactMonster(int i) {
+        if (i!=999 && gp.currentMap==main.Temple.MAP &&
+            (gp.monster[gp.currentMap][i] instanceof monster.MON_Flower ||
+             gp.monster[gp.currentMap][i] instanceof monster.MON_Secret)) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Sharky shark) {
             if (!shark.dying && shark.alive) shark.damagePlayer(shark.attack);
@@ -361,7 +377,8 @@ extends Entity {
     }
 
     public void damageMonster(int i, Entity attacker, int attack, int knockBackPower) {
-        if (i != 999 && !this.gp.monster[this.gp.currentMap][i].invincible) {
+        if (i != 999 && !this.gp.monster[this.gp.currentMap][i].invincible &&
+            this.gp.monster[this.gp.currentMap][i].alive && !this.gp.monster[this.gp.currentMap][i].dying) {
             int damage;
             this.gp.playSE(10);
             if (knockBackPower > 0) {
@@ -381,6 +398,7 @@ extends Entity {
             if (this.gp.monster[this.gp.currentMap][i].life <= 0) {
                 this.gp.monster[this.gp.currentMap][i].dying = true;
                 this.gp.ui.addMessage("killed the " + this.gp.monster[this.gp.currentMap][i].name + "!");
+                if (gp.monster[gp.currentMap][i] instanceof monster.MON_Secret secret && !secret.claimReward()) return;
                 this.gp.ui.addMessage("Exp + " + this.gp.monster[this.gp.currentMap][i].exp + "!");
                 this.exp = (int)Math.min(Integer.MAX_VALUE, (long)this.exp + this.gp.monster[this.gp.currentMap][i].exp);
                 this.checkLevelUp();

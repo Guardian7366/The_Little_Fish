@@ -177,6 +177,9 @@ public final class SaveLoad {
         s.fourthZoneRevision = FourthZone.REVISION;
         s.fifthZoneRevision = FifthZone.REVISION;
         s.sixthZoneRevision = main.SixthZone.REVISION;
+        s.templeRevision = main.Temple.REVISION;
+        s.templeReliefs = gp.temple.reliefs;
+        s.templeDefeats = gp.temple.defeats;
         s.map = gp.currentMap; s.area = gp.currentArea;
         s.x = player.worldX; s.y = player.worldY; s.direction = player.direction;
         s.level = player.level; s.maxLife = player.maxLife; s.life = player.life;
@@ -251,6 +254,8 @@ public final class SaveLoad {
         require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
         require(gp.tileM.isMapLoaded(s.map), "Invalid map");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
+        require(s.templeRevision >= 0 && s.templeRevision <= main.Temple.REVISION, "Unsupported temple layout");
+        require((s.templeReliefs & ~3) == 0 && (s.templeDefeats & ~3) == 0, "Invalid temple flags");
         require(s.sixthZoneRevision >= 0 && s.sixthZoneRevision <= main.SixthZone.REVISION, "Unsupported sixth-zone layout");
         require(s.fifthZoneRevision>=0 && s.fifthZoneRevision<=FifthZone.REVISION,"Unsupported fifth-zone layout");
         require(s.area == gp.outside || s.area == gp.indoor || s.area == gp.dungeons, "Invalid area");
@@ -316,7 +321,64 @@ public final class SaveLoad {
         } else {
             main.SixthZone.configure(gp, monsters, false);
         }
-        return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp));
+        int defeats = s.templeDefeats;
+        int reliefs = s.templeReliefs;
+        if (s.templeRevision == 0) {
+            defeats = 0;
+            reliefs = 0;
+            for (int i=0; i<main.Temple.SECRET_SLOTS.length; i++) {
+                Entity secret = monsters[5][main.Temple.SECRET_SLOTS[i]];
+                if (secret == null || !secret.alive || secret.dying || secret.life == 0) defeats |= 1<<i;
+            }
+            boolean oldGateOpen = !(objects[4][0] instanceof object.OBJ_DoorIron) || s.map == 6 || s.godFishDefeated;
+            boolean[] oldPlates = new boolean[4];
+            for (int i=0; i<4; i++) {
+                Entity plate = tiles[4][main.Temple.LANES[i].plateSlot()];
+                if (plate != null) for (Entity npc : npcs[4])
+                    if (npc instanceof NPC_BigRock && npc.linkedEntity == plate) oldPlates[i] = true;
+            }
+            main.Temple.fixtures(gp,npcs,tiles);
+            for (int i=0; i<4; i++) {
+                if (!oldGateOpen && !oldPlates[i]) continue;
+                var lane = main.Temple.LANES[i];
+                Entity rock = main.Temple.place(npcs[4][lane.rockSlot()],lane.endX(),lane.endY());
+                rock.linkedEntity = tiles[4][lane.plateSlot()];
+            }
+            main.Temple.monsters(gp,monsters,defeats);
+        } else {
+            for (var lane : main.Temple.LANES) {
+                Entity rock = npcs[4][lane.rockSlot()], plate = tiles[4][lane.plateSlot()];
+                require(rock instanceof NPC_BigRock && main.Temple.onLane(rock,lane) && plate instanceof IT_MetalPlate &&
+                    plate.worldX==lane.endX()*48 && plate.worldY==lane.endY()*48, "Invalid temple lane");
+                boolean atEnd = rock.worldX==plate.worldX && rock.worldY==plate.worldY;
+                require(atEnd ? rock.linkedEntity==plate : rock.linkedEntity==null, "Invalid temple pair");
+            }
+            for (int i=0; i<main.Temple.SECRET_SLOTS.length; i++) {
+                int slot=main.Temple.SECRET_SLOTS[i];
+                monsters[5][slot]=null;
+                if ((defeats & (1<<i))!=0) monsters[4][slot]=null;
+            }
+            for (Entity enemy : monsters[4])
+                if (enemy instanceof monster.MON_Tella)
+                    require(enemy.life<=monster.MON_Tella.ABYSS_MAX_LIFE, "Invalid temple Fishtella health");
+            main.Temple.configure(gp,monsters);
+        }
+        boolean open=main.Temple.solved(npcs,tiles);
+        if (open) {
+            if (objects[4][0] instanceof object.OBJ_DoorIron) objects[4][0]=null;
+        } else {
+            require(objects[4][0]==null || objects[4][0] instanceof object.OBJ_DoorIron, "Temple gate slot occupied");
+            objects[4][0]=main.Temple.gate(gp);
+        }
+        if (s.templeRevision==0 && s.map==4) {
+            var body=main.Temple.bounds(player,player.worldX,player.worldY);
+            boolean valid=main.Temple.terrainClear(gp,body) && (open || player.worldY>5*48) &&
+                player.worldX>=8*48 && player.worldX<42*48;
+            for (Entity npc : npcs[4]) if (npc!=null && body.intersects(main.Temple.bounds(npc,npc.worldX,npc.worldY))) valid=false;
+            for (Entity enemy : monsters[4]) if (enemy!=null && body.intersects(main.Temple.bounds(enemy,enemy.worldX,enemy.worldY))) valid=false;
+            if (!valid) main.Temple.place(player,24,42);
+        }
+        return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats);
     }
 
     private Entity[][] prepareActors(Actor[][] saved, Entity[][] shape, String category) {
@@ -391,14 +453,18 @@ public final class SaveLoad {
     }
 
     private record Prepared(Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters,
-                            InteractiveTile[][] tiles, EventHandler events) { }
+                            InteractiveTile[][] tiles, EventHandler events, int reliefs, int defeats) { }
 
     private void apply(SaveSnapshot s, Prepared prepared) {
         // All operations which can fail have finished. Publish the prepared checkpoint together.
+        gp.temple.resetCombat();
         gp.player = prepared.player;
         gp.obj = prepared.objects; gp.npc = prepared.npcs; gp.monster = prepared.monsters;
         gp.iTile = prepared.tiles; gp.eHandler = prepared.events;
         gp.currentMap = s.map; gp.currentArea = s.area; gp.nextArea = s.area;
+        gp.temple.reliefs=prepared.reliefs; gp.temple.defeats=prepared.defeats;
+        gp.temple.syncReliefs();
+        gp.prepareAreaLighting();
         gp.bossBattleOn = s.bossBattleOn; Progress.GodFishDefeated = s.godFishDefeated;
         for (Entity[] row : gp.projectile) Arrays.fill(row, null);
         gp.particleList.clear();
@@ -446,6 +512,8 @@ public final class SaveLoad {
                 world.objects[map][slot] = a;
             }
         }
+        s.templeRevision = main.Temple.REVISION;
+        world.objects[4][0] = initialWorld.objects[4][0];
         s.world = world;
         return s;
     }

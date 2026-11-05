@@ -72,7 +72,7 @@ public final class FifthZoneRegression {
             int b=m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
             transfers.put(cell(a,Integer.parseInt(m.group(2)),Integer.parseInt(m.group(3))),cell(b,Integer.parseInt(m.group(5)),Integer.parseInt(m.group(6))));
         }
-        check(transfers.size()==25,"all 25 actual portal directions included in reachability proof");
+        check(transfers.size()==24,"all 24 unconditional portal directions included in reachability proof");
         boolean[] seen=new boolean[gp.maxMap*2500];ArrayDeque<Integer> queue=new ArrayDeque<>();
         seen[start]=true;queue.add(start);
         while(!queue.isEmpty()) {

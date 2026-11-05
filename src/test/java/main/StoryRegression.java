@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import monster.MON_GodFish;
 import object.OBJ_Chest;
@@ -77,7 +78,7 @@ public final class StoryRegression {
         gp.setupGame();
         check("expanded world populations and eight playable maps", () -> {
             equal(9, gp.tileM.loadedMapCount(), "maps");
-            equal(97, count(gp.monster), "enemies including God Fish");
+            equal(94, count(gp.monster), "enemies including God Fish");
             equal(17, count(gp.npc), "NPC placements including TV and rocks");
             equal(12, count(gp.obj), "objects");
             equal(31, count(gp.iTile), "interactive tiles");
@@ -85,7 +86,7 @@ public final class StoryRegression {
         // Source map, trigger tile, destination map/tile/area. The main route and every side-room return.
         int[][] routes = {
             {0,38,25,1,9,41,50}, {1,39,7,2,22,7,50}, {2,20,44,7,25,7,50}, {7,25,45,3,25,23,52},
-            {3,9,44,8,25,43,52}, {8,23,45,3,17,44,52}, {8,25,3,4,24,42,52}, {4,24,44,8,25,6,52}, {4,24,5,6,24,44,52},
+            {3,9,44,8,25,43,52}, {8,23,45,3,17,44,52}, {8,25,3,4,24,42,52}, {4,24,44,8,25,6,52},
             {0,28,18,5,9,40,51}, {5,9,40,0,28,18,50},
             {1,9,34,5,40,40,51}, {5,40,40,1,9,34,50},
             {1,39,23,5,40,29,51}, {5,40,29,1,39,23,50},
@@ -176,20 +177,19 @@ public final class StoryRegression {
             }
             equal(8, chests, "all reward chests");
         });
-        check("four rocks on four plates open the stage-five iron door", () -> {
+        check("four rocks on their paired plates open the temple gate", () -> {
             gp.currentMap = 4;
-            List<NPC_BigRock> rocks = new ArrayList<>();
-            List<IT_MetalPlate> plates = new ArrayList<>();
-            for (Entity npc : gp.npc[4]) if (npc instanceof NPC_BigRock rock) rocks.add(rock);
-            for (var tile : gp.iTile[4]) if (tile instanceof IT_MetalPlate plate) plates.add(plate);
-            equal(4, rocks.size(), "rocks"); equal(4, plates.size(), "plates");
-            for (int i = 0; i < rocks.size(); i++) {
-                NPC_BigRock rock = rocks.get(i);
-                rock.worldX = plates.get(i).worldX; rock.worldY = plates.get(i).worldY;
-                rock.detectedPlate();
-                truth(rock.linkedEntity == plates.get(i), "rock is linked to its plate");
-                if (i < 3) truth(find(gp.obj[4], "Iron Door") >= 0, "door remains until fourth rock");
+            var previous=gp.monster[4].clone();
+            Arrays.fill(gp.monster[4],null);
+            gp.gameState=gp.playState;
+            gp.eHandler=new EventHandler(gp);
+            Temple.fixtures(gp,gp.npc,gp.iTile);
+            gp.obj[4][0]=Temple.gate(gp);
+            for (int i=0;i<Temple.LANES.length;i++) {
+                TempleRegression.pushLane(gp,Temple.LANES[i]);
+                if (i<3) truth(find(gp.obj[4], "Iron Door")>=0,"door waits for all four");
             }
+            gp.monster[4]=previous;
             equal(-1, find(gp.obj[4], "Iron Door"), "puzzle door removed");
         });
         check("shop drawing cannot charge and one update buys exactly once", () -> {
@@ -289,7 +289,7 @@ public final class StoryRegression {
             gp.resetGame(true);
             equal(1, gp.player.level, "new game resets progression");
             truth(!Progress.GodFishDefeated, "new game resets boss victory");
-            equal(97, count(gp.monster), "new game restores current population");
+            equal(94, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
         check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);

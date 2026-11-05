@@ -33,7 +33,7 @@ extends Entity {
     private Phase phase = Phase.ARMORED;
     private List<Rectangle> bands = List.of();
 
-    public boolean usesPulse() { return gp.currentMap == ABYSS_MAP; }
+    public boolean usesPulse() { return gp.currentMap == ABYSS_MAP || gp.currentMap == main.Temple.MAP; }
     public Phase phase() { return phase; }
     public List<Rectangle> bands() { return bands.stream().map(Rectangle::new).toList(); }
 

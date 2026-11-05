@@ -55,9 +55,7 @@ public class AssetSetter {
         int mapNum = 0;
         int i = 0;
         mapNum = 4;
-        this.gp.obj[mapNum][i] = new OBJ_DoorIron(this.gp);
-        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 24;
-        this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 5;
+        this.gp.obj[mapNum][i] = Temple.gate(gp);
         mapNum = 5;
         this.gp.obj[mapNum][++i] = new OBJ_Chest(this.gp);
         this.gp.obj[mapNum][i].setLoot(new OBJ_Lantern(this.gp));
@@ -119,18 +117,8 @@ public class AssetSetter {
         this.gp.npc[mapNum][++i] = new NPC_Candle(this.gp);
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 21;
         this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 38;
-        this.gp.npc[mapNum][++i] = new NPC_BigRock(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 11;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 9;
-        this.gp.npc[mapNum][++i] = new NPC_BigRock(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 38;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 9;
-        this.gp.npc[mapNum][++i] = new NPC_BigRock(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 39;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 40;
-        this.gp.npc[mapNum][++i] = new NPC_BigRock(this.gp);
-        this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 10;
-        this.gp.npc[mapNum][i].worldY = this.gp.tileSize * 39;
+        for (Temple.Lane lane : Temple.LANES)
+            gp.npc[4][++i] = Temple.place(new NPC_BigRock(gp),lane.x(),lane.y());
         mapNum = 5;
         this.gp.npc[mapNum][++i] = new NPC_Chicken(this.gp);
         this.gp.npc[mapNum][i].worldX = this.gp.tileSize * 20;
@@ -166,6 +154,7 @@ public class AssetSetter {
     public void setMonster() {
         FourthZone.populate(gp,gp.monster);
         SixthZone.populate(gp, gp.monster);
+        Temple.monsters(gp, gp.monster, gp.temple.defeats);
         int mapNum = 0;
         int i = 0;
         FirstZone.populate(gp);
@@ -211,44 +200,7 @@ public class AssetSetter {
         this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 25;
         ThirdZone.configure(gp,gp.monster,true);
         FifthZone.populate(gp,gp.monster);
-        i = 48;
-        mapNum = 4;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 36;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 37;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 37;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 35;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 30;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 30;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 37;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 22;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 30;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 30;
-        this.gp.monster[mapNum][++i] = new MON_Flower(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 9;
-        this.gp.monster[mapNum][++i] = new MON_Tella(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 22;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 16;
-        this.gp.monster[mapNum][++i] = new MON_Tella(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 16;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 35;
-        this.gp.monster[mapNum][++i] = new MON_Tella(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 35;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 36;
-        this.gp.monster[mapNum][++i] = new MON_Bomb(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 28;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 16;
-        this.gp.monster[mapNum][++i] = new MON_Bomb(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 21;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 17;
+        i = 60; // Keep all map 5 actor slots stable.
         mapNum = 5;
         this.gp.monster[mapNum][++i] = new MON_Normalillo(this.gp);
         this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 13;
@@ -310,12 +262,7 @@ public class AssetSetter {
         this.gp.monster[mapNum][++i] = new MON_Picaron(this.gp);
         this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 18;
         this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 15;
-        this.gp.monster[mapNum][++i] = new MON_Secret(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 33;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 6;
-        this.gp.monster[mapNum][++i] = new MON_Secret(this.gp);
-        this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 32;
-        this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 10;
+        i += 2; // Secrets keep their identities in the temple.
         this.gp.monster[mapNum][++i] = new MON_Sharky(this.gp);
         this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 14;
         this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 6;
@@ -347,13 +294,7 @@ public class AssetSetter {
         this.gp.iTile[mapNum][++i] = new IT_Rock(this.gp, 27, 30);
         this.gp.iTile[mapNum][++i] = new IT_Rock(this.gp, 27, 31);
         FifthZone.obstacles(gp,gp.iTile);
-        i = 13;
-        mapNum = 4;
-        this.gp.iTile[mapNum][++i] = new IT_MetalPlate(this.gp, 10, 44);
-        this.gp.iTile[mapNum][++i] = new IT_MetalPlate(this.gp, 39, 44);
-        this.gp.iTile[mapNum][++i] = new IT_MetalPlate(this.gp, 38, 5);
-        this.gp.iTile[mapNum][++i] = new IT_MetalPlate(this.gp, 11, 5);
-        ++i;
+        for (Temple.Lane lane : Temple.LANES)
+            gp.iTile[4][lane.plateSlot()] = new IT_MetalPlate(gp,lane.endX(),lane.endY());
     }
 }
-

@@ -10,6 +10,7 @@ import main.GamePanel;
 public final class FifthLighting {
     private static final int AMBIENT_ALPHA=165;
     private final GamePanel gp;
+    private int ambient = AMBIENT_ALPHA;
     private final int width,height;
     private final byte[] worldAlpha;
     private final BufferedImage screen=new BufferedImage(320,192,BufferedImage.TYPE_INT_ARGB);
@@ -32,26 +33,44 @@ public final class FifthLighting {
         return true;
     }
     public void prepare() {
-        int map = main.SixthZone.usesAbyss(gp.currentMap) ? gp.currentMap : FifthZone.MAP;
+        int map = (main.SixthZone.usesAbyss(gp.currentMap) || gp.currentMap==main.Temple.MAP) ? gp.currentMap : FifthZone.MAP;
         int next=gp.tileM.getMapRevision(map);
         if(next!=revision || map!=cachedMap) {
             cachedMap=map;
-            Arrays.fill(worldAlpha,(byte)AMBIENT_ALPHA);
+            ambient = map==main.Temple.MAP ? 198 : AMBIENT_ALPHA;
+            Arrays.fill(worldAlpha,(byte)ambient);
             final int radius=44; // 2.75 tiles, native pixels.
             for(int col=0;col<gp.maxWorldCol;col++) for(int row=0;row<gp.maxWorldRow;row++) {
                 int tile=gp.tileM.mapTileNum[map][col][row];
+                if (map==main.Temple.MAP) {
+                    if (tile!=main.Temple.LAMP) continue;
+                    for (int[] d : new int[][]{{1,0},{-1,0},{0,1},{0,-1}}) {
+                        int x=col+d[0],y=row+d[1];
+                        if (x>=0 && x<gp.maxWorldCol && y>=0 && y<gp.maxWorldRow &&
+                            !gp.tileM.tile[gp.tileM.mapTileNum[map][x][y]].collision)
+                            illuminate(col*16+8+d[0]*11,row*16+8+d[1]*11,radius);
+                    }
+                    continue;
+                }
                 if(tile<FifthZone.GLOW_TOP||tile>FifthZone.GLOW_TOP+3) continue;
-                int cx=col*16+8,cy=row*16+8;
+                illuminate(col*16+8,row*16+8,radius);
+            }
+            revision=next;
+        }
+        prepareLamp();
+    }
+
+    private void illuminate(int cx,int cy,int radius) {
                 for(int y=Math.max(0,cy-radius);y<Math.min(height,cy+radius+1);y++)
                     for(int x=Math.max(0,cx-radius);x<Math.min(width,cx+radius+1);x++) {
                         double distance=Math.hypot(x-cx,y-cy)/radius;
                         if(distance>=1||!clear(cx,cy,x,y)) continue;
-                        int alpha=(int)Math.round(30+(AMBIENT_ALPHA-30)*distance);
+                        int alpha=(int)Math.round(30+(ambient-30)*distance);
                         int i=y*width+x;worldAlpha[i]=(byte)Math.min(worldAlpha[i]&255,alpha);
                     }
-            }
-            revision=next;
-        }
+    }
+
+    private void prepareLamp() {
         int radius=gp.player.currentLight==null?0:gp.player.currentLight.lightRadius;
         if(radius!=lampRadius) {
             double cx=(gp.player.screenX+24)/3.0,cy=(gp.player.screenY+24)/3.0;
@@ -65,7 +84,7 @@ public final class FifthLighting {
         int cameraX=gp.player.worldX-gp.player.screenX,cameraY=gp.player.worldY-gp.player.screenY;
         for(int y=0;y<192;y++) for(int x=0;x<320;x++) {
             int wx=Math.floorDiv(cameraX+x*3,3),wy=Math.floorDiv(cameraY+y*3,3),i=y*320+x;
-            int fixed=wx<0||wy<0||wx>=width||wy>=height?AMBIENT_ALPHA:worldAlpha[wy*width+wx]&255;
+            int fixed=wx<0||wy<0||wx>=width||wy>=height?ambient:worldAlpha[wy*width+wx]&255;
             int alpha=Math.min(fixed,lamp[i]&255);
             pixels[i]=(alpha<<24)|0x070419;
         }

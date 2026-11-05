@@ -67,9 +67,9 @@ public final class SaveRegression {
         gp.obj[5][1].down = gp.obj[5][1].image2;
         gp.iTile[2][0] = new IT_Rocky(gp, 18, 43);
         NPC_BigRock rock = null; IT_MetalPlate plate = null;
-        int rockSlot = -1, plateSlot = -1;
+        int rockSlot = -1, plateSlot = main.Temple.LANES[0].plateSlot();
         for (int i = 0; i < gp.npc[4].length; i++) if (gp.npc[4][i] instanceof NPC_BigRock r) { rock = r; rockSlot = i; break; }
-        for (int i = 0; i < gp.iTile[4].length; i++) if (gp.iTile[4][i] instanceof IT_MetalPlate p) { plate = p; plateSlot = i; break; }
+        plate = (IT_MetalPlate)gp.iTile[4][plateSlot];
         rock.worldX = plate.worldX; rock.worldY = plate.worldY; rock.linkedEntity = plate;
         gp.monster[0][0].life = 2;
         check(saves.trySave(), "initial checkpoint writes: " + saves.getLastError());

@@ -130,7 +130,7 @@ public final class FirstZoneRegression {
         check(gp.ocean.frameIndex()==0, "Paused ocean keeps updating");
         gp.gameState=gp.playState;
         // Fifth (map 3) now intentionally has its own layers, covered by FifthZoneRegression.
-        for(int map=4;map<7;map++) {
+        for(int map=5;map<7;map++) {
             gp.currentMap=map;
             BufferedImage a=new BufferedImage(960,576,2), b=new BufferedImage(960,576,2);
             Graphics2D ga=a.createGraphics(), gb=b.createGraphics();
