@@ -15,6 +15,7 @@ final class SaveSnapshot implements Serializable {
     int sixthZoneRevision;
     int templeRevision, templeReliefs, templeDefeats;
     int templeExtensionRevision;
+    int extraRoomsRevision, extraRoomsFlags;
     int fifthZoneRevision;
     int map, area, x, y;
     String direction;

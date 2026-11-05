@@ -46,10 +46,10 @@ extends Projectile {
         for(int col=box.x/size;col<=(box.x+box.width-1)/size;col++)
             for(int row=box.y/size;row<=(box.y+box.height-1)/size;row++)
                 if(gp.tileM.tile[gp.tileM.mapTileNum[gp.currentMap][col][row]].collision) return true;
-        for(Entity e:gp.obj[gp.currentMap]) if(e!=null && e.collision && intersects(box,e)) return true;
-        for(tile_interactive.InteractiveTile e:gp.iTile[gp.currentMap]) if(e!=null && (e.collision || e.destructible) && intersects(box,e)) return true;
-        for(Entity e:gp.npc[gp.currentMap]) if(e!=null && intersects(box,e)) return true;
-        for(Entity e:gp.monster[gp.currentMap]) if(e!=null && e!=owner && e.alive && !e.dying && intersects(box,e)) return true;
+        for(Entity e:gp.obj[gp.currentMap]) if(gp.extraRooms.visible(e) && e.collision && intersects(box,e)) return true;
+        for(tile_interactive.InteractiveTile e:gp.iTile[gp.currentMap]) if(gp.extraRooms.visible(e) && (e.collision || e.destructible) && intersects(box,e)) return true;
+        for(Entity e:gp.npc[gp.currentMap]) if(gp.extraRooms.visible(e) && intersects(box,e)) return true;
+        for(Entity e:gp.monster[gp.currentMap]) if(gp.extraRooms.visible(e) && e!=owner && e.alive && !e.dying && intersects(box,e)) return true;
         return false;
     }
     private boolean intersects(Rectangle box, Entity e) {

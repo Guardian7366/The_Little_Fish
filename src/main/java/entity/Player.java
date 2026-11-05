@@ -397,6 +397,7 @@ extends Entity {
             this.gp.monster[this.gp.currentMap][i].damageReaction();
             if (this.gp.monster[this.gp.currentMap][i].life <= 0) {
                 this.gp.monster[this.gp.currentMap][i].dying = true;
+                if (!gp.extraRooms.claimDefeat(i)) return;
                 this.gp.ui.addMessage("killed the " + this.gp.monster[this.gp.currentMap][i].name + "!");
                 if (gp.monster[gp.currentMap][i] instanceof monster.MON_Secret secret && !secret.claimReward()) return;
                 this.gp.ui.addMessage("Exp + " + this.gp.monster[this.gp.currentMap][i].exp + "!");
@@ -514,8 +515,8 @@ extends Entity {
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
-        int tempScreenX = this.screenX;
-        int tempScreenY = this.screenY;
+        int tempScreenX = getScreenX();
+        int tempScreenY = getScreenY();
         switch (this.direction) {
             case "up": {
                 if (!this.attacking) {
@@ -527,7 +528,7 @@ extends Entity {
                     }
                 }
                 if (this.attacking) {
-                    tempScreenY = this.screenY - this.gp.tileSize;
+                    tempScreenY = getScreenY() - this.gp.tileSize;
                     if (this.spriteNum == 1) {
                         image = this.attackUp1;
                     }
@@ -570,7 +571,7 @@ extends Entity {
                     }
                 }
                 if (this.attacking) {
-                    tempScreenX = this.screenX - this.gp.tileSize;
+                    tempScreenX = getScreenX() - this.gp.tileSize;
                     if (this.spriteNum == 1) {
                         image = this.attackLeft1;
                     }

@@ -17,21 +17,14 @@ extends Entity {
     }
 
     public void getImage() {
-        this.left = this.setup("/npc/npcFlower", this.gp.tileSize, this.gp.tileSize);
-        this.left2 = this.setup("/npc/npcFlower2", this.gp.tileSize, this.gp.tileSize);
-        this.right = this.setup("/npc/npcFlower", this.gp.tileSize, this.gp.tileSize);
-        this.right2 = this.setup("/npc/npcFlower2", this.gp.tileSize, this.gp.tileSize);
-        this.up = this.setup("/npc/npcFlower", this.gp.tileSize, this.gp.tileSize);
-        this.up2 = this.setup("/npc/npcFlower2", this.gp.tileSize, this.gp.tileSize);
-        this.down = this.setup("/npc/npcFlower", this.gp.tileSize, this.gp.tileSize);
-        this.down2 = this.setup("/npc/npcFlower2", this.gp.tileSize, this.gp.tileSize);
+        left = right = up = down = setup("/refugios/flower/npc-0",gp.tileSize,gp.tileSize);
+        left2 = right2 = up2 = down2 = setup("/refugios/flower/npc-1",gp.tileSize,gp.tileSize);
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "I think you were a monster";
-        this.dialogues[0][1] = "But you are better than them...";
-        this.dialogues[0][2] = "You can do it D";
-        this.dialogues[0][3] = "Take this chest and GO!";
+        dialogues[0][0] = "D asked me for a second dose.";
+        dialogues[0][1] = "It was still sealed when\nD brought it back.";
+        dialogues[0][2] = "The Greeny guards the remedy.";
     }
 
     @Override

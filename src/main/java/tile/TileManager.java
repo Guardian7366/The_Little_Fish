@@ -18,7 +18,7 @@ public class TileManager {
     private static final AlphaComposite SHALLOW_WATER = AlphaComposite.SrcOver.derive(0.78f);
     private static final String[] INITIAL_MAPS = {
         "/maps/stage1.txt", "/maps/stage2.txt", "/maps/stage3.txt", "/maps/stage4.txt",
-        "/maps/temple.txt", "/maps/extraStage.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt"
+        "/maps/temple.txt", "/maps/extraRefugios.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt"
     };
     private final GamePanel gp;
     public Tile[] tile;
@@ -44,6 +44,15 @@ public class TileManager {
             fileNames.add("/septima/tiles/"+templeTiles[index]+".png");
             collisionStatus.add(index<4 || index>=12);
         }
+        for (String room : new String[]{"chicken","flower","spiky"}) {
+            String[] parts={"floor-0","floor-1","wall","wall-trim","gate-closed","gate-open"};
+            for (int i=0;i<parts.length;i++) {
+                fileNames.add("/refugios/"+room+"/"+parts[i]+".png");
+                collisionStatus.add(i>=2 && i<=4);
+            }
+        }
+        fileNames.add("/refugios/spiky/cover.png");
+        collisionStatus.add(true);
         tile = new Tile[fileNames.size()];
         getTileImage();
         List<String> firstMap = readLines(INITIAL_MAPS[0]);
@@ -130,6 +139,7 @@ public class TileManager {
     public void reloadCurrentMap() {
         if (isMapLoaded(gp.currentMap)) loadMap(mapResources[gp.currentMap], gp.currentMap);
         if (gp.currentMap==main.Temple.MAP) gp.temple.syncReliefs();
+        if (gp.currentMap==main.ExtraRooms.MAP) gp.extraRooms.syncTerrain();
         if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
         for (var enemy : gp.monster[gp.currentMap]) {
             if (enemy instanceof monster.MON_Sharky shark) shark.resetAmbush();
@@ -162,16 +172,20 @@ public class TileManager {
     }
 
     private void drawTerrain(Graphics2D graphics, boolean ocean) {
-        int left = Math.max(0, (gp.player.worldX - gp.player.screenX) / gp.tileSize - 1);
-        int right = Math.min(gp.maxWorldCol - 1, (gp.player.worldX + gp.player.screenX) / gp.tileSize + 1);
-        int top = Math.max(0, (gp.player.worldY - gp.player.screenY) / gp.tileSize - 1);
-        int bottom = Math.min(gp.maxWorldRow - 1, (gp.player.worldY + gp.player.screenY) / gp.tileSize + 1);
+        var room = gp.extraRooms.active();
+        if (gp.currentMap==main.ExtraRooms.MAP && room==null) return;
+        var view = room==null ? null : room.view();
+        int cameraX=gp.cameraX(),cameraY=gp.cameraY();
+        int left = view==null ? Math.max(0, cameraX / gp.tileSize - 1) : view.x;
+        int right = view==null ? Math.min(gp.maxWorldCol - 1, (cameraX + 2*gp.player.screenX) / gp.tileSize + 1) : view.x+view.width-1;
+        int top = view==null ? Math.max(0, cameraY / gp.tileSize - 1) : view.y;
+        int bottom = view==null ? Math.min(gp.maxWorldRow - 1, (cameraY + 2*gp.player.screenY) / gp.tileSize + 1) : view.y+view.height-1;
         for (int row = top; row <= bottom; row++) {
             for (int col = left; col <= right; col++) {
                 int tileNumber = mapTileNum[gp.currentMap][col][row];
-                if (ocean && tileNumber == 0) continue;
-                int screenX = col * gp.tileSize - gp.player.worldX + gp.player.screenX;
-                int screenY = row * gp.tileSize - gp.player.worldY + gp.player.screenY;
+                if ((ocean || room!=null) && tileNumber == 0) continue;
+                int screenX = col * gp.tileSize - cameraX;
+                int screenY = row * gp.tileSize - cameraY;
                 if (ocean && (tileNumber == 1 || tileNumber == 2)) {
                     graphics.setComposite(SHALLOW_WATER);
                     graphics.drawImage(tile[tileNumber].image, screenX, screenY, null);
@@ -179,11 +193,11 @@ public class TileManager {
                 } else graphics.drawImage(tile[tileNumber].image, screenX, screenY, null);
             }
         }
-        if (drawPath) {
+        if (drawPath && room==null) {
             graphics.setColor(new Color(255, 0, 0, 70));
             for (ai.Node cell : gp.pFinder.pathList) {
-                int screenX = cell.col * gp.tileSize - gp.player.worldX + gp.player.screenX;
-                int screenY = cell.row * gp.tileSize - gp.player.worldY + gp.player.screenY;
+                int screenX = cell.col * gp.tileSize - cameraX;
+                int screenY = cell.row * gp.tileSize - cameraY;
                 graphics.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
             }
         }

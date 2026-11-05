@@ -10,7 +10,7 @@ Actualizada el **4 de noviembre de 2026**. Esta hoja ordena el trabajo; el estad
 | 2. Publicar la base documental | Completada: bc0c1c9 | Publicar únicamente los cinco archivos aprobados y comprobar que la referencia local coincide con GitHub; el commit documental identifica la base compartida |
 | 3. Validar la base jugable actual | Cuarta aprobada; Sharky, recorrido general y ambientación de quinta aprobados por el usuario | Correcciones de Iron y puertas aprobadas el 4 de noviembre de 2026. Pasaron las 17 suites |
 | 4. Definir el alcance de la edición definitiva | Propuesta | Aprobar qué conservar, mejorar o ampliar en recorrido, combate, progresión, narrativa, presentación y final; fijar prioridades y criterios de aceptación |
-| 5. Implementar por entregas pequeñas | Quinta, sexta, séptima y octava completadas y aprobadas | Acordar el alcance de la próxima entrega |
+| 5. Implementar por entregas pequeñas | Quinta a octava y tres primeros refugios completados y aprobados | Acordar el alcance de la próxima entrega |
 | 6. Preparar la entrega definitiva | Propuesta; depende del alcance aprobado | Validar recorrido completo, guardados y distribución; revisar experiencia manual, documentación y paquete final; publicar solo con autorización |
 
 ## Decisiones que faltan
@@ -50,4 +50,4 @@ El mapa 9 conecta el templo aprobado con el jefe. El usuario probó las galería
 
 ## Primeros tres refugios de D
 
-Antes de rediseñar al jefe, integrar la despensa de Chicken, el vivero de Flower y el puesto de Spiky. Mantener el mapa interno 5 con salas independientes en cámara, dibujo y simulación. [Encargo y arte](design/salas-extras-1-3/TAREA-CODEX.md).
+Chicken, Flower y Spiky están integrados en el mapa 5 con sus retos y recompensas originales. El usuario confirmó tras jugar que las tres salas funcionan como esperaba y autorizó su publicación el 4 de noviembre de 2026. El siguiente alcance queda por acordar. [Informe](SALAS-EXTRAS-1-3.md)

@@ -46,8 +46,8 @@ extends Entity {
 
     @Override
     public void draw(Graphics2D g2) {
-        int screenX = this.worldX - this.gp.player.worldX + this.gp.player.screenX;
-        int screenY = this.worldY - this.gp.player.worldY + this.gp.player.screenY;
+        int screenX = getScreenX();
+        int screenY = getScreenY();
         g2.setColor(this.color);
         g2.fillRect(screenX, screenY, this.size, this.size);
     }

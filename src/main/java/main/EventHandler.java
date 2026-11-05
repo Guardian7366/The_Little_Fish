@@ -61,6 +61,7 @@ public class EventHandler {
     }
 
     public void checkEvent() {
+        if (gp.extraRooms.interact()) return;
         if (gp.currentMap==TempleExtension.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
             for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++) {
                 var inscription = TempleExtension.INSCRIPTIONS[i];
@@ -178,15 +179,15 @@ public class EventHandler {
             } else if (this.hit(TempleExtension.MAP, 24, 5, "any")) {
                 if (TempleExtension.solved(gp.npc,gp.iTile)) this.teleportMap(6, 24, 44, this.gp.dungeons);
             } else if (this.hit(0, 28, 18, "any")) {
-                this.teleportMap(5, 9, 40, this.gp.indoor);
+                this.teleportMap(5, 10, 40, this.gp.indoor);
             } else if (this.hit(5, 9, 40, "any")) {
                 this.teleportMap(0, 28, 18, this.gp.outside);
             } else if (this.hit(1, 9, 34, "any")) {
-                this.teleportMap(5, 40, 40, this.gp.indoor);
+                this.teleportMap(5, 39, 40, this.gp.indoor);
             } else if (this.hit(5, 40, 40, "any")) {
                 this.teleportMap(1, 9, 34, this.gp.outside);
             } else if (this.hit(1, 39, 23, "any")) {
-                this.teleportMap(5, 40, 29, this.gp.indoor);
+                this.teleportMap(5, 39, 29, this.gp.indoor);
             } else if (this.hit(5, 40, 29, "any")) {
                 this.teleportMap(1, 39, 23, this.gp.outside);
             } else if (this.hit(2, 39, 13, "any")) {
@@ -217,7 +218,8 @@ public class EventHandler {
 
     public boolean hit(int map, int col, int row, String reqDirection) {
         boolean hit = false;
-        if (map == this.gp.currentMap) {
+        if (map == this.gp.currentMap && (map!=ExtraRooms.MAP ||
+            ExtraRooms.at(col,row)==gp.extraRooms.active())) {
             this.gp.player.solidArea.x = this.gp.player.worldX + this.gp.player.solidArea.x;
             this.gp.player.solidArea.y = this.gp.player.worldY + this.gp.player.solidArea.y;
             this.eventRect[map][col][row].x = col * this.gp.tileSize + this.eventRect[map][col][row].x;

@@ -134,12 +134,12 @@ public class Entity {
     }
 
     public int getScreenX() {
-        int screenX = this.worldX - this.gp.player.worldX + this.gp.player.screenX;
+        int screenX = worldX - gp.cameraX();
         return screenX;
     }
 
     public int getScreenY() {
-        int screenY = this.worldY - this.gp.player.worldY + this.gp.player.screenY;
+        int screenY = worldY - gp.cameraY();
         return screenY;
     }
 
@@ -524,6 +524,7 @@ public class Entity {
             }
             if (this.spriteCounter <= this.motion1_duration || this.spriteCounter > this.motion2_duration) break block21;
             this.spriteNum = 2;
+            var room = gp.extraRooms.active();
             int currentWorldX = this.worldX;
             int currentWorldY = this.worldY;
             int solidAreaWidth = this.solidArea.width;
@@ -554,11 +555,11 @@ public class Entity {
             } else {
                 if (this == gp.player && main.Temple.usesTemple(gp.currentMap) && currentWeapon.type==type_bubble)
                     gp.temple.cutVines(main.Temple.bounds(this,worldX,worldY));
-                int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster);
+                int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster, room);
                 this.gp.player.damageMonster(monsterIndex, this, this.attack, this.currentWeapon.knockBackPower);
-                int iTileIndex = this.gp.cChecker.checkEntity(this, this.gp.iTile);
+                int iTileIndex = this.gp.cChecker.checkEntity(this, this.gp.iTile, room);
                 this.gp.player.damageInteractiveTile(iTileIndex);
-                int projectileIndex = this.gp.cChecker.checkEntity(this, this.gp.projectile);
+                int projectileIndex = this.gp.cChecker.checkEntity(this, this.gp.projectile, room);
                 this.gp.player.damageProjectile(projectileIndex);
             }
             this.worldX = currentWorldX;
@@ -622,6 +623,7 @@ public class Entity {
     }
 
     public boolean inCamera() {
+        if (gp.currentMap==main.ExtraRooms.MAP) return gp.extraRooms.visible(this);
         boolean inCamera = false;
         if (this.worldX + this.gp.tileSize * 5 > this.gp.player.worldX - this.gp.player.screenX && this.worldX - this.gp.tileSize < this.gp.player.worldX + this.gp.player.screenX && this.worldY + this.gp.tileSize * 5 > this.gp.player.worldY - this.gp.player.screenY && this.worldY - this.gp.tileSize < this.gp.player.worldY + this.gp.player.screenY) {
             inCamera = true;

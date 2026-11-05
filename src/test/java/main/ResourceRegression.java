@@ -45,7 +45,7 @@ public final class ResourceRegression {
         try (var files = Files.walk(assets)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".png")).toList()) {
                 String resource = "/" + assets.relativize(file).toString().replace('\\', '/');
-                if(resource.startsWith("/quinta/") || resource.startsWith("/sexta/") || resource.startsWith("/septima/") || resource.startsWith("/octava/")) continue; // Native candidate art has its own manifest/hash suite.
+                if(resource.startsWith("/quinta/") || resource.startsWith("/sexta/") || resource.startsWith("/septima/") || resource.startsWith("/octava/") || resource.startsWith("/refugios/")) continue; // Native candidate art has its own manifest/hash suite.
                 BufferedImage original = ImageIO.read(file.toFile());
                 int width = original.getWidth() * 3, height = original.getHeight() * 3;
                 BufferedImage reference = new UtilityTool().scaleImage(original, width, height);
@@ -95,6 +95,7 @@ public final class ResourceRegression {
         int[][] positions = {{0,0}, {624,1488}, {628,1492}, {647,1511}, {671,1535}, {2352,2352}};
         for (int map = 0; map < gp.maxMap; map++) {
             gp.currentMap = map;
+            if (map==ExtraRooms.MAP) continue; // Room-bounded rendering is checked at all 32 corners separately.
             for (int[] position : positions) {
                 gp.player.worldX = position[0]; gp.player.worldY = position[1];
                 BufferedImage expected = new BufferedImage(960, 576, BufferedImage.TYPE_INT_ARGB);

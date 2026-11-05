@@ -54,6 +54,7 @@ implements Runnable {
     public int maxWorldCol;
     public int maxWorldRow;
     public final int maxMap = 10;
+    public final ExtraRooms extraRooms = new ExtraRooms(this);
     public final Temple temple = new Temple(this);
     public int currentMap = 0;
     int screenWidth2 = 960;
@@ -154,6 +155,7 @@ implements Runnable {
         player.drawing = true;
         if (restart) {
             firstZoneGuide.reset();
+            extraRooms.restore(0);
             temple.reliefs = temple.defeats = 0;
             temple.syncReliefs();
             Progress.GodFishDefeated = false;
@@ -230,14 +232,14 @@ implements Runnable {
             firstZoneGuide.update();
             int i = 0;
             while (i < this.npc[1].length) {
-                if (this.npc[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.npc[this.currentMap][i])) {
                     this.npc[this.currentMap][i].update();
                 }
                 ++i;
             }
             i = 0;
             while (i < this.monster[1].length) {
-                if (this.monster[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.monster[this.currentMap][i])) {
                     if (this.monster[this.currentMap][i].alive && !this.monster[this.currentMap][i].dying) {
                         this.monster[this.currentMap][i].update();
                     }
@@ -250,7 +252,7 @@ implements Runnable {
             }
             i = 0;
             while (i < this.projectile[1].length) {
-                if (this.projectile[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.projectile[this.currentMap][i])) {
                     if (this.projectile[this.currentMap][i].alive) {
                         this.projectile[this.currentMap][i].update();
                     }
@@ -262,12 +264,12 @@ implements Runnable {
             }
             for (i = particleList.size() - 1; i >= 0; i--) {
                 Entity particle = particleList.get(i);
-                if (particle.alive) particle.update();
+                if (particle.alive && extraRooms.visible(particle)) particle.update();
                 if (!particle.alive) particleList.remove(i);
             }
             i = 0;
             while (i < this.iTile[1].length) {
-                if (this.iTile[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.iTile[this.currentMap][i])) {
                     this.iTile[this.currentMap][i].update();
                 }
                 ++i;
@@ -275,10 +277,20 @@ implements Runnable {
             this.eManager.update();
         }
         if (gameState != titleState && gameState != mapState && gameState != pauseState) {
-            for (Entity entity : monster[currentMap]) if (entity != null) entity.updateVisualState();
+            for (Entity entity : monster[currentMap]) if (extraRooms.visible(entity)) entity.updateVisualState();
         }
         csManager.update();
         flow.update();
+    }
+
+    public int cameraX() {
+        var room=extraRooms.active();
+        return room==null ? player.worldX-player.screenX : extraRooms.cameraX(room);
+    }
+
+    public int cameraY() {
+        var room=extraRooms.active();
+        return room==null ? player.worldY-player.screenY : extraRooms.cameraY(room);
     }
 
     public void drawToTempScreen() {
@@ -293,11 +305,19 @@ implements Runnable {
         } else if (this.gameState == 10) {
             this.map.drawFullMapScreen(this.g2);
         } else {
-            this.ocean.drawBackground(this.g2, this);
+            var room=extraRooms.active();
+            if (currentMap==ExtraRooms.MAP) extraRooms.background(g2,room);
+            else this.ocean.drawBackground(this.g2, this);
+            var previousClip=g2.getClip();
+            if (room!=null) {
+                var view=room.view();
+                g2.clipRect(view.x*48-cameraX(),view.y*48-cameraY(),view.width*48,view.height*48);
+            }
             this.tileM.drawLayered(this.g2);
+            extraRooms.details(g2,room);
             int i = 0;
             while (i < this.iTile[1].length) {
-                if (this.iTile[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.iTile[this.currentMap][i])) {
                     if (!Temple.usesTemple(currentMap) || !(iTile[currentMap][i] instanceof tile_interactive.IT_MetalPlate))
                         this.iTile[this.currentMap][i].draw(this.g2);
                 }
@@ -308,35 +328,35 @@ implements Runnable {
             this.entityList.add(this.player);
             i = 0;
             while (i < this.npc[1].length) {
-                if (this.npc[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.npc[this.currentMap][i])) {
                     this.entityList.add(this.npc[this.currentMap][i]);
                 }
                 ++i;
             }
             i = 0;
             while (i < this.obj[1].length) {
-                if (this.obj[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.obj[this.currentMap][i])) {
                     this.entityList.add(this.obj[this.currentMap][i]);
                 }
                 ++i;
             }
             i = 0;
             while (i < this.monster[1].length) {
-                if (this.monster[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.monster[this.currentMap][i])) {
                     this.entityList.add(this.monster[this.currentMap][i]);
                 }
                 ++i;
             }
             i = 0;
             while (i < this.projectile[1].length) {
-                if (this.projectile[this.currentMap][i] != null) {
+                if (extraRooms.visible(this.projectile[this.currentMap][i])) {
                     this.entityList.add(this.projectile[this.currentMap][i]);
                 }
                 ++i;
             }
             i = 0;
             while (i < this.particleList.size()) {
-                if (this.particleList.get(i) != null) {
+                if (extraRooms.visible(this.particleList.get(i))) {
                     this.entityList.add(this.particleList.get(i));
                 }
                 ++i;
@@ -355,7 +375,8 @@ implements Runnable {
                 ++i;
             }
             this.entityList.clear();
-            this.ocean.drawForeground(this.g2, this);
+            g2.setClip(previousClip);
+            if (currentMap!=ExtraRooms.MAP) this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
             if (currentMap == SixthZone.MAP || Temple.usesTemple(currentMap)) {
                 for (Entity enemy : monster[currentMap])

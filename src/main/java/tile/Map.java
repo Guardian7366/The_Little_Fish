@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Rectangle;
+import main.ExtraRooms;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import main.GamePanel;
@@ -70,12 +72,7 @@ public class Map {
         int size = 500;
         int x = gp.screenWidht / 2 - size / 2;
         int y = gp.screenHeight / 2 - size / 2;
-        graphics.drawImage(getWorldMap(gp.currentMap), x, y, size, size, null);
-        double scale = (double) (gp.tileSize * gp.maxWorldCol) / size;
-        int playerX = (int) (x + gp.player.worldX / scale);
-        int playerY = (int) (y + gp.player.worldY / scale);
-        int playerSize = (int) (gp.tileSize / scale);
-        graphics.drawImage(gp.player.right, playerX, playerY, playerSize, playerSize, null);
+        drawPreview(graphics,x,y,size,false);
         graphics.setFont(gp.ui.purisaB.deriveFont(12.0f));
         graphics.setColor(Color.white);
         graphics.drawString("Press M to close, D...", 750, 550);
@@ -89,14 +86,33 @@ public class Map {
         Composite previous = graphics.getComposite();
         try {
             graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
-            graphics.drawImage(getWorldMap(gp.currentMap), x, y, size, size, null);
-            double scale = (double) (gp.tileSize * gp.maxWorldCol) / size;
-            int playerX = (int) (x + gp.player.worldX / scale);
-            int playerY = (int) (y + gp.player.worldY / scale);
-            int playerSize = gp.tileSize / 3;
-            graphics.drawImage(gp.player.right, playerX - 6, playerY - 6, playerSize, playerSize, null);
+            drawPreview(graphics,x,y,size,true);
         } finally {
             graphics.setComposite(previous);
+        }
+    }
+
+    private void drawPreview(Graphics2D graphics,int x,int y,int size,boolean mini) {
+        var room=gp.extraRooms.active();
+        if (gp.currentMap==ExtraRooms.MAP && room==null) return;
+        Rectangle source=room==null ? new Rectangle(0,0,gp.maxWorldCol,gp.maxWorldRow) : room.view();
+        double scale=(double)size/Math.max(source.width,source.height);
+        int width=(int)Math.round(source.width*scale),height=(int)Math.round(source.height*scale);
+        x+=(size-width)/2;
+        y+=(size-height)/2;
+        int unit=PREVIEW_TILE_SIZE;
+        Graphics2D view=(Graphics2D)graphics.create();
+        try {
+            view.clipRect(x,y,width,height);
+            view.drawImage(getWorldMap(gp.currentMap),x,y,x+width,y+height,source.x*unit,source.y*unit,
+                (source.x+source.width)*unit,(source.y+source.height)*unit,null);
+            int playerX=x+(int)((gp.player.worldX/(double)gp.tileSize-source.x)*scale);
+            int playerY=y+(int)((gp.player.worldY/(double)gp.tileSize-source.y)*scale);
+            int markerSize=mini && room==null ? gp.tileSize/3 : (int)scale;
+            int offset=mini && room==null ? 6 : 0;
+            view.drawImage(gp.player.right,playerX-offset,playerY-offset,markerSize,markerSize,null);
+        } finally {
+            view.dispose();
         }
     }
 }

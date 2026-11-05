@@ -17,20 +17,14 @@ extends Entity {
     }
 
     public void getImage() {
-        this.left = this.setup("/npc/Spiky", this.gp.tileSize, this.gp.tileSize);
-        this.left2 = this.setup("/npc/Spiky2", this.gp.tileSize, this.gp.tileSize);
-        this.right = this.setup("/npc/Spiky", this.gp.tileSize, this.gp.tileSize);
-        this.right2 = this.setup("/npc/Spiky2", this.gp.tileSize, this.gp.tileSize);
-        this.up = this.setup("/npc/Spiky", this.gp.tileSize, this.gp.tileSize);
-        this.up2 = this.setup("/npc/Spiky2", this.gp.tileSize, this.gp.tileSize);
-        this.down = this.setup("/npc/Spiky", this.gp.tileSize, this.gp.tileSize);
-        this.down2 = this.setup("/npc/Spiky2", this.gp.tileSize, this.gp.tileSize);
+        left = right = up = down = setup("/refugios/spiky/npc-0",gp.tileSize,gp.tileSize);
+        left2 = right2 = up2 = down2 = setup("/refugios/spiky/npc-1",gp.tileSize,gp.tileSize);
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "Sp- Sp- Sp-";
-        this.dialogues[0][1] = "Th- Th- Th-";
-        this.dialogues[0][2] = "Ch- Ch- Ch-";
+        dialogues[0][0] = "D... D slept here once.";
+        dialogues[0][1] = "The other bed was made.\nD said it was still taken.";
+        dialogues[0][2] = "Use the walls when crossing.";
     }
 
     @Override

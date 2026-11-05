@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import main.EventHandler;
 import main.GamePanel;
+import main.ExtraRooms;
 import main.FirstZone;
 import main.SecondZone;
 import main.ThirdZone;
@@ -178,6 +179,8 @@ public final class SaveLoad {
         s.fifthZoneRevision = FifthZone.REVISION;
         s.sixthZoneRevision = main.SixthZone.REVISION;
         s.templeRevision = main.Temple.REVISION;
+        s.extraRoomsRevision = ExtraRooms.REVISION;
+        s.extraRoomsFlags = gp.extraRooms.flags();
         s.templeExtensionRevision = main.TempleExtension.REVISION;
         s.templeReliefs = gp.temple.reliefs;
         s.templeDefeats = gp.temple.defeats;
@@ -254,6 +257,8 @@ public final class SaveLoad {
             "Unsupported first-zone layout");
         require(s.secondZoneRevision >= 0 && s.secondZoneRevision <= SecondZone.REVISION, "Unsupported second-zone layout");
         require(gp.tileM.isMapLoaded(s.map), "Invalid map");
+        require(s.extraRoomsRevision>=0 && s.extraRoomsRevision<=ExtraRooms.REVISION &&
+            (s.extraRoomsFlags & ~ExtraRooms.ALL_FLAGS)==0,"Unsupported refuge state");
         require(s.fourthZoneRevision>=0 && s.fourthZoneRevision<=FourthZone.REVISION,"Unsupported fourth-zone layout");
         require(s.templeRevision >= 0 && s.templeRevision <= main.Temple.REVISION, "Unsupported temple layout");
         require(s.templeExtensionRevision >= 0 && s.templeExtensionRevision <= main.TempleExtension.REVISION,
@@ -383,7 +388,30 @@ public final class SaveLoad {
             if (!valid) main.Temple.place(player,24,42);
         }
         prepareTempleExtension(s,player,objects,npcs,monsters,tiles);
-        return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats);
+        int refuges = prepareExtraRooms(s,player,objects,npcs,monsters);
+        return new Prepared(player, objects, npcs, monsters, tiles, new EventHandler(gp),reliefs,defeats,refuges);
+    }
+
+    private int prepareExtraRooms(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters) {
+        int flags = s.extraRoomsFlags;
+        if (s.extraRoomsRevision==0) {
+            flags = ExtraRooms.openedRewards(objects);
+            ExtraRooms.placeFixtures(npcs,objects);
+            ExtraRooms.populate(gp,monsters,flags);
+        } else {
+            ExtraRooms.configure(monsters,flags);
+            require((flags&ExtraRooms.FLOWER_DONE)!=0 || monsters[ExtraRooms.MAP][ExtraRooms.GREENY] instanceof monster.MON_Normalillo,
+                "Missing refuge Greeny");
+        }
+        if (s.map==ExtraRooms.MAP) {
+            var room=ExtraRooms.at(player.getCenterX()/48,player.getCenterY()/48);
+            require(room!=null,"Invalid side-room position");
+            if (room.art!=null && !ExtraRooms.safePosition(gp,room,player,npcs,objects,monsters,flags)) {
+                require(s.extraRoomsRevision==0,"Invalid refuge position");
+                main.Temple.place(player,room.arrivalX,room.arrivalY);
+            }
+        }
+        return flags;
     }
 
     private void prepareTempleExtension(SaveSnapshot s, Player player, Entity[][] objects, Entity[][] npcs,
@@ -489,7 +517,7 @@ public final class SaveLoad {
     }
 
     private record Prepared(Player player, Entity[][] objects, Entity[][] npcs, Entity[][] monsters,
-                            InteractiveTile[][] tiles, EventHandler events, int reliefs, int defeats) { }
+                            InteractiveTile[][] tiles, EventHandler events, int reliefs, int defeats, int refuges) { }
 
     private void apply(SaveSnapshot s, Prepared prepared) {
         // All operations which can fail have finished. Publish the prepared checkpoint together.
@@ -500,6 +528,7 @@ public final class SaveLoad {
         gp.currentMap = s.map; gp.currentArea = s.area; gp.nextArea = s.area;
         gp.temple.reliefs=prepared.reliefs; gp.temple.defeats=prepared.defeats;
         gp.temple.syncReliefs();
+        gp.extraRooms.restore(prepared.refuges);
         gp.prepareAreaLighting();
         gp.bossBattleOn = s.bossBattleOn; Progress.GodFishDefeated = s.godFishDefeated;
         for (Entity[] row : gp.projectile) Arrays.fill(row, null);

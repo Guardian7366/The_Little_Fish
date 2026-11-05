@@ -70,7 +70,7 @@ public class CollisionChecker {
         int i = 0;
         while (i < this.gp.obj[1].length) {
             block21: {
-                if (this.gp.obj[this.gp.currentMap][i] == null) break block21;
+                if (!gp.extraRooms.visible(gp.obj[gp.currentMap][i])) break block21;
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
                 this.gp.obj[this.gp.currentMap][i].solidArea.x = this.gp.obj[this.gp.currentMap][i].worldX + this.gp.obj[this.gp.currentMap][i].solidArea.x;
@@ -111,6 +111,10 @@ public class CollisionChecker {
     }
 
     public int checkEntity(Entity entity, Entity[][] target) {
+        return checkEntity(entity,target,gp.extraRooms.active());
+    }
+
+    public int checkEntity(Entity entity,Entity[][] target,ExtraRooms.Room room) {
         int index = 999;
         String direction = entity.direction;
         if (entity.knockBack) {
@@ -119,7 +123,7 @@ public class CollisionChecker {
         int i = 0;
         while (i < target[1].length) {
             block19: {
-                if (target[this.gp.currentMap][i] == null) break block19;
+                if (!gp.extraRooms.visible(target[gp.currentMap][i],room)) break block19;
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
                 target[this.gp.currentMap][i].solidArea.x = target[this.gp.currentMap][i].worldX + target[this.gp.currentMap][i].solidArea.x;

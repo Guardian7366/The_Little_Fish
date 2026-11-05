@@ -13,6 +13,17 @@ public class MON_Enfadillo
 extends Entity {
     GamePanel gp;
     private int shotCooldown;
+    private String refugeFacing;
+
+    public void setRefugeSentry(String facing) {
+        refugeFacing=facing;
+        direction=facing;
+        // Give the player time to reach the side alcove after entering the firing line.
+        projectile.speed=5;
+        projectile.maxLife=48;
+    }
+
+    private boolean stationary() { return refugeFacing!=null || gp.currentMap==1 || gp.currentMap==2; }
 
     public MON_Enfadillo(GamePanel gp) {
         super(gp);
@@ -47,15 +58,16 @@ extends Entity {
 
     @Override
     public void setAction() {
-        if ((gp.currentMap == 1 || gp.currentMap == 2)) {
+        if (stationary()) {
             onPath = false;
             int dx = gp.player.getCenterX() - getCenterX();
             int dy = gp.player.getCenterY() - getCenterY();
-            direction = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? "left" : "right") : (dy < 0 ? "up" : "down");
+            String towards = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? "left" : "right") : (dy < 0 ? "up" : "down");
+            direction = refugeFacing==null ? towards : refugeFacing;
             shotCooldown = Math.min(120, shotCooldown + 1);
             int distance = Math.max(Math.abs(dx), Math.abs(dy));
             if (gp.gameState == gp.playState && shotCooldown >= 120 && !projectile.alive &&
-                distance <= 4 * gp.tileSize && Math.min(Math.abs(dx), Math.abs(dy)) <= 16 &&
+                direction.equals(towards) && distance <= 4 * gp.tileSize && Math.min(Math.abs(dx), Math.abs(dy)) <= 16 &&
                 ((OBJ_Bad_Bubble)projectile).clearShot(this, distance)) {
                 for (int slot=0; slot<gp.projectile[gp.currentMap].length; slot++) {
                     if (gp.projectile[gp.currentMap][slot] != null) continue;
@@ -79,13 +91,13 @@ extends Entity {
 
     @Override
     protected void moveInDirection(String direction) {
-        if ((gp.currentMap != 1 && gp.currentMap != 2)) super.moveInDirection(direction);
+        if (!stationary()) super.moveInDirection(direction);
     }
 
     @Override
     public void damageReaction() {
         this.actionLockCounter = 0;
-        this.onPath = (gp.currentMap != 1 && gp.currentMap != 2);
+        this.onPath = !stationary();
     }
 
     @Override

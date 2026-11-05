@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Chicken, Flower y Spiky — 4 de noviembre de 2026, entrega aprobada
+
+- Integrados los 38 PNG del paquete en tres recintos del mapa 5. Se mantienen Chicken con Linterna, Flower con poción de +5 y Spiky con cama portátil.
+- Chicken conserva los dos faroles. Flower abre su portón al derrotar al Greeny único. Spiky ofrece dos cruces de cobertura y un atajo que se abre desde el lado seguro. El progreso y las derrotas se conservan al cargar y volver.
+- Las ocho salas tienen límites propios de dibujo, cámara, minimapa e interacción. Pasaron 26 suites, con las 32 esquinas, seis guardados históricos y cofres con inventario lleno. El usuario probó las salas y aprobó la entrega para publicación. [Informe y capturas](SALAS-EXTRAS-1-3.md)
+
 ## Galerías del templo — 4 de noviembre de 2026, entrega aprobada
 
 - El mapa 9 amplía el templo entre la séptima zona y el jefe. Reutiliza sus tres capas, iluminación, Planta y Fishtella en cámaras separadas.

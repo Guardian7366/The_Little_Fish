@@ -14,9 +14,9 @@
 
 | Elemento | Situación |
 |---|---|
-| Código del juego | 95 archivos Java en `src/main/java` |
-| Pruebas | 25 archivos Java en `src/test/java`. El script ejecuta 24 suites y utiliza una clase auxiliar para el guardado legado |
-| Recursos | 455 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
+| Código del juego | 96 archivos Java en `src/main/java` |
+| Pruebas | 27 archivos Java en `src/test/java`. El script ejecuta 26 suites y utiliza una clase auxiliar para el guardado legado |
+| Recursos | 494 archivos en `src/main/resources`; 71 PNG corresponden al paquete del templo |
 | Compilación | `build.ps1` y `Compilar.cmd`, con salida en `build/TheLittleFish.jar` |
 | Herramientas auxiliares | Scripts Python en `tools/`; no son una dependencia del juego ni del script de compilación Java |
 | Ejecutable existente | `TheLittleFish.jar` y lanzador `Jugar.cmd` en la raíz |
@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -75,6 +75,6 @@ El usuario aprobó las reimaginaciones de Planta y Secret y encargó un templo s
 
 La séptima está aprobada y publicada en b56661a. La base b9d1104 incorpora el encargo y las estatuas. La octava conecta la séptima con el jefe mediante el mapa 9. Incluye siete Plantas y cuatro Fishtellas distribuidas por cámaras, tres estatuas con inscripciones opcionales de D y tres parejas de roca y placa, una con giro. Pasaron 24 suites, incluidas las seis órdenes, la recarga en el codo, las transiciones y la migración de tres partidas históricas. El usuario confirmó tras jugar que la zona cumple los requisitos y autorizó su publicación el 4 de noviembre de 2026. [Informe y capturas](OCTAVA-ZONA.md)
 
-## Preparación de las primeras tres salas extras
+## Primeras tres salas extras
 
-El usuario aprobó tres retos independientes para Chicken con Linterna, Flower con poción y Spiky con cama portátil. Se prepararon 38 PNG, tres vistas y el encargo de integración, con límites de cámara y actividad por recinto. Programación y pruebas jugables pendientes. [Encargo](design/salas-extras-1-3/TAREA-CODEX.md).
+El usuario aprobó tres retos independientes para Chicken con Linterna, Flower con poción y Spiky con cama portátil. La entrega sobre 6d1bd4c integra los 38 PNG, los dos faroles de Chicken, un solo Greeny en Flower y los dos tramos de Spiky. Las ocho salas tienen límites propios de cámara, dibujo, simulación y mapas. Se conservan los cofres y sus IDs. Pasaron las 26 suites, las 32 esquinas y seis guardados históricos. El usuario probó las tres salas, confirmó que funcionan como esperaba y aprobó la publicación el 4 de noviembre de 2026. [Informe de los refugios](SALAS-EXTRAS-1-3.md)
