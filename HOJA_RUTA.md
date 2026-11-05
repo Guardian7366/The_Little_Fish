@@ -59,3 +59,7 @@ Los tres retos están integrados en el mapa 5 con sus premios originales y Extra
 ## Últimos dos refugios
 
 Handy e Ic están integrados en el mapa 5. La revisión 3 del guardado conserva sus avances y los de los otros seis recintos. El usuario probó las dos salas y aprobó su publicación el 5 de noviembre de 2026. [Informe](SALAS-EXTRAS-7-8.md)
+
+## Mercado antes del jefe
+
+Tras las ocho salas extras, integrar un mercado de TV entre octava y el jefe. Añadir compra y venta con interfaz propia, conservar la mochila habitual y probar el nuevo mapa y los guardados. [Encargo](design/mercado-tv/TAREA-CODEX.md).

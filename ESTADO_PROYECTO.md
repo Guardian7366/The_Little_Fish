@@ -86,3 +86,7 @@ Entrega sobre e982c07 con los 43 PNG del paquete. Pump conserva la poción de +5
 ## Handy e Ic
 
 Entrega sobre fe9f548 con los 37 PNG del paquete. Handy conserva Iron y usa dos cerrojos de Rocky. Ic conserva la segunda arma y usa dos marcas en una red de hielo. Se comprobaron 69 paradas, incluidas 44 contra paredes, y ocho guardados históricos. Pasaron las 30 suites. El usuario probó las dos salas y sus NPC, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-7-8.md)
+
+## Preparación del mercado de TV
+
+Base revisada 3067a6d, Handy e Ic aprobados. Se prepararon 32 PNG y cuatro vistas para el mercado previo al jefe, con interfaz CRT, sprites de TV y catálogo de tres consumibles. La integración, la migración a once mapas y las pruebas jugables quedan pendientes. [Encargo y arte](design/mercado-tv/TAREA-CODEX.md).

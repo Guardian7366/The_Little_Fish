@@ -189,3 +189,7 @@ Añadidos dos cuadros por NPC, tiles y decoración propios, indicadores de retos
 ## 2026-11-05 · Arte de Handy e Ic
 
 Añadidos dos cuadros para cada NPC, dos fondos, tiles y props, cuatro estados del mecanismo de Handy, cerrojos y marcas de hielo. Verificados 37 PNG y revisadas dos composiciones. Se documentaron retos, recompensas, transiciones y compatibilidad para Codex.
+
+## 2026-11-05 · Arte y encargo del mercado de TV
+
+Añadidos 32 PNG de TV, mercado, consumibles y paneles CRT, junto con cuatro vistas y el encargo de implementación. Se comprobaron dimensiones, datos y transparencia. Los precios nuevos son propuestas para balance jugable.

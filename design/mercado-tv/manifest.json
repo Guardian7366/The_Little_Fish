@@ -1,0 +1,216 @@
+{
+  "scale": 3,
+  "logicalScreen": [
+    960,
+    576
+  ],
+  "nativeScreen": [
+    320,
+    192
+  ],
+  "filter": "nearest-neighbor",
+  "tvAnchor": [
+    16,
+    30
+  ],
+  "previews": [
+    "preview/mercado.png",
+    "preview/comprar.png",
+    "preview/vender.png",
+    "preview/confirmar.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/tv/idle-dim.png",
+      "width": 32,
+      "height": 32,
+      "alpha": true
+    },
+    {
+      "path": "assets/tv/idle-lit.png",
+      "width": 32,
+      "height": 32,
+      "alpha": true
+    },
+    {
+      "path": "assets/tv/blink.png",
+      "width": 32,
+      "height": 32,
+      "alpha": true
+    },
+    {
+      "path": "assets/tv/sale.png",
+      "width": 32,
+      "height": 32,
+      "alpha": true
+    },
+    {
+      "path": "assets/items/water-tonic.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/items/strong-potion.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/tiles/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/pillar.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/runner.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/arch-return.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/tiles/arch-forward.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false
+    },
+    {
+      "path": "assets/props/counter.png",
+      "width": 48,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/props/canopy.png",
+      "width": 48,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/props/crate.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/props/lamp.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/props/shop-sign.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/props/shelf.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true
+    },
+    {
+      "path": "assets/background/market.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/shell.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/row.png",
+      "width": 150,
+      "height": 24,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/row-active.png",
+      "width": 150,
+      "height": 24,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/tab.png",
+      "width": 70,
+      "height": 15,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/tab-active.png",
+      "width": 70,
+      "height": 15,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/slot.png",
+      "width": 25,
+      "height": 19,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/slot-active.png",
+      "width": 25,
+      "height": 19,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/lock.png",
+      "width": 8,
+      "height": 8,
+      "alpha": true
+    },
+    {
+      "path": "assets/ui/broadcast-panel.png",
+      "width": 110,
+      "height": 86,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/notice.png",
+      "width": 110,
+      "height": 26,
+      "alpha": false
+    },
+    {
+      "path": "assets/ui/confirm-panel.png",
+      "width": 158,
+      "height": 64,
+      "alpha": false
+    }
+  ]
+}
