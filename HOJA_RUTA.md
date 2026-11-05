@@ -55,3 +55,7 @@ Chicken, Flower y Spiky están integrados en el mapa 5 con sus retos y recompens
 ## Siguientes tres refugios de D
 
 Los tres retos están integrados en el mapa 5 con sus premios originales y ExtraRooms revisión 2. El usuario confirmó tras jugar que las tres salas funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe](SALAS-EXTRAS-4-6.md)
+
+## Últimos dos refugios
+
+Integrar el taller de Handy y la cámara helada de Ic, conservando los seis retos aprobados. Comprobar el acceso a Iron en guardados antiguos y que el deslizamiento tenga salida desde todas las paradas. [Encargo](design/salas-extras-7-8/TAREA-CODEX.md).

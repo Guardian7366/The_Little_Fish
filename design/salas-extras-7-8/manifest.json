@@ -1,0 +1,273 @@
+{
+  "tile": [
+    16,
+    16
+  ],
+  "scale": 3,
+  "filter": "nearest-neighbor",
+  "previews": [
+    "preview/handy.png",
+    "preview/ic.png"
+  ],
+  "assets": [
+    {
+      "path": "assets/handy/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/ic/npc-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/handy/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/ic/npc-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "npc"
+    },
+    {
+      "path": "assets/handy/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/handy/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/handy/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/handy/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/handy/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/handy/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/floor-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/floor-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ic/wall-trim.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ic/gate-closed.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ic/gate-open.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/handy/stone-latch-intact.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/stone-latch-broken.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/chain.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/anvil.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/tool-rack.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/sconce.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/mechanism-0.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/mechanism-1.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/ic/ice-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/ice-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/rough-stop.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/mark-0-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/mark-0-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/mark-1-0.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/mark-1-1.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "walkable"
+    },
+    {
+      "path": "assets/ic/frost-wall.png",
+      "width": 16,
+      "height": 16,
+      "alpha": false,
+      "role": "solid"
+    },
+    {
+      "path": "assets/ic/icicles.png",
+      "width": 16,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/ic/background.png",
+      "width": 320,
+      "height": 192,
+      "alpha": false,
+      "role": "background"
+    },
+    {
+      "path": "assets/handy/mechanism-left.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    },
+    {
+      "path": "assets/handy/mechanism-right.png",
+      "width": 32,
+      "height": 16,
+      "alpha": true,
+      "role": "prop"
+    }
+  ]
+}

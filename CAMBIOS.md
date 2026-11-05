@@ -179,3 +179,7 @@ Añadidos dos cuadros para cada NPC, tiles, decoración, estados visuales de los
 ## 2026-11-04 · Arte de Pump, Hongui y Ghost
 
 Añadidos dos cuadros por NPC, tiles y decoración propios, indicadores de retos y tres fondos. Verificados 43 PNG y revisadas tres vistas compuestas. Documentadas recompensas, retos, diálogos, migración y criterios de integración.
+
+## 2026-11-05 · Arte de Handy e Ic
+
+Añadidos dos cuadros para cada NPC, dos fondos, tiles y props, cuatro estados del mecanismo de Handy, cerrojos y marcas de hielo. Verificados 37 PNG y revisadas dos composiciones. Se documentaron retos, recompensas, transiciones y compatibilidad para Codex.

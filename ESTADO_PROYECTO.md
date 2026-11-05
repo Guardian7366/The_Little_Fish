@@ -82,3 +82,7 @@ El usuario aprobó tres retos independientes para Chicken con Linterna, Flower c
 ## Pump, Hongui y Ghost
 
 Entrega sobre e982c07 con los 43 PNG del paquete. Pump conserva la poción de +5, Hongui el Super Shield y Ghost Rocky. Los cortes, la guardia o derrota y la secuencia de memoria se guardan por separado de los premios y de los tres retos anteriores. Pasaron 28 suites, seis guardados históricos nuevos y las 32 esquinas. El usuario probó las tres salas, confirmó que funcionan como esperaba y autorizó su publicación el 5 de noviembre de 2026. [Informe y capturas](SALAS-EXTRAS-4-6.md)
+
+## Preparación de Handy e Ic
+
+Base revisada a404661. Se prepararon 37 PNG y dos vistas para los últimos recintos del mapa 5. Handy conserva Iron e Ic la segunda arma. El encargo contempla cerrojos de Rocky y pistas de hielo con apoyos, diálogos, aislamiento y migración. Se verificó el arte; integración y pruebas jugables pendientes. [Encargo y arte](design/salas-extras-7-8/TAREA-CODEX.md).
