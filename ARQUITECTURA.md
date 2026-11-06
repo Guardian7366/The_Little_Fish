@@ -58,6 +58,8 @@ La revisión 2 añade una barrera física en slots 21–22 y adapta también los
 
 La revisión `marketRevision` conserva los IDs 0–9 y añade el mapa 10. Antes de preparar las entidades, los snapshots de diez filas reciben una fila nueva por categoría. La migración traslada el NPC `npc:tv` al mostrador y conserva ubicación y progreso del jugador. Los consumibles nuevos usan `strong-potion` y `water-tonic`. La confirmación CRT es transitoria y se cancela al perder el foco.
 
+`FinalArena` centraliza las coordenadas de la fosa y la propiedad del cierre temporal. `MON_GodFish` comparte un plan de ataque entre avisos, impactos y poses. `CutsceneManager` encuadra la introducción mediante la cámara, con el jugador inmóvil. `arenaRevision` migra las partidas del trazado anterior, reinicia los combates activos antiguos y conserva el progreso de victoria. [Detalle del encuentro](GOD-FISH.md)
+
 ## Límites que siguen presentes
 
 `GamePanel` aún expone estado compartido y `Entity` sigue siendo una clase amplia. Las capacidades de mapas y entidades siguen siendo fijas. Colocaciones, diálogos y eventos continúan mayoritariamente en código; las cinemáticas siguen dedicadas al jefe y desenlace originales. Estas decisiones redujeron cambios simultáneos durante la estabilización, pero no son la arquitectura final para una expansión grande.

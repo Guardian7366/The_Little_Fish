@@ -54,6 +54,7 @@ implements Runnable {
     public int maxWorldCol;
     public int maxWorldRow;
     public final int maxMap = 11;
+    public final FinalArena finalArena = new FinalArena(this);
     public final Market market = new Market(this);
     public final MarketShop shop = new MarketShop(this);
     public final ExtraRooms extraRooms = new ExtraRooms(this);
@@ -142,6 +143,8 @@ implements Runnable {
     }
 
     public void resetGame(boolean restart) {
+        finalArena.abandon();
+        csManager.clearIntroMemory(restart);
         extraRooms.ending.resetTransient();
         extraRooms.later.resetTransient();
         temple.resetCombat();
@@ -233,6 +236,7 @@ implements Runnable {
         if (gameState == titleState) ui.titleBackground.update();
         if (this.gameState == 1) {
             this.player.update();
+            if (currentMap==FinalArena.MAP) finalArena.update();
             extraRooms.later.update();
             if(SixthZone.usesAbyss(currentMap)) ocean.fifth.update();
             if (currentMap == 0 || currentMap == 1 || currentMap == 2 || currentMap == FourthZone.MAP) ocean.update();
@@ -251,7 +255,8 @@ implements Runnable {
                         this.monster[this.currentMap][i].update();
                     }
                     if (!this.monster[this.currentMap][i].alive) {
-                        this.monster[this.currentMap][i].checkDrop();
+                        if (currentMap!=FinalArena.MAP || i!=FinalArena.SUMMON_SLOT)
+                            this.monster[this.currentMap][i].checkDrop();
                         this.monster[this.currentMap][i] = null;
                     }
                 }
@@ -291,12 +296,18 @@ implements Runnable {
     }
 
     public int cameraX() {
+        if (currentMap==FinalArena.MAP && (bossBattleOn || csManager.sceneNum==csManager.GodFish))
+            return 15*tileSize;
         if (currentMap == Market.MAP) return market.cameraX();
         var room=extraRooms.active();
         return room==null ? player.worldX-player.screenX : extraRooms.cameraX(room);
     }
 
     public int cameraY() {
+        if (currentMap==FinalArena.MAP) {
+            if (csManager.sceneNum==csManager.GodFish) return csManager.finalCameraY();
+            if (bossBattleOn) return finalArena.combatCameraY();
+        }
         if (currentMap == Market.MAP) return market.cameraY();
         var room=extraRooms.active();
         return room==null ? player.worldY-player.screenY : extraRooms.cameraY(room);
@@ -317,6 +328,7 @@ implements Runnable {
             var room=extraRooms.active();
             if (currentMap==ExtraRooms.MAP) extraRooms.background(g2,room);
             else if (currentMap==Market.MAP) market.drawBackground(g2);
+            else if (currentMap==FinalArena.MAP) finalArena.background(g2);
             else this.ocean.drawBackground(this.g2, this);
             var previousClip=g2.getClip();
             if (room!=null) {
@@ -336,6 +348,7 @@ implements Runnable {
             }
             if (currentMap==Temple.MAP) temple.drawDetails(g2);
             if (currentMap==TempleExtension.MAP) TempleExtension.drawDetails(g2,this);
+            if (currentMap==FinalArena.MAP) finalArena.details(g2);
             this.entityList.add(this.player);
             i = 0;
             while (i < this.npc[1].length) {
@@ -388,12 +401,14 @@ implements Runnable {
             this.entityList.clear();
             g2.setClip(previousClip);
             if (currentMap==Market.MAP) market.drawCounter(g2);
+            else if (currentMap==FinalArena.MAP) finalArena.foreground(g2);
             else if (currentMap!=ExtraRooms.MAP) this.ocean.drawForeground(this.g2, this);
             this.eManager.draw(this.g2);
             market.drawPrompt(g2);
+            if (currentMap==FinalArena.MAP) finalArena.prompt(g2);
             extraRooms.later.drawNotice(g2);
             extraRooms.ending.drawNotice(g2);
-            if (currentMap == SixthZone.MAP || Temple.usesTemple(currentMap)) {
+            if (currentMap == SixthZone.MAP || currentMap == FinalArena.MAP || Temple.usesTemple(currentMap)) {
                 for (Entity enemy : monster[currentMap])
                     if (enemy instanceof monster.MON_Tella tella) tella.drawBands(g2);
             }
@@ -462,6 +477,13 @@ implements Runnable {
     }
 
     public void changeArea() {
+        if (currentMap!=FinalArena.MAP && (bossBattleOn || csManager.sceneNum==csManager.GodFish)) {
+            finalArena.abandon();
+            csManager.reset();
+            flow.resetDialogue();
+            ui.npc = null;
+            keyH.clearPlayKeys();
+        }
         extraRooms.ending.resetTransient();
         extraRooms.later.resetTransient();
         temple.resetCombat();

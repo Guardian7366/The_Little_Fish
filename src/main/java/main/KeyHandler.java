@@ -67,7 +67,8 @@ implements KeyListener {
 
     private void handlePressed(int code) {
         if (code == KeyEvent.VK_ENTER) {
-            if (enterHeld && gp.gameState == gp.tradeState) return;
+            if (enterHeld && (gp.gameState == gp.tradeState || gp.csManager.sceneNum == gp.csManager.GodFish
+                    || (gp.currentMap==FinalArena.MAP && gp.bossBattleOn))) return;
             enterHeld = true;
         }
         if (this.gp.gameState == this.gp.titleState) {
@@ -302,11 +303,15 @@ implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (this.gp.ui.commandNum == 0) {
-                this.gp.gameState = this.gp.playState;
-                this.gp.stopMusic();
-                this.gp.currentMap = 0;
-                this.gp.resetGame(false);
-                this.gp.playMusic(6);
+                boolean retryFinal = gp.currentMap==FinalArena.MAP && !data.Progress.GodFishDefeated;
+                gp.gameState = gp.playState;
+                gp.resetGame(false);
+                if (retryFinal) {
+                    gp.currentMap = Market.MAP;
+                    gp.currentArea = gp.nextArea = gp.indoor;
+                    Temple.place(gp.player,24,21);
+                }
+                gp.playAreaMusic();
             } else if (this.gp.ui.commandNum == 1) {
                 this.gp.gameState = this.gp.titleState;
                 this.gp.stopMusic();

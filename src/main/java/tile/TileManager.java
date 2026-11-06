@@ -18,7 +18,7 @@ public class TileManager {
     private static final AlphaComposite SHALLOW_WATER = AlphaComposite.SrcOver.derive(0.78f);
     private static final String[] INITIAL_MAPS = {
         "/maps/stage1.txt", "/maps/stage2.txt", "/maps/stage3.txt", "/maps/stage4.txt",
-        "/maps/temple.txt", "/maps/extraRefugios.txt", "/maps/stageBoss.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt", "/maps/market.txt"
+        "/maps/temple.txt", "/maps/extraRefugios.txt", "/maps/finalTrench.txt", "/maps/fourthDepths.txt", "/maps/sixthAbyss.txt", "/maps/templeExtension.txt", "/maps/market.txt"
     };
     private final GamePanel gp;
     public Tile[] tile;
@@ -84,6 +84,13 @@ public class TileManager {
         for (int i=0; i<marketTiles.length; i++) {
             fileNames.add("/mercado/tiles/" + marketTiles[i] + ".png");
             collisionStatus.add(i >= 2 && i <= 4);
+        }
+        String[] trench = {"basalt-floor-0", "basalt-floor-1", "basalt-floor-2", "basalt-wall",
+            "rim-north", "rim-south", "rim-west", "rim-east", "corner-nw", "corner-ne", "corner-sw", "corner-se", "void"};
+        if (fileNames.size() != main.FinalArena.FIRST_TILE) throw new IllegalStateException("Unexpected trench tile offset");
+        for (int i = 0; i < trench.length; i++) {
+            fileNames.add("/final/fosa/tiles/" + trench[i] + ".png");
+            collisionStatus.add(i >= 3);
         }
         tile = new Tile[fileNames.size()];
         getTileImage();

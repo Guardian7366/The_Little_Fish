@@ -1,5 +1,12 @@
 # Historial de cambios
 
+## Fosa y God Fish — 6 de noviembre de 2026, entrega autorizada
+
+- Nueva arena en el mapa 6, con retorno previo al mercado, introducción hablada y cámara independiente del jugador.
+- God Fish tiene 650 HP en seis fases. Se abre la defensa con los anclajes de Rocky, el núcleo tras la rejilla de Iron, el tridente clavado, los dos esbirros, ambos puños marcados y el ojo tras la onda. La victoria entrega la llave y 500 EXP y conserva la puerta final y los créditos.
+- Reintento desde el mercado y migración de partidas de la arena. Pasaron 34 suites, seis guardados anteriores y el recorrido del mercado a los créditos con el JAR de prueba. El usuario autorizó la publicación. [Guía, balance y guardados](GOD-FISH.md)
+
+
 ## TV Supply — 5 de noviembre de 2026, entrega aprobada
 
 - Mercado seguro en el mapa 10, con TV trasladada desde la arena, mostrador sólido, esmeralda y retornos señalizados.

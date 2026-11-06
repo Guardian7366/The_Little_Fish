@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. El alcance de la siguiente entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados y autorizados para publicación. El recorrido principal ya llega del arrecife a los créditos. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -97,12 +97,12 @@ El usuario probó el mercado y a TV, confirmó que funcionan correctamente y aut
 
 ## Arte de la fosa final
 
-Base revisada c022bb7, mercado aprobado. El usuario aprobó seis fases para God Fish y pidió preparar primero los tiles y fondo. Se prepararon 19 PNG nativos y tres vistas. Formato y transparencia verificados. Quedan las siguientes etapas de arte y la integración jugable. [Paquete de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
+Base revisada c022bb7, mercado aprobado. El usuario aprobó seis fases para God Fish y pidió preparar primero los tiles y fondo. Se prepararon 19 PNG nativos y tres vistas. Formato y transparencia verificados. Estos recursos se integraron en el encuentro final. [Paquete de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
 
 ## Arte de combate de God Fish
 
-Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis paletas, 24 atlas PNG con 291 celdas y cuatro vistas. El titán tiene un ojo sin boca, perfiles en tres cuartos y poses de puños diferenciadas para preparación, golpe y recuperación. Incluye armas, ataques, proyectiles, efectos y mecanismos. Pendiente la integración jugable de la arena y el combate. [Guía y atlas](design/jefe-final/god-fish/ARTE-GOD-FISH.md).
+Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis paletas, 24 atlas PNG con 291 celdas y cuatro vistas. El titán tiene un ojo sin boca, perfiles en tres cuartos y poses de puños diferenciadas para preparación, golpe y recuperación. Incluye armas, ataques, proyectiles, efectos y mecanismos. Los atlas revisados se integraron en el encuentro final. [Guía y atlas](design/jefe-final/god-fish/ARTE-GOD-FISH.md).
 
-## Encargo de integración del jefe final
+## God Fish y la fosa
 
-La introducción original sigue en el código. Se documentaron su reinterpretación, el trazado de la fosa, los objetivos de las seis fases y los contratos de guardado y salida. La integración jugable está pendiente. [Encargo de Codex](design/jefe-final/TAREA-CODEX.md).
+Sobre `8ab5965`, el mapa 6 incorpora la fosa, la introducción con cámara independiente y las seis fases de God Fish. Se mantienen el regreso previo al mercado, la llave y los créditos. La migración adapta posiciones, reinicia los combates legados y conserva las victorias con su botín. Pasaron las 34 suites, el recorrido automatizado del mercado a los créditos y seis guardados generados con las fuentes de la versión anterior. El usuario autorizó publicar esta entrega el 6 de noviembre de 2026. [Guía de juego y balance](GOD-FISH.md)

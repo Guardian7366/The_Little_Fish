@@ -30,6 +30,10 @@ extends Entity {
 
     @Override
     public boolean use(Entity entity) {
+        if (gp.currentMap==main.FinalArena.MAP && !data.Progress.GodFishDefeated) {
+            startDialogue(this,1);
+            return false;
+        }
         int objIndex = this.getDetected(entity, this.gp.obj, "Door");
         if (objIndex != 999) {
             this.startDialogue(this, 0);

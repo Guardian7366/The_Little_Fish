@@ -102,7 +102,8 @@ public class UI {
             }
         }
         if (this.gp.gameState == this.gp.playState) {
-            this.drawPlayerLife();
+            if (gp.currentMap==FinalArena.MAP && gp.bossBattleOn) drawArenaResources();
+            else this.drawPlayerLife();
             this.drawMonsterLife();
             this.drawMessage();
         }
@@ -139,7 +140,8 @@ public class UI {
         int i = 0;
         while (i < this.gp.monster[1].length) {
             Entity monster = this.gp.monster[this.gp.currentMap][i];
-            if (monster != null && monster.inCamera()) {
+            if (monster instanceof monster.MON_GodFish godFish) godFish.drawStatus(g2);
+            else if (monster != null && monster.inCamera()) {
                 if (monster.hpBarOn && !monster.boss) {
                     double oneScale = (double)this.gp.tileSize / (double)monster.maxLife;
                     double hpBarValue = oneScale * (double)monster.life;
@@ -181,6 +183,16 @@ public class UI {
             }
             ++i;
         }
+    }
+
+    private void drawArenaResources() {
+        g2.setColor(new Color(11,18,30,230));
+        g2.fillRoundRect(14,14,185,70,12,12);
+        g2.setFont(purisaB.deriveFont(19f));
+        g2.setColor(new Color(255,162,167));
+        g2.drawString("HP     " + gp.player.life + " / " + gp.player.maxLife,27,42);
+        g2.setColor(new Color(155,216,255));
+        g2.drawString("Water  " + gp.player.water + " / " + gp.player.maxWater,27,69);
     }
 
     public void drawPlayerLife() {
@@ -310,9 +322,10 @@ public class UI {
 
     public void drawDialogueScreen() {
         int x = this.gp.tileSize * 3;
-        int y = 68;
+        boolean finalIntro = gp.csManager.sceneNum==gp.csManager.GodFish;
+        int y = finalIntro ? 395 : 68;
         int width = this.gp.screenWidht - this.gp.tileSize * 6;
-        int height = this.gp.tileSize * 4;
+        int height = finalIntro ? 111 : this.gp.tileSize * 4;
         this.drawSubWindow(x, y, width, height);
         this.g2.setFont(this.g2.getFont().deriveFont(0, 23.0f));
         x += this.gp.tileSize;

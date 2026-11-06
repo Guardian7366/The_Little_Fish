@@ -87,14 +87,10 @@ public class AssetSetter {
         this.gp.obj[mapNum][i].setLoot(new OBJ_Iron(this.gp));
         this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 28;
         this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 11;
-        mapNum = 6;
-        this.gp.obj[mapNum][++i] = new OBJ_Door(this.gp);
-        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 26;
-        this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 12;
-        this.gp.obj[mapNum][++i] = new OBJ_Exit(this.gp);
-        this.gp.obj[mapNum][i].worldX = this.gp.tileSize * 26;
-        this.gp.obj[mapNum][i].worldY = this.gp.tileSize * 5;
-        ++i;
+        gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT] =
+            Temple.place(new OBJ_Door(gp),FinalArena.DOOR_X,FinalArena.DOOR_Y);
+        gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT+1] =
+            Temple.place(new OBJ_Exit(gp),FinalArena.EXIT_X,FinalArena.EXIT_Y);
     }
 
     public void setNPC() {
@@ -199,14 +195,8 @@ public class AssetSetter {
         ExtraRooms.populate(gp,gp.monster,gp.extraRooms.flags());
         RefugeChallenges.populate(gp,gp.monster,gp.extraRooms.later.state());
         FinalRefuges.populate(gp,gp.monster,gp.extraRooms.ending.state());
-        i = 87; // Keep the original boss identity.
-        mapNum = 6;
-        if (!Progress.GodFishDefeated) {
-            this.gp.monster[mapNum][i] = new MON_GodFish(this.gp);
-            this.gp.monster[mapNum][i].worldX = this.gp.tileSize * 23;
-            this.gp.monster[mapNum][i].worldY = this.gp.tileSize * 14;
-            ++i;
-        }
+        if (!Progress.GodFishDefeated)
+            gp.monster[FinalArena.MAP][FinalArena.BOSS_SLOT] = new MON_GodFish(gp);
     }
 
     public void setInteractiveTile() {

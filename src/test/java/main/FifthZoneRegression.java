@@ -65,11 +65,13 @@ public final class FifthZoneRegression {
 
     static boolean[] relaxedWorld(Quiet gp, int start) throws Exception {
         var transfers=new HashMap<Integer,Integer>();
-        String source=Files.readString(Path.of("src/main/java/main/EventHandler.java"));
-        Matcher m=Pattern.compile("this\\.hit\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP|Market\\.MAP),\\s*(\\d+),\\s*(\\d+),\\s*\"any\"\\)\\)\\s*\\{\\s*this\\.teleportMap\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP|Market\\.MAP),\\s*(\\d+),\\s*(\\d+),").matcher(source);
+        String source=Files.readString(Path.of("src/main/java/main/EventHandler.java"))
+            .replace("FinalArena.ARRIVAL_X",Integer.toString(FinalArena.ARRIVAL_X))
+            .replace("FinalArena.ARRIVAL_Y",Integer.toString(FinalArena.ARRIVAL_Y));
+        Matcher m=Pattern.compile("this\\.hit\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP|Market\\.MAP|FinalArena\\.MAP),\\s*(\\d+),\\s*(\\d+),\\s*\"any\"\\)\\)\\s*\\{\\s*this\\.teleportMap\\((\\d+|FourthZone\\.MAP|TempleExtension\\.MAP|Market\\.MAP|FinalArena\\.MAP),\\s*(\\d+),\\s*(\\d+),").matcher(source);
         while(m.find()) {
             int a=m.group(1).equals("Market.MAP")?Market.MAP:m.group(1).equals("TempleExtension.MAP")?9:m.group(1).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(1));
-            int b=m.group(4).equals("Market.MAP")?Market.MAP:m.group(4).equals("TempleExtension.MAP")?9:m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
+            int b=m.group(4).equals("FinalArena.MAP")?FinalArena.MAP:m.group(4).equals("Market.MAP")?Market.MAP:m.group(4).equals("TempleExtension.MAP")?9:m.group(4).equals("FourthZone.MAP")?7:Integer.parseInt(m.group(4));
             transfers.put(cell(a,Integer.parseInt(m.group(2)),Integer.parseInt(m.group(3))),cell(b,Integer.parseInt(m.group(5)),Integer.parseInt(m.group(6))));
         }
         check(transfers.size()==26,"all 26 unconditional portal directions included in reachability proof");

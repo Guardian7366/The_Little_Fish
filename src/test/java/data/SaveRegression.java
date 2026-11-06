@@ -171,11 +171,13 @@ public final class SaveRegression {
         SaveLoad saves = new SaveLoad(gp, folder.resolve("save-v1.dat"));
         MON_GodFish boss = null; int slot = -1;
         for (int i = 0; i < gp.monster[6].length; i++) if (gp.monster[6][i] instanceof MON_GodFish b) { boss = b; slot = i; break; }
-        gp.currentMap = 6; gp.currentArea = gp.dungeons; gp.bossBattleOn = true;
-        boss.life = 300; boss.inRage = true; boss.sleep = false;
-        check(saves.trySave() && saves.tryLoad(), "active boss checkpoint roundtrip");
+        gp.currentMap = 6; gp.currentArea = gp.dungeons;
+        main.Temple.place(gp.player,24,44);
+        check(saves.trySave() && saves.tryLoad(), "pre-encounter checkpoint roundtrip");
         boss = (MON_GodFish)gp.monster[6][slot];
-        check(boss.inRage && boss.speed == 2 && boss.attack == 40 && !boss.sleep && gp.bossBattleOn, "boss phase attributes reconstructed once");
+        check(boss.life==650 && boss.sleep && !gp.bossBattleOn,"pre-encounter boss state");
+        gp.bossBattleOn = true;
+        check(!saves.trySave(),"new active fight cannot replace an earlier checkpoint");
         gp.monster[6][slot] = null; gp.bossBattleOn = false; Progress.GodFishDefeated = true;
         check(saves.trySave(), "defeated boss checkpoint writes");
         Progress.GodFishDefeated = false;

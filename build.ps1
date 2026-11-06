@@ -46,7 +46,7 @@ try {
         [IO.File]::WriteAllLines($testList, [string[]]($testSources | ForEach-Object { '"' + $_.FullName.Replace('\', '/') + '"' }), $utf8)
         Invoke-Checked $javac @('-encoding', 'UTF-8', '--release', '17', '-cp', $classes, '-d', $testClasses, ('@' + $testList))
         $classpath = "$testClasses;$classes;$resources"
-        foreach ($suite in @('CombatRegression', 'main.ResourceRegression', 'main.AudioRegression', 'main.RuntimeRegression', 'main.StoryRegression', 'main.FirstZoneRegression', 'main.TitleRegression', 'main.EnemyShotRegression', 'main.SecondZoneRegression', 'main.ThirdZoneRegression', 'main.FourthZoneRegression', 'main.SharkyRegression', 'main.FifthZoneRegression', 'main.FifthLightingRegression', 'main.FifthArtRegression', 'main.FishtellaRegression', 'main.SixthZoneRegression', 'main.TempleRegression', 'main.TempleExtensionRegression', 'main.ExtraRoomsRegression', 'main.LaterRoomsRegression', 'main.FinalRoomsRegression', 'main.MarketRegression')) {
+        foreach ($suite in @('CombatRegression', 'main.ResourceRegression', 'main.AudioRegression', 'main.RuntimeRegression', 'main.StoryRegression', 'main.FirstZoneRegression', 'main.TitleRegression', 'main.EnemyShotRegression', 'main.SecondZoneRegression', 'main.ThirdZoneRegression', 'main.FourthZoneRegression', 'main.SharkyRegression', 'main.FifthZoneRegression', 'main.FifthLightingRegression', 'main.FifthArtRegression', 'main.FishtellaRegression', 'main.SixthZoneRegression', 'main.TempleRegression', 'main.TempleExtensionRegression', 'main.ExtraRoomsRegression', 'main.LaterRoomsRegression', 'main.FinalRoomsRegression', 'main.MarketRegression', 'main.FinalArenaRegression')) {
             Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, $suite)
         }
         $saveArguments = @('-Djava.awt.headless=true', '-cp', $classpath, 'data.SaveRegression')
@@ -60,6 +60,7 @@ try {
         Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, 'data.LaterRoomsSaveRegression')
         Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, 'data.FinalRoomsSaveRegression')
     Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, 'data.MarketSaveRegression')
+    Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, 'data.FinalArenaSaveRegression')
     }
 
     $destination = Join-Path $buildRoot 'TheLittleFish.jar'

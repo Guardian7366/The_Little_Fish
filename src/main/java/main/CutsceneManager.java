@@ -3,12 +3,10 @@
  */
 package main;
 
-import entity.PlayerDummy;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import main.GamePanel;
-import object.OBJ_DoorIron;
 import object.OBJ_Exit;
 
 public class CutsceneManager {
@@ -17,6 +15,8 @@ public class CutsceneManager {
     public int sceneNum;
     public int scenePhase;
     int counter = 0;
+    private int introTick, introStartY, introTargetY;
+    private boolean seenIntro, shortIntro;
     float alpha = 0.0f;
     int y;
     String endCredit;
@@ -30,7 +30,7 @@ public class CutsceneManager {
     }
 
     public void update() {
-        if (sceneNum == GodFish) scene_GodFish();
+        if (sceneNum == GodFish) updateFinalIntro();
         else if (sceneNum == ending) scene_Ending();
     }
 
@@ -43,7 +43,8 @@ public class CutsceneManager {
         gp.ui.g2 = g2;
         g2.setFont(gp.ui.purisaB);
         g2.setColor(Color.WHITE);
-        if ((sceneNum == GodFish && scenePhase == 3) || (sceneNum == ending && scenePhase == 1)) {
+        if (sceneNum == GodFish) drawFinalIntro(g2);
+        if (isDialogueActive()) {
             gp.ui.drawDialogueScreen();
         }
         if (sceneNum != ending) return;
@@ -60,79 +61,103 @@ public class CutsceneManager {
         sceneNum = NA;
         scenePhase = counter = y = 0;
         alpha = 0f;
+        introTick = 0;
     }
 
-    public void scene_GodFish() {
-        int i;
-        if (this.scenePhase == 0) {
-            this.gp.keyH.enterPressed = false;
-            this.gp.flow.resetDialogue();
-            this.gp.bossBattleOn = true;
-            i = 0;
-            while (i < this.gp.obj[1].length) {
-                if (this.gp.obj[this.gp.currentMap][i] == null) {
-                    this.gp.obj[this.gp.currentMap][i] = new OBJ_DoorIron(this.gp);
-                    this.gp.obj[this.gp.currentMap][i].worldX = this.gp.tileSize * 25;
-                    this.gp.obj[this.gp.currentMap][i].worldY = this.gp.tileSize * 26;
-                    this.gp.obj[this.gp.currentMap][i].temp = true;
-                    this.gp.playSE(3);
-                    break;
+    public void clearIntroMemory(boolean newSession) {
+        if (newSession) seenIntro = false;
+    }
+
+    void beginFinalIntro() {
+        if (sceneNum!=NA || gp.finalArena.boss()==null) return;
+        gp.flow.resetDialogue();
+        gp.keyH.clearPlayKeys();
+        gp.player.direction = "up";
+        gp.player.attacking = gp.player.guarding = false;
+        gp.player.projectile.alive = false;
+        introStartY = gp.player.worldY-gp.player.screenY;
+        introTargetY = FinalArena.BOSS_Y-181;
+        shortIntro = seenIntro;
+        introTick = 0;
+        sceneNum = GodFish;
+        scenePhase = 0;
+        gp.gameState = gp.cutsceneState;
+        gp.finalArena.seal();
+    }
+
+    int finalCameraY() {
+        if (scenePhase==0) return introStartY;
+        if (scenePhase==1) return smooth(introStartY,introTargetY,introTick/(shortIntro?27f:60f));
+        if (scenePhase==4) return smooth(introTargetY,gp.finalArena.combatCameraY(),(introTick-18)/42f);
+        return introTargetY;
+    }
+
+    private static int smooth(int from, int to, float t) {
+        t = Math.max(0f,Math.min(1f,t));
+        return Math.round(from+(to-from)*t*t*(3-2*t));
+    }
+
+    private void updateFinalIntro() {
+        var boss = gp.finalArena.boss();
+        if (boss==null || gp.currentMap!=FinalArena.MAP) {
+            gp.finalArena.releaseSeal();
+            gp.flow.resetDialogue();
+            gp.ui.npc = null;
+            gp.keyH.clearPlayKeys();
+            gp.gameState = gp.playState;
+            reset();
+            return;
+        }
+        switch (scenePhase) {
+            case 0 -> {
+                if (++introTick >= (shortIntro ? 8 : 18)) advanceIntro();
+            }
+            case 1 -> {
+                if (++introTick >= (shortIntro ? 27 : 60)) advanceIntro();
+            }
+            case 2 -> {
+                if (++introTick >= (shortIntro ? 14 : 28)) {
+                    gp.ui.npc = boss;
+                    boss.dialogueSet = 0;
+                    boss.dialogueIndex = shortIntro ? 3 : 0;
+                    advanceIntro();
                 }
-                ++i;
             }
-            i = 0;
-            while (i < this.gp.npc[1].length) {
-                if (this.gp.npc[this.gp.currentMap][i] == null) {
-                    this.gp.npc[this.gp.currentMap][i] = new PlayerDummy(this.gp);
-                    this.gp.npc[this.gp.currentMap][i].worldX = this.gp.player.worldX;
-                    this.gp.npc[this.gp.currentMap][i].worldY = this.gp.player.worldY;
-                    this.gp.npc[this.gp.currentMap][i].direction = this.gp.player.direction;
-                    break;
+            case 3 -> gp.flow.updateDialogue();
+            case 4 -> {
+                if (++introTick >= 60) {
+                    seenIntro = true;
+                    gp.ui.npc = null;
+                    gp.keyH.clearPlayKeys();
+                    reset();
+                    gp.gameState = gp.playState;
+                    gp.bossBattleOn = true;
+                    boss.beginFight();
+                    gp.stopMusic();
+                    gp.playMusic(23);
                 }
-                ++i;
             }
-            this.gp.player.drawing = false;
-            ++this.scenePhase;
+            default -> throw new IllegalStateException("Unexpected final introduction beat");
         }
-        if (this.scenePhase == 1) {
-            this.gp.player.worldY -= 2;
-            if (this.gp.player.worldY < this.gp.tileSize * 15) {
-                ++this.scenePhase;
-            }
+    }
+
+    private void advanceIntro() { scenePhase++; introTick = 0; }
+
+    private void drawFinalIntro(Graphics2D g) {
+        if (scenePhase>=3) return;
+        float darkness = switch (scenePhase) {
+            case 0, 1 -> .86f;
+            default -> Math.max(0f, .86f-introTick/(shortIntro?14f:28f));
+        };
+        if (darkness>0) {
+            g.setColor(new Color(0,9,18,Math.round(darkness*255)));
+            g.fillRect(0,0,gp.screenWidht,gp.screenHeight);
         }
-        if (this.scenePhase == 2) {
-            i = 0;
-            while (i < this.gp.monster[1].length) {
-                if (this.gp.monster[this.gp.currentMap][i] != null && this.gp.monster[this.gp.currentMap][i].name.equals("God Fish")) {
-                    this.gp.monster[this.gp.currentMap][i].sleep = false;
-                    this.gp.ui.npc = this.gp.monster[this.gp.currentMap][i];
-                    ++this.scenePhase;
-                    break;
-                }
-                ++i;
-            }
-        }
-        if (this.scenePhase == 3) {
-            this.gp.flow.updateDialogue();
-        }
-        if (this.scenePhase == 4) {
-            i = 0;
-            while (i < this.gp.npc[1].length) {
-                if (this.gp.npc[this.gp.currentMap][i] != null && this.gp.npc[this.gp.currentMap][i].name.equals("Dummy")) {
-                    this.gp.player.worldX = this.gp.npc[this.gp.currentMap][i].worldX;
-                    this.gp.player.worldY = this.gp.npc[this.gp.currentMap][i].worldY;
-                    this.gp.npc[this.gp.currentMap][i] = null;
-                    break;
-                }
-                ++i;
-            }
-            this.gp.player.drawing = true;
-            this.sceneNum = 0;
-            this.scenePhase = 0;
-            this.gp.gameState = this.gp.playState;
-            this.gp.stopMusic();
-            this.gp.playMusic(23);
-        }
+        var boss = gp.finalArena.boss();
+        if (boss!=null && scenePhase>=1 && (scenePhase==2 || introTick>12))
+            GodFishArt.eye(g,boss.getScreenX(),boss.getScreenY());
+        // The real player stays legible during the pan.
+        gp.player.draw(g);
     }
 
     public void scene_Ending() {

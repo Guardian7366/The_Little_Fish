@@ -26,6 +26,7 @@ ChatGPT puede consultar la versión publicada en GitHub. Los cambios locales est
 - [Nueva cuarta zona](CUARTA-ZONA.md): profundidades con ocho Picarones, pasos de Rocky, atajos y tres secretos. Conecta la tercera con la antigua cuarta, ahora quinta en el recorrido. Usa el mapa interno 7 y conserva los IDs anteriores 0–6.
 - [Quinta zona y Sharky](QUINTA-ZONA.md): mapa interno 3, seis Sharkys y tres Picarones, cámaras amplias, doce luces fijas y fondo abisal. El usuario aprobó Sharky, recorrido general y ambientación. La revisión 2 aprobada hace obligatorio utilizar Iron con dos bloques físicos en el corredor final y restaura las dos puertas adicionales al tile original 086.
 - Mercado de TV, completado y aprobado. Es una parada opcional antes del jefe con tienda CRT y punto de guardado. [Estado y pruebas](ESTADO_PROYECTO.md#tv-supply--mercado-aprobado)
+- La fosa y God Fish completan el recorrido principal con una introducción, seis fases de combate y el acceso a los créditos. [Cómo jugar el encuentro final](GOD-FISH.md)
 - [Menú marino](MENU-MARINO.md): GIF aprobado, proporciones conservadas y textos con mayor contraste.
 - [Audio](CORRECCION-AUDIO.md): solicitudes asíncronas para evitar que el juego espere al dispositivo.
 

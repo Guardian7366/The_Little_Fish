@@ -3,7 +3,6 @@
  */
 package main;
 
-import data.Progress;
 import entity.Entity;
 import main.EventRect;
 import main.GamePanel;
@@ -62,7 +61,7 @@ public class EventHandler {
 
     public void checkEvent() {
         if (gp.extraRooms.interact()) return;
-        if (gp.market.interact()) return;
+        if (gp.market.interact() || gp.finalArena.interact()) return;
         if (gp.currentMap==TempleExtension.MAP && gp.gameState==gp.playState && gp.keyH.enterPressed) {
             for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++) {
                 var inscription = TempleExtension.INSCRIPTIONS[i];
@@ -145,12 +144,6 @@ public class EventHandler {
             } else if (this.hit(4, 25, 30, "any")) {
                 this.gp.getClass();
                 this.healingPool(25, 20, 3);
-            } else if (this.hit(6, 24, 41, "any")) {
-                this.gp.getClass();
-                this.healingPool(24, 41, 3);
-            } else if (this.hit(6, 25, 41, "any")) {
-                this.gp.getClass();
-                this.healingPool(25, 41, 3);
             } else if (this.hit(0, 38, 25, "any")) {
                 this.teleportMap(1, 9, 41, this.gp.outside);
             } else if (this.hit(1, 39, 7, "any")) {
@@ -180,7 +173,7 @@ public class EventHandler {
             } else if (this.hit(TempleExtension.MAP, 24, 5, "any")) {
                 if (TempleExtension.solved(gp.npc,gp.iTile)) this.teleportMap(Market.MAP, 24, 27, gp.indoor);
             } else if (this.hit(Market.MAP, 24, 19, "any")) {
-                this.teleportMap(6, 24, 44, gp.dungeons);
+                this.teleportMap(FinalArena.MAP, FinalArena.ARRIVAL_X, FinalArena.ARRIVAL_Y, gp.dungeons);
             } else if (this.hit(Market.MAP, 28, 27, "any")) {
                 this.healingPool(28, 27, gp.dialogueState);
             } else if (this.hit(Market.MAP, 24, 29, "any")) {
@@ -218,8 +211,7 @@ public class EventHandler {
                 this.teleportMap(5, 10, 9, this.gp.indoor);
             } else if (this.hit(5, 9, 9, "any")) {
                 this.teleportMap(3, 14, 40, this.gp.dungeons);
-            } else if (this.hit(6, 25, 25, "any")) {
-                this.GodFish();
+
             }
         }
     }
@@ -301,11 +293,4 @@ public class EventHandler {
         }
     }
 
-    public void GodFish() {
-        if (!this.gp.bossBattleOn && !Progress.GodFishDefeated) {
-            this.gp.gameState = this.gp.cutsceneState;
-            this.gp.csManager.sceneNum = this.gp.csManager.GodFish;
-        }
-    }
 }
-

@@ -64,8 +64,8 @@ Handy e Ic están integrados en el mapa 5. La revisión 3 del guardado conserva 
 
 El mercado está completado en el mapa 10, con compra y venta CRT y migración de partidas comprobada. El usuario probó el mercado y a TV y aprobó la entrega para publicación. [Encargo](design/mercado-tv/TAREA-CODEX.md).
 
-## Preparación por etapas del jefe final
+## Jefe final y desenlace
 
-Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Segunda etapa visual: God Fish y los recursos del combate de seis fases preparados. La integración de ambos paquetes queda pendiente. [Arte de God Fish](design/jefe-final/god-fish/ARTE-GOD-FISH.md). [Arte de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
+Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Segunda etapa visual: God Fish y los recursos del combate de seis fases preparados. Ambos paquetes forman parte de la arena final. [Arte de God Fish](design/jefe-final/god-fish/ARTE-GOD-FISH.md). [Arte de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
 
-El [encargo de integración del jefe final](design/jefe-final/TAREA-CODEX.md) reúne la arena, la introducción hablada, el combate y las pruebas de recorrido. La implementación corresponde a la siguiente sesión de Codex.
+La fosa, la introducción y las seis fases de God Fish están completadas. Pasaron las pruebas de recorrido, reintento, migración y créditos. El usuario autorizó publicar la entrega el 6 de noviembre de 2026. [Guía del encuentro final](GOD-FISH.md)

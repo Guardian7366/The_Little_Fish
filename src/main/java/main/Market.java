@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 public final class Market {
     public static final int MAP = 10, FIRST_TILE = 174, TV_SLOT = 16;
-    private static final int ARENA = 6, ARENA_EXIT_COL = 23, ARENA_EXIT_ROW = 44;
+    private static final int ARENA = FinalArena.MAP, ARENA_EXIT_COL = FinalArena.RETURN_X, ARENA_EXIT_ROW = FinalArena.ARRIVAL_Y;
     private final GamePanel gp;
     private final BufferedImage background = image("background/market");
     private final BufferedImage canopy = image("props/canopy"), shelf = image("props/shelf");

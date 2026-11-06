@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import monster.MON_GodFish;
 import object.OBJ_Chest;
 import object.OBJ_Exit;
 import object.OBJ_Fishbowl;
@@ -113,7 +112,7 @@ public final class StoryRegression {
             gp.eHandler.checkEvent();
             equal(gp.playState, gp.gameState, "arrival cannot immediately bounce back");
         });
-        int[][] checkpoints = {{0,13,31},{1,14,41},{2,17,6},{2,28,6},{3,25,20},{4,24,30},{4,25,30},{6,24,41},{6,25,41},{7,25,8}};
+        int[][] checkpoints = {{0,13,31},{1,14,41},{2,17,6},{2,28,6},{3,25,20},{4,24,30},{4,25,30},{7,25,8}};
         for (int[] checkpoint : checkpoints) check("checkpoint " + checkpoint[0] + ":" + checkpoint[1] + "," + checkpoint[2], () -> {
             place(checkpoint[0], checkpoint[1], checkpoint[2]);
             gp.currentArea = checkpoint[0] >= 3 && checkpoint[0] != 7 ? gp.dungeons : gp.outside;
@@ -269,51 +268,18 @@ public final class StoryRegression {
             equal(87, count(gp.monster), "new game restores current population");
             truth(find(gp.obj[4], "Iron Door") >= 0, "new game restores puzzle door");
         });
-        check("boss introduction, rage, defeat, key, final door and credits", StoryRegression::completeEnding);
+        check("victory key, final door and original credits", StoryRegression::completeEnding);
         gp.stopGame();
         System.out.printf("STORY RESULT passed=%d failed=%d%n", passed, failed);
         if (failed != 0) System.exit(1);
     }
 
     private static void completeEnding() {
-        place(6,25,25); gp.currentArea = gp.dungeons;
-        int startX = gp.player.worldX, startY = gp.player.worldY;
-        gp.eHandler.checkEvent();
-        equal(gp.cutsceneState, gp.gameState, "boss event starts cinematic");
-        gp.update();
-        truth(gp.bossBattleOn && !gp.player.drawing, "camera sequence hides original player");
-        int cameraY = gp.player.worldY, phase = gp.csManager.scenePhase;
-        render(30);
-        equal(cameraY, gp.player.worldY, "drawing cannot move cutscene camera");
-        equal(phase, gp.csManager.scenePhase, "drawing cannot advance cutscene");
-        for (int i = 0; i < 1000 && gp.csManager.scenePhase != 3; i++) gp.update();
-        equal(3, gp.csManager.scenePhase, "boss introduction reaches dialogue");
-        for (int i = 0; i < 100 && gp.gameState == gp.cutsceneState; i++) {
-            gp.keyH.enterPressed = true; gp.update();
-        }
-        equal(gp.playState, gp.gameState, "boss fight begins");
-        equal(startX, gp.player.worldX, "camera restores player X");
-        equal(startY, gp.player.worldY, "camera restores player Y");
-        truth(gp.player.drawing, "player visible after introduction");
-        equal(23, gp.lastMusic, "boss music");
-        gp.keyH.releaseAll();
-        int bossIndex = find(gp.monster[6], "God Fish");
-        truth(bossIndex >= 0, "boss exists");
-        MON_GodFish boss = (MON_GodFish)gp.monster[6][bossIndex];
-        truth(!boss.sleep, "boss awakened");
-        BufferedImage normal = boss.down;
-        boss.life = boss.maxLife / 2 - 1;
-        boss.setAction();
-        truth(boss.inRage && boss.down != normal, "rage changes original sprite set");
-        equal(2, boss.defaultSpeed, "rage speed"); equal(40, boss.attack, "rage attack");
-        boss.setAction(); equal(40, boss.attack, "rage is not reapplied");
-        gp.player.damageMonster(bossIndex, gp.player, 10000, 0);
-        truth(boss.dying, "fatal hit enters death animation");
-        finishDialogue();
-        ticks(45);
-        truth(Progress.GodFishDefeated && !gp.bossBattleOn, "boss progress recorded");
-        equal(-1, find(gp.monster[6], "God Fish"), "boss removed");
-        equal(-1, find(gp.obj[6], "Iron Door"), "arena barrier removed");
+        place(FinalArena.MAP,FinalArena.KEY_X,FinalArena.KEY_Y);
+        gp.currentArea=gp.dungeons;
+        Progress.GodFishDefeated=true;
+        gp.monster[FinalArena.MAP][FinalArena.BOSS_SLOT]=null;
+        gp.obj[FinalArena.MAP][FinalArena.KEY_SLOT]=Temple.place(new object.OBJ_Key(gp),FinalArena.KEY_X,FinalArena.KEY_Y);
         int key = find(gp.obj[6], "Key");
         truth(key >= 0, "boss drops key");
         gp.player.pickUpObject(key);

@@ -41,7 +41,7 @@ public final class MarketSaveRegression {
     }
 
     private static void oldShape(SaveSnapshot s) {
-        s.marketRevision = 0;
+        s.marketRevision = s.arenaRevision = 0;
         s.world.objects = Arrays.copyOf(s.world.objects, 10);
         s.world.monsters = Arrays.copyOf(s.world.monsters, 10);
         s.world.tiles = Arrays.copyOf(s.world.tiles, 10);
@@ -74,9 +74,6 @@ public final class MarketSaveRegression {
                     rock.linkedEntity = gp.iTile[9][lane.plateSlot()];
                 }
                 gp.obj[9][0] = null;
-            } else if (scenario == 2) {
-                gp.bossBattleOn = true;
-                gp.monster[6][87].life = 17;
             } else if (scenario == 3) {
                 Progress.GodFishDefeated = true;
                 gp.monster[6][87] = null;
@@ -86,6 +83,10 @@ public final class MarketSaveRegression {
             check(save.trySave(), save.getLastError());
             var previous = read(path);
             oldShape(previous);
+            if (scenario==2) {
+                previous.bossBattleOn=true;
+                previous.world.monsters[6][87].life=17;
+            }
             write(path, previous);
             Path original = Path.of("build/market-baseline/scenario" + scenario + ".dat");
             if (Files.isRegularFile(original)) {
@@ -96,10 +97,10 @@ public final class MarketSaveRegression {
             check(save.tryLoad(), save.getLastError());
             check(Arrays.equals(oldBytes, Files.readAllBytes(path)), "loading does not rewrite legacy bytes");
             singleTV(gp);
-            check(gp.currentMap == previous.map && gp.player.worldX == previous.x && gp.player.worldY == previous.y
+            check(gp.currentMap == previous.map && gp.player.worldX == (scenario==2?main.FinalArena.ARRIVAL_X*48:previous.x) && gp.player.worldY == (scenario==2?main.FinalArena.SAFE_Y*48:previous.y)
                 && gp.player.coin == 32, "older position and balance");
-            check(gp.bossBattleOn == (scenario == 2) && Progress.GodFishDefeated == (scenario == 3), "boss progress");
-            if (scenario == 2) check(gp.monster[6][87].life == 17, "active boss life");
+            check(!gp.bossBattleOn && Progress.GodFishDefeated == (scenario == 3), "boss progress");
+            if (scenario == 2) check(gp.monster[6][87].life == 650 && gp.monster[6][87].sleep, "legacy active boss becomes a fresh attempt");
             if (scenario == 3) check(gp.monster[6][87] == null && gp.obj[6][9] == null
                 && gp.player.searchItemInInventory("Key") != 999 && gp.obj[6][10] != null, "arena key, open door and exit");
             check(gp.extraRooms.flags() == 31 && gp.extraRooms.later.state().equals(new RefugeChallenges.State(1, 2, true, 2)),

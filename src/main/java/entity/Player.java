@@ -236,12 +236,13 @@ extends Entity {
         } else if (hasMovementOrInteractionInput()) {
             updateMovementAndInteractions();
         }
-        tryShoot();
+        if (gp.gameState==gp.playState) tryShoot();
         updatePlayerTimers();
         life = Math.min(life, maxLife);
         water = Math.min(water, maxWater);
         if (!keyH.godModeOn && life <= 0) {
             if (main.Temple.usesTemple(gp.currentMap)) gp.temple.resetCombat();
+            if (gp.currentMap==main.FinalArena.MAP) gp.finalArena.abandon();
             gp.extraRooms.ending.resetTransient();
             gp.stopMusic();
             gp.gameState = gp.gameOverState;
@@ -333,6 +334,8 @@ extends Entity {
 
     public void pickUpObject(int i) {
         if (i != 999) {
+            if (this.gp.obj[this.gp.currentMap][i] instanceof object.OBJ_Exit
+                    && gp.currentMap==main.FinalArena.MAP && !data.Progress.GodFishDefeated) return;
             if (this.gp.obj[this.gp.currentMap][i].type == 7) {
                 this.gp.obj[this.gp.currentMap][i].use(this);
                 this.gp.obj[this.gp.currentMap][i] = null;
@@ -372,6 +375,7 @@ extends Entity {
             (gp.monster[gp.currentMap][i] instanceof monster.MON_Flower ||
              gp.monster[gp.currentMap][i] instanceof monster.MON_Secret)) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) return;
+        if (i!=999 && gp.monster[gp.currentMap][i] instanceof monster.MON_GodFish) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Sharky shark) {
             if (!shark.dying && shark.alive) shark.damagePlayer(shark.attack);
             return;
@@ -389,6 +393,7 @@ extends Entity {
     }
 
     public void damageMonster(int i, Entity attacker, int attack, int knockBackPower) {
+        if (i!=999 && gp.currentMap==main.FinalArena.MAP && i==main.FinalArena.BOSS_SLOT) return;
         if (i != 999 && !this.gp.monster[this.gp.currentMap][i].invincible &&
             this.gp.monster[this.gp.currentMap][i].alive && !this.gp.monster[this.gp.currentMap][i].dying) {
             int damage;
@@ -409,6 +414,7 @@ extends Entity {
             this.gp.monster[this.gp.currentMap][i].damageReaction();
             if (this.gp.monster[this.gp.currentMap][i].life <= 0) {
                 this.gp.monster[this.gp.currentMap][i].dying = true;
+                if (gp.currentMap==main.FinalArena.MAP && i==main.FinalArena.SUMMON_SLOT) return;
                 if (!gp.extraRooms.claimDefeat(i)) return;
                 this.gp.ui.addMessage("killed the " + this.gp.monster[this.gp.currentMap][i].name + "!");
                 if (gp.monster[gp.currentMap][i] instanceof monster.MON_Secret secret && !secret.claimReward()) return;
