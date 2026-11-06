@@ -214,3 +214,7 @@ Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres
 
 - Se retira la forma bajo el ojo. Se redibujan los perfiles, las articulaciones y las poses de puños, con un ceño más marcado para las dos fases sin armas.
 - Los atlas conservan sus anclas y su cuadrícula. Los efectos y los mecanismos de la arena conservan sus archivos.
+
+## God Fish · encargo de integración
+
+- Guía unificada para la fosa, el diálogo de introducción, las seis fases, la victoria y la migración de guardados. Incluye orden de implementación y criterios de revisión.

@@ -67,3 +67,5 @@ El mercado está completado en el mapa 10, con compra y venta CRT y migración d
 ## Preparación por etapas del jefe final
 
 Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Segunda etapa visual: God Fish y los recursos del combate de seis fases preparados. La integración de ambos paquetes queda pendiente. [Arte de God Fish](design/jefe-final/god-fish/ARTE-GOD-FISH.md). [Arte de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
+
+El [encargo de integración del jefe final](design/jefe-final/TAREA-CODEX.md) reúne la arena, la introducción hablada, el combate y las pruebas de recorrido. La implementación corresponde a la siguiente sesión de Codex.
