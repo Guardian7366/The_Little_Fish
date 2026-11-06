@@ -42,7 +42,7 @@ public final class MarketShop {
         selling = false;
         product = bagCol = bagRow = frame = saleTicks = 0;
         pending = null;
-        notice = "You're on air, D.";
+        notice = "TV SUPPLY.\nStill on the air.";
         gp.keyH.clearPlayKeys();
         gp.gameState = gp.tradeState;
     }
@@ -165,7 +165,12 @@ public final class MarketShop {
         } else label(g, "Empty slot", 195, 117, 8, INK);
         if (!notice.isEmpty()) {
             blit(g, NOTICE, 186, 132);
-            label(g, notice, 192, 148, 7.5f, GOLD);
+            String[] lines = notice.split("\\n");
+            int baseline = lines.length == 1 ? 148 : 142;
+            for (String line : lines) {
+                label(g, line, 192, baseline, 7.5f, GOLD);
+                baseline += 10;
+            }
         }
         label(g, (selling ? "WASD Select" : "W/S Select") + "    Enter Confirm    Esc Back", 22, 173, 8, INK);
 

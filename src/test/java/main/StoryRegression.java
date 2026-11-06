@@ -303,10 +303,10 @@ public final class StoryRegression {
             gp.keyH.enterPressed = true; gp.update();
         }
         gp.keyH.releaseAll();
-        truth(gp.csManager.scenePhase >= 3, "ending dialogue finished");
-        equal(24, gp.lastMusic, "ending music");
-        for (int i = 0; i < 2000 && gp.csManager.scenePhase < 8; i++) gp.update();
-        equal(8, gp.csManager.scenePhase, "credits reached");
+        truth(gp.csManager.scenePhase >= 2, "ending dialogue finished");
+        for (int i = 0; i < 2000 && gp.csManager.scenePhase < CutsceneManager.ENDING_CREDITS; i++) gp.update();
+        equal(CutsceneManager.ENDING_CREDITS, gp.csManager.scenePhase, "credits reached");
+        equal(24, gp.lastMusic, "credits music");
         int y = gp.csManager.y;
         render(30);
         equal(y, gp.csManager.y, "drawing cannot scroll credits");

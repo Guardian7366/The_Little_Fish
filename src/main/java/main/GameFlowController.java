@@ -29,9 +29,18 @@ public final class GameFlowController {
         }
     }
 
+    private int dialogueGroup;
+
+    public void beginDialogue(Entity speaker,int group,int firstPage) {
+        resetDialogue();
+        ui.npc=speaker;
+        dialogueGroup=group;
+        speaker.dialogueIndex=firstPage;
+    }
+
     public void updateDialogue() {
         if (ui.npc == null) return;
-        String[] lines = ui.npc.dialogues[ui.npc.dialogueSet];
+        String[] lines = ui.npc.dialogues[dialogueGroup];
         String line = ui.npc.dialogueIndex < lines.length ? lines[ui.npc.dialogueIndex] : null;
         if (line == null) {
             resetDialogue();

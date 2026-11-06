@@ -28,7 +28,8 @@ extends Entity {
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "Chill in the sand my old friend";
+        dialogues[0][0] = "If you find sand again, sit for a\nwhile.";
+        dialogues[0][1] = "The sea sounds different when you\nstop trying to get somewhere.";
     }
 
     @Override

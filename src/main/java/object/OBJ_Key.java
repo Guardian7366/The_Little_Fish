@@ -25,7 +25,7 @@ extends Entity {
 
     public void setDialogue() {
         this.dialogues[0][0] = "You use the " + this.name + " and open the door";
-        this.dialogues[1][0] = "Why D?";
+        this.dialogues[1][0] = "There is no lock for this key here.";
     }
 
     @Override

@@ -23,11 +23,10 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "D asked if cold could keep\nsomething from fading.";
-        dialogues[0][1] = "I could keep a footprint.";
-        dialogues[0][2] = "I couldn't promise someone\nwould follow it back.";
-        dialogues[0][3] = "Slide to the two marks.\nRough stone stops the slide.";
-        dialogues[1][0] = "Your tracks are still here.";
+        dialogues[0][0] = "The small prints came more slowly\nevery winter.";
+        dialogues[0][1] = "D waited by the cold step until they\ncaught up.";
+        dialogues[0][2] = "Slide to the two marks. Rough stone\nstops the slide.";
+        dialogues[1][0] = "The ice has thawed. I can still tell\nyou where the prints were.";
     }
 
     @Override

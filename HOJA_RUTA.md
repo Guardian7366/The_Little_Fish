@@ -1,6 +1,6 @@
 # Hoja de ruta hacia la versión definitiva
 
-Actualizada el **5 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
+Actualizada el **6 de noviembre de 2026**. Esta hoja ordena el trabajo; el estado comprobado y las evidencias están en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Una propuesta no autoriza cambios en código o recursos.
 
 ## Etapas
 
@@ -76,4 +76,4 @@ El encuentro final incorpora los esbirros Aguijón y Baluarte y el daño de cont
 
 ## Reintegración del lore
 
-Preparado el guion de las memorias de D. Siguiente entrega: integrar las pistas y la escena final sin alterar la progresión aprobada. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
+La integración de las pistas y el desenlace está aprobada. El usuario revisó en juego los diálogos y el final y autorizó publicar la entrega con la maqueta. Quedan pendientes el arte y el audio definitivos de la costa. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).

@@ -22,12 +22,14 @@ extends Entity {
     }
 
     public void setDialogues() {
-        this.dialogues[0][0] = "D: I finally found you";
-        this.dialogues[0][1] = "Da: Thanks, but I'm not real you know?";
-        this.dialogues[0][2] = "D: ???";
-        this.dialogues[0][3] = "Da: Remember D, the past that \nyou hate so much";
-        this.dialogues[0][4] = "Suddenly you remember everything...";
-        this.dialogues[0][5] = "El pasado es pasado, el futuro una \nposibilidad y el presente el \u00fanico \nmomento que sientes y vives...";
+        dialogues[0][0] = "D: The water's quiet. I thought I'd\nfeel different.";
+        dialogues[0][1] = "Echo: This was a game about a fish.\nThen you put your memories here.";
+        dialogues[0][2] = "Echo: When the fish moved, I thought\nit was you.";
+        dialogues[0][3] = "D: I kept looking for a way to put it\nall back.";
+        dialogues[0][4] = "D: She used to sleep by the window.\nThe cat I brought home from the\nrain.";
+        dialogues[0][5] = "D: She grew old. One morning she\nstopped breathing in her sleep.";
+        dialogues[0][6] = "D: I remember holding her. Then I\nremember how empty my hands felt.";
+        dialogues[0][7] = "D: I can carry something again. I\ndon't have to leave her here.";
     }
 
     @Override

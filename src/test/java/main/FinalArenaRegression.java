@@ -149,7 +149,13 @@ public final class FinalArenaRegression {
         key(VK_ENTER,false);
         y=gp.player.worldY;
         check(y==INTRO_Y,"player reaches the final shot by swimming on the floor");
-        if (!abbreviated) { tick(40); capture("02-reconocimiento"); }
+        if (abbreviated) {
+            until(() -> gp.ui.currentDialogue.replace('\n',' ').equals(
+                "Come closer, D. Show me what you came here for."),100,"retry shows the fourth lore page");
+        } else {
+            tick(40);
+            capture("02-reconocimiento");
+        }
         int pages=abbreviated?1:4;
         for (int page=0;page<pages;page++) {
             int index=boss().dialogueIndex;
@@ -592,7 +598,7 @@ public final class FinalArenaRegression {
         check(gp.csManager.sceneNum==gp.csManager.ending,"exit initiates original ending");
         tick(2);
         for (int i=0; i<8; i++) tap(VK_ENTER);
-        until(() -> gp.csManager.scenePhase==8,2000,"original credits reached");
+        until(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,2000,"original credits reached");
         check(gp.lastMusic==24,"credits music");
         capture("14-creditos");
     }

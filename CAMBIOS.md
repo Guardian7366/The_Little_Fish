@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## Lore y desenlace de D · entrega aprobada
+
+- Incorporadas las memorias de D en los diálogos, los ocho refugios y las inscripciones y murales existentes. Las conversaciones nuevas comienzan en la primera página de su grupo, incluidos los grupos cargados de partidas anteriores.
+- La introducción de God Fish usa las cuatro páginas del guion y el reintento muestra la cuarta. Tras la puerta final, el diálogo entre D y Echo da paso a una maqueta silenciosa de la costa, al título y a los créditos originales. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md)
+- Pasaron las 35 suites de `build.ps1 -Test`. El usuario revisó los diálogos y el desenlace en juego y autorizó publicar esta versión con la maqueta de la costa.
+
 ## God Fish · contacto del manto, ajuste aprobado
 
 - El centro del manto inflige 1 HP mientras el jefe está protegido y aplica un empujón corto si hay una salida libre. El usuario aprobó el ajuste. Pasaron las 34 suites y se repitió el recorrido del mercado a los créditos con el JAR empaquetado.

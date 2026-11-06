@@ -444,7 +444,7 @@ implements Runnable {
         synchronized (frameLock) {
             if (tempScreen != null) {
                 Graphics2D screen = (Graphics2D) graphics.create();
-                if (gameState == titleState) {
+                if (gameState == titleState || csManager.isCoast()) {
                     screen.setColor(Color.black); screen.fillRect(0, 0, getWidth(), getHeight());
                     double scale = Math.min(getWidth() / 960.0, getHeight() / 576.0);
                     int width = (int)Math.round(960 * scale), height = (int)Math.round(576 * scale);

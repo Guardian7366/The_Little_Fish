@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Última revisión: **5 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
+Última revisión: **6 de noviembre de 2026**. Objetivo: desarrollar la versión definitiva de The Little Fish con planificación y decisiones creativas en ChatGPT, implementación técnica en Codex y archivos del repositorio como información compartida.
 
 ## Base y situación actual
 
@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados, incluida la revisión de movilidad, ritmo y objetivos aprobada por el usuario. El recorrido principal ya llega del arrecife a los créditos. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados, incluida la revisión de movilidad, ritmo y objetivos aprobada por el usuario. El recorrido principal ya llega del arrecife a los créditos. La integración narrativa está aprobada. Los recursos finales de la costa siguen pendientes.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -117,4 +117,8 @@ Sobre `d75386b`, la entrega aprobada incorpora Aguijón y Baluarte exclusivament
 
 ## Lore y desenlace de D
 
-Sobre a6f2788 se documentaron el canon, los diálogos, las pistas opcionales y la escena final en la costa. La integración jugable y los recursos de la costa están pendientes. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
+Integración sobre `1a609a8`. El usuario revisó los diálogos y el nuevo final en juego, aprobó la entrega y autorizó publicarla. Las pistas de NPC, refugios, inscripciones y murales usan los puntos de interacción existentes. God Fish conserva cuatro páginas de introducción y el reintento usa la cuarta. La salida muestra el diálogo de D y Echo. La escena de la costa usa una maqueta visual identificada y silenciosa hasta contar con arte y audio revisados. Después se muestran el título y los créditos con su música y atribuciones. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
+
+Pasaron las 35 suites de `build.ps1 -Test`. Se leyeron las pistas en sus interacciones normales, incluidos los grupos 3–17, y se visitaron los ocho refugios en un orden alternativo. El desenlace llegó a los créditos con y sin pistas opcionales. Una partida generada con las fuentes de `1a609a8` conservó sus datos y permitió iniciar las conversaciones con índices de diálogo guardados. Se verificaron el texto a 960 × 576, la costa a 1280 × 720 y el recorrido del mercado a los créditos con reintento. Registro en `build/lore-verification.txt`.
+
+Quedan pendientes el arte y el audio definitivos de la costa. El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/lore-preview/`.

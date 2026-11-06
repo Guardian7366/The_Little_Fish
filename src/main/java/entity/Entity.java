@@ -251,8 +251,9 @@ public class Entity {
 
     public void startDialogue(Entity entity, int setNum) {
         this.gp.gameState = this.gp.dialogueState;
-        this.gp.ui.npc = entity;
+        if (setNum<0 || setNum>=entity.dialogues.length || entity.dialogues[setNum][0]==null) setNum=0;
         this.dialogueSet = setNum;
+        this.gp.flow.beginDialogue(entity,setNum,0);
     }
 
     public void checkDrop() {

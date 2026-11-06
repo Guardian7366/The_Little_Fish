@@ -22,9 +22,9 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "Pio. Try both lanterns.";
-        dialogues[0][1] = "D asked me to leave two lights burning.";
-        dialogues[0][2] = "When D came back, only one went out.";
+        dialogues[0][0] = "Pio. D used to leave one light on\nafter dark.";
+        dialogues[0][1] = "A small shadow would curl up in the\nwarm patch.";
+        dialogues[0][2] = "Try both lanterns.";
     }
 
     @Override

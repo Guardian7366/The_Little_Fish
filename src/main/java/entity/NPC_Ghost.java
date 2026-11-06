@@ -22,10 +22,10 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "D came back counting footsteps.";
-        dialogues[0][1] = "There should have been another set.";
-        dialogues[0][2] = "Please... don't ask me whose.";
-        dialogues[0][3] = "Use the pedestal. Watch the marks.\nThen follow them.";
+        dialogues[0][0] = "Two sets of footsteps used to stop\nat this door.";
+        dialogues[0][1] = "One day, I heard the other set carry\non past it.";
+        dialogues[0][2] = "I heard the promise they made to D.\nThey were making it to someone else.";
+        dialogues[0][3] = "Use the pedestal. Watch the marks,\nthen follow them.";
     }
 
     @Override

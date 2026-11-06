@@ -22,8 +22,8 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "D asked me for a second dose.";
-        dialogues[0][1] = "It was still sealed when\nD brought it back.";
+        dialogues[0][0] = "D asked me to put aside a second\ndose.";
+        dialogues[0][1] = "When D returned, the bottle was still\nsealed.";
         dialogues[0][2] = "The Greeny guards the remedy.";
     }
 

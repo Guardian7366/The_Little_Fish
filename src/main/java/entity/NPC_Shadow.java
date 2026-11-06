@@ -29,19 +29,12 @@ extends Entity {
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "Hello, traveller";
-        this.dialogues[0][1] = "So you\u00b4ve fall into this uh?";
-        this.dialogues[0][2] = "Well i can help you to go into this thing";
-        this.dialogues[0][3] = "You can attack and defend yourself \nfrom enemies.";
-        this.dialogues[0][4] = "Also try kill them all hahah";
-        this.dialogues[0][5] = "This way you can level up";
-        this.dialogues[0][6] = "You will find many objects that \nwill help you, believe me";
-        this.dialogues[1][0] = "If you start to forget,\nrest in the emerald squares";
-        this.dialogues[1][1] = "If you want to get out of here,\ndefeat yourself";
-        this.dialogues[1][2] = "?           ?                ?";
-        this.dialogues[1][3] = "What?";
-        this.dialogues[1][4] = "Why do you see me that way?";
-        this.dialogues[2][0] = "Forget the past D...";
+        dialogues[0][0] = "You move like a fish. For a moment, I\nthought you were someone else.";
+        dialogues[0][1] = "Keep your guard up. You can strike or\nshield yourself.";
+        dialogues[0][2] = "Look in the side rooms. What you find\nthere may help you further down.";
+        dialogues[1][0] = "Rest at an emerald when you need to.";
+        dialogues[1][1] = "This place keeps things better than\npeople do. Even things they'd rather\nforget.";
+        dialogues[2][0] = "Strange. I knew your name before you\nhad a face, D.";
     }
 
     @Override

@@ -22,10 +22,9 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "I hid under my cap when the noise started.";
-        dialogues[0][1] = "D stood in front of me.";
-        dialogues[0][2] = "I never saw what was behind D.";
-        dialogues[0][3] = "Face two attacks with your shield.\nYou may also defeat the Picaron.";
+        dialogues[0][0] = "D stood in front of me when they\nlaughed.";
+        dialogues[0][1] = "They laughed when D spoke, too.\nAfterward, D hardly said a word.";
+        dialogues[0][2] = "Face two attacks with your shield. You\nmay also defeat the Picaron.";
     }
 
     @Override

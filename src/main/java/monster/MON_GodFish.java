@@ -79,10 +79,10 @@ public final class MON_GodFish extends Entity {
         solidArea.setBounds(-58,-43,116,106);
         solidAreaDefaultX=solidArea.x;
         solidAreaDefaultY=solidArea.y;
-        dialogues[0][0]="So you've finally arrived, D.";
-        dialogues[0][1]="The temple remembers what you left behind.";
-        dialogues[0][2]="You swam all this way to hear it again?";
-        dialogues[0][3]="Very well. Come closer,\nif you still want to know.";
+        dialogues[0][0] = "There you are, D.";
+        dialogues[0][1] = "You gave the little fish one task. Then\nyou gave it everything you remembered.";
+        dialogues[0][2] = "You kept swimming down, as if peace\nwere something you could win from me.";
+        dialogues[0][3] = "Come closer, D. Show me what\nyou came here for.";
     }
 
     @Override public int getCenterX() { return worldX; }

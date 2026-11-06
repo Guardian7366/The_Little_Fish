@@ -37,26 +37,35 @@ public class EventHandler {
     }
 
     public void setDialogue() {
+        eventMaster.dialogues[0][0] = "You take damage";
+        eventMaster.dialogues[1][0] = "Life and water restored.\nGame saved.";
+        eventMaster.dialogues[2][0] = "For a moment, the passage feels\nunfamiliar.";
+        eventMaster.dialogues[3][0] = "A smile was scratched into the stone.";
+        eventMaster.dialogues[3][1] = "The same hand tried three times to\nget it right.";
+        eventMaster.dialogues[4][0] = "One letter survived the current. D.";
+        eventMaster.dialogues[4][1] = "The groove fits the edge of your fin.";
+        eventMaster.dialogues[5][0] = "NO FISHING.";
+        eventMaster.dialogues[5][1] = "Underneath, in smaller letters: Please\nleave the orange one alone.";
+        eventMaster.dialogues[6][0] = "Two names were scratched here.";
+        eventMaster.dialogues[6][1] = "One was rubbed out. Another was\nwritten in the same space.";
+        eventMaster.dialogues[7][0] = "The wall is scratched at shoulder\nheight.";
+        eventMaster.dialogues[7][1] = "Whoever made the marks came back\ntaller each year.";
+        eventMaster.dialogues[8][0] = "Two marks lead to a door.";
+        eventMaster.dialogues[8][1] = "On the other side, only one trail leads\naway.";
+        eventMaster.dialogues[9][0] = "Someone wrote GO BACK.";
+        eventMaster.dialogues[9][1] = "The arrow still points deeper.";
+        eventMaster.dialogues[10][0] = "The carving shows a bowl by a window.";
+        eventMaster.dialogues[10][1] = "Your first thought is that someone\nforgot to fill it.";
+        eventMaster.dialogues[11][0] = "The last tool mark points toward the\nrefuge.";
+        eventMaster.dialogues[11][1] = "A small print crosses it, as if someone\ncame to fetch the worker home.";
+        eventMaster.dialogues[12][0] = "The first panel shows a single fish.";
+        eventMaster.dialogues[12][1] = "The next shows the same fish carrying\na light it did not have before.";
+        eventMaster.dialogues[13][0] = "The D was cut through an older\npicture.";
+        eventMaster.dialogues[13][1] = "Beneath the letter, the orange fish\nstill has its original outline.";
+        eventMaster.dialogues[14][0] = "Four weights guarded the way. One\nlight stayed on behind them.";
+        eventMaster.dialogues[14][1] = "The old lamp and fish marks hide a\nseam.";
         for (int i=0;i<TempleExtension.INSCRIPTIONS.length;i++)
             eventMaster.dialogues[15+i][0]=TempleExtension.INSCRIPTIONS[i].text();
-        eventMaster.dialogues[12][0]="The fish went down in single file.\nOne carried a small light.";
-        eventMaster.dialogues[13][0]="The D was carved over much older marks.";
-        eventMaster.dialogues[14][0]="Four weights guarded the way.\nD. I counted four and left a light on.";
-        eventMaster.dialogues[14][1]="The old lamp and fish marks hide a seam.";
-        eventMaster.dialogues[11][0]="Someone tested a tool here.\nThe last mark points toward the refuge.";
-        eventMaster.dialogues[8][0]="The marks continue on the other side\nof the stone.";
-        eventMaster.dialogues[9][0]="Someone wrote: GO BACK.\nThe arrow points down.";
-        eventMaster.dialogues[10][0]="This shape feels familiar.\nYou cannot remember seeing it before.";
-        this.eventMaster.dialogues[7][0] = "Someone counted the shadows here.\nThen stopped counting.";
-        this.eventMaster.dialogues[0][0] = "You take damage";
-        this.eventMaster.dialogues[1][0] = "MAX HP and MANA\n You don\u00b4t forget your memories";
-        this.eventMaster.dialogues[2][0] = "A distortion in your memory occurred";
-        this.eventMaster.dialogues[3][0] = "Someone carved a smile into this rock.";
-        this.eventMaster.dialogues[3][1] = "Even at the bottom of the sea,\nsomeone had time for this.";
-        this.eventMaster.dialogues[4][0] = "The mark is worn. One letter remains:\nD...";
-        this.eventMaster.dialogues[5][0] = "NO FISHING.\nSomeone remembered to put up a sign.";
-        this.eventMaster.dialogues[6][0] = "A trail of marks ends here.\nOne has been carefully rubbed away.";
-        this.eventMaster.dialogues[4][1] = "You almost remember who wrote it.";
     }
 
     public void checkEvent() {
@@ -267,7 +276,7 @@ public class EventHandler {
             this.gp.player.life = this.gp.player.maxLife;
             this.gp.player.water = this.gp.player.maxWater;
             if (!this.gp.saveLoad.trySave()) {
-                this.eventMaster.dialogues[1][0] = "No se pudo guardar.\n" + this.gp.saveLoad.getLastError();
+                this.eventMaster.dialogues[1][0] = "Life and water restored.\nThe game could not be saved.";
             } else {
                 this.setDialogue();
             }

@@ -14,10 +14,14 @@ public class CutsceneManager {
     Graphics2D g2;
     public int sceneNum;
     public int scenePhase;
+    private static final int ENDING_DIALOGUE=1, ENDING_FADE=2, ENDING_COAST=3,
+        ENDING_TITLE=4, ENDING_CREDITS_HOLD=5;
+    static final int ENDING_CREDITS=6;
+    private static final int FADE_TICKS=65;
+    private final CoastEpilogue coast=new CoastEpilogue();
     int counter = 0;
     private int introTick, introStartY, introTargetY;
     private boolean seenIntro, shortIntro;
-    float alpha = 0.0f;
     int y;
     String endCredit;
     public final int NA = 0;
@@ -35,7 +39,7 @@ public class CutsceneManager {
     }
 
     public boolean isDialogueActive() {
-        return (sceneNum == GodFish && scenePhase == 3) || (sceneNum == ending && scenePhase == 1);
+        return (sceneNum == GodFish && scenePhase == 3) || (sceneNum == ending && scenePhase == ENDING_DIALOGUE);
     }
 
     public void draw(Graphics2D g2) {
@@ -48,19 +52,24 @@ public class CutsceneManager {
             gp.ui.drawDialogueScreen();
         }
         if (sceneNum != ending) return;
-        if (scenePhase == 4) drawBlackBackground(alpha);
-        if (scenePhase >= 5) drawBlackBackground(1f);
-        if (scenePhase == 5) drawString(alpha, 22f, 125,
-            "After everything you did to \ncreate this dungeon of lost thoughts...\nWhat do you earn?\nNothing...\nBut for some reason you feel that every day \nyou get closer to that dream you have.\n", 70);
-        if (scenePhase == 6) drawString(1f, 80f, gp.screenHeight / 2, "The little fish", 40);
-        if (scenePhase == 7) drawString(1f, 30f, y, endCredit, 40);
-        if (scenePhase == 8) drawString(1f, 38f, y, endCredit, 40);
+        switch (scenePhase) {
+            case ENDING_FADE -> drawBlackBackground(counter/(float)FADE_TICKS);
+            case ENDING_COAST -> coast.draw(g2,counter,gp.ui.purisaB);
+            case ENDING_TITLE -> {
+                drawBlackBackground(1f);
+                drawString(1f,80f,gp.screenHeight/2,"The little fish",40);
+            }
+            case ENDING_CREDITS_HOLD, ENDING_CREDITS -> {
+                drawBlackBackground(1f);
+                drawString(1f,38f,y,endCredit,40);
+            }
+            default -> { }
+        }
     }
 
     public void reset() {
         sceneNum = NA;
         scenePhase = counter = y = 0;
-        alpha = 0f;
         introTick = 0;
     }
 
@@ -118,9 +127,8 @@ public class CutsceneManager {
             }
             case 2 -> {
                 if (++introTick >= (shortIntro ? 14 : 28)) {
-                    gp.ui.npc = boss;
                     boss.dialogueSet = 0;
-                    boss.dialogueIndex = shortIntro ? 3 : 0;
+                    gp.flow.beginDialogue(boss,0,shortIntro ? 3 : 0);
                     advanceIntro();
                 }
             }
@@ -163,65 +171,45 @@ public class CutsceneManager {
     }
 
     public void scene_Ending() {
-        if (this.scenePhase == 0) {
-            this.gp.stopMusic();
-            this.gp.ui.npc = new OBJ_Exit(this.gp);
-            ++this.scenePhase;
-        }
-        if (this.scenePhase == 1) {
-            this.gp.flow.updateDialogue();
-        }
-        if (this.scenePhase == 2) {
-            this.gp.playMusic(24);
-            ++this.scenePhase;
-        }
-        if (this.scenePhase == 3 && this.counterReached(300)) {
-            ++this.scenePhase;
-        }
-        if (this.scenePhase == 4) {
-            this.alpha += 0.005f;
-            if (this.alpha > 1.0f) {
-                this.alpha = 1.0f;
+        switch (scenePhase) {
+            case 0 -> {
+                gp.stopMusic();
+                gp.flow.beginDialogue(new OBJ_Exit(gp),0,0);
+                nextEndingBeat();
             }
-            if (this.alpha == 1.0f) {
-                this.alpha = 0.0f;
-                ++this.scenePhase;
+            case ENDING_DIALOGUE -> gp.flow.updateDialogue();
+            case ENDING_FADE -> {
+                if (++counter>=FADE_TICKS) {
+                    gp.ui.npc=null;
+                    nextEndingBeat();
+                }
             }
-        }
-        if (this.scenePhase == 5) {
-            this.alpha += 0.005f;
-            if (this.alpha > 1.0f) {
-                this.alpha = 1.0f;
+            case ENDING_COAST -> {
+                if (++counter>=CoastEpilogue.DURATION) {
+                    gp.playMusic(24);
+                    nextEndingBeat();
+                }
             }
-            if (this.counterReached(720)) {
-                ++this.scenePhase;
+            case ENDING_TITLE -> {
+                if (++counter>=180) {
+                    y=gp.screenHeight/2;
+                    nextEndingBeat();
+                }
             }
-        }
-        if (this.scenePhase == 6) {
-            if (this.counterReached(240)) {
-                ++this.scenePhase;
+            case ENDING_CREDITS_HOLD -> {
+                if (++counter>=60) nextEndingBeat();
             }
-        }
-        if (this.scenePhase == 7) {
-            this.y = this.gp.screenHeight / 2;
-            if (this.counterReached(240)) {
-                ++this.scenePhase;
-            }
-        }
-        if (this.scenePhase == 8) {
-            --this.y;
+            case ENDING_CREDITS -> y--;
+            default -> throw new IllegalStateException("Unknown ending beat");
         }
     }
 
-    public boolean counterReached(int target) {
-        boolean counterReached = false;
-        ++this.counter;
-        if (this.counter > target) {
-            counterReached = true;
-            this.counter = 0;
-        }
-        return counterReached;
+    private void nextEndingBeat() {
+        scenePhase++;
+        counter=0;
     }
+
+    boolean isCoast() { return sceneNum==ending && scenePhase==ENDING_COAST; }
 
     public void drawBlackBackground(float alpha) {
         this.g2.setComposite(AlphaComposite.getInstance(3, alpha));

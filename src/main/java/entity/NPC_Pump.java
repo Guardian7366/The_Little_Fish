@@ -22,10 +22,9 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "D always asked me to save some seeds.";
-        dialogues[0][1] = "The last time, D brought back a basket\nfull of earth.";
-        dialogues[0][2] = "Nothing had been planted.";
-        dialogues[0][3] = "Cut both dry bindings with your weapon.";
+        dialogues[0][0] = "D brought home something small from\nthe rain.";
+        dialogues[0][1] = "It slept in a basket that used to hold\nmy seeds.";
+        dialogues[0][2] = "Cut both dry bindings with your\nweapon.";
     }
 
     @Override

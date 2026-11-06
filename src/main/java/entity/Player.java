@@ -362,9 +362,9 @@ extends Entity {
     public void interactNPC(int i) {
         if (i != 999) {
             if (this.gp.keyH.enterPressed) {
-                if (main.Temple.usesTemple(gp.currentMap) && gp.npc[gp.currentMap][i] instanceof NPC_BigRock) return;
                 this.attackCanceled = true;
                 this.gp.npc[this.gp.currentMap][i].speak();
+                if (main.Temple.usesTemple(gp.currentMap) && gp.npc[gp.currentMap][i] instanceof NPC_BigRock) return;
             }
             this.gp.npc[this.gp.currentMap][i].move(this.direction);
         }

@@ -55,7 +55,7 @@ extends Entity {
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "Its you?...";
+        dialogues[0][0] = "That hand again. I remember the\nweight of it.";
     }
 
     @Override

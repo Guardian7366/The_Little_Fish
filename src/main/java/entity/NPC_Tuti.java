@@ -28,9 +28,8 @@ extends Entity {
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "A";
-        this.dialogues[0][1] = "Do you know something?";
-        this.dialogues[0][2] = "I can\u00b4t move from here";
+        dialogues[0][0] = "They used to leave a place at the\nedge of the room.";
+        dialogues[0][1] = "Funny how you can be invited in and\nstill end up by the door.";
     }
 
     @Override

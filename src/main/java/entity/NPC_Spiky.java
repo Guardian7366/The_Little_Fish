@@ -22,8 +22,8 @@ extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "D... D slept here once.";
-        dialogues[0][1] = "The other bed was made.\nD said it was still taken.";
+        dialogues[0][0] = "They made room until they saw D's\nface.";
+        dialogues[0][1] = "D learned to sleep near the wall, where\nno one had to move over.";
         dialogues[0][2] = "Use the walls when crossing.";
     }
 

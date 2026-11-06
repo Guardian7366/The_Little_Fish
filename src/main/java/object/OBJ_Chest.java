@@ -35,9 +35,9 @@ extends Entity {
     }
 
     public void setDialogue() {
-        this.dialogues[0][0] = "You open the chest a find a " + this.loot.name + "!\n... But why more? D";
-        this.dialogues[1][0] = "You open the chest a find a " + this.loot.name + "\n You obtain the " + this.loot.name + "!";
-        this.dialogues[2][0] = "It\u00b4s empty";
+        dialogues[0][0] = "You cannot carry anymore.";
+        dialogues[1][0] = "You found " + loot.name + "!";
+        dialogues[2][0] = "It's empty.";
     }
 
     @Override

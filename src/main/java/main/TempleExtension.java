@@ -36,11 +36,11 @@ public final class TempleExtension {
     public record Inscription(String statue, int x, int y, int readX, int readY, String facing, String text) {}
     public static final Inscription[] INSCRIPTIONS = {
         new Inscription("velo",7,22,8,22,"up",
-            "There were two lights when we went down.\nOn the way back, I counted mine."),
+            "I left room on the bench after they\nstopped coming."),
         new Inscription("fauce",43,24,43,24,"up",
-            "I cut a D into the wall so they\nwould know the way back."),
+            "At the end she needed help getting to\nthe window. I carried her there."),
         new Inscription("centinela",28,9,28,9,"up",
-            "I still leave the lamp burning.\nI don't know who I'm waiting for.")
+            "My hands were empty when I left. I\ncould still turn the handle.")
     };
 
     static final int[][] FLOWERS = {{24,37},{15,33},{14,23},{23,27},{16,15},{34,16},{42,12}};
