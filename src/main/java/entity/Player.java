@@ -285,6 +285,7 @@ extends Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);
         pickUpObject(gp.cChecker.checkObject(this, true));
+        if (gp.gameState==gp.cutsceneState) return;
         interactNPC(gp.cChecker.checkEntity(this, gp.npc));
         contactMonster(gp.cChecker.checkEntity(this, gp.monster));
         gp.cChecker.checkEntity(this, gp.iTile);
@@ -334,8 +335,10 @@ extends Entity {
 
     public void pickUpObject(int i) {
         if (i != 999) {
-            if (this.gp.obj[this.gp.currentMap][i] instanceof object.OBJ_Exit
-                    && gp.currentMap==main.FinalArena.MAP && !data.Progress.GodFishDefeated) return;
+            if (gp.obj[gp.currentMap][i] instanceof object.OBJ_Exit portal) {
+                portal.use(this);
+                return;
+            }
             if (this.gp.obj[this.gp.currentMap][i].type == 7) {
                 this.gp.obj[this.gp.currentMap][i].use(this);
                 this.gp.obj[this.gp.currentMap][i] = null;

@@ -596,7 +596,10 @@ public final class FinalArenaRegression {
         check(gp.obj[MAP][DOOR_SLOT]==null && gp.player.searchItemInInventory("Key")==999,"key opens north door once");
         walk(EXIT_Y*48,false);
         check(gp.csManager.sceneNum==gp.csManager.ending,"exit initiates original ending");
-        tick(2);
+        until(gp.csManager::isBeachWalk,100,"portal fades into the beach");
+        key(VK_D,true);
+        until(gp.csManager::isDialogueActive,600,"walking into the photo starts the dialogue");
+        key(VK_D,false);
         for (int i=0; i<8; i++) tap(VK_ENTER);
         until(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,2000,"original credits reached");
         check(gp.lastMusic==24,"credits music");

@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.imageio.ImageIO;
 import object.OBJ_Exit;
 import object.OBJ_Key;
@@ -30,23 +32,34 @@ public final class LoreRegression {
         @Override public void playMusic(int id) { tracks.add(id); }
     }
     private static final Quiet gp=new Quiet();
-    private static final Path OUT=Path.of("build/lore-preview");
+    private static final Path OUT=Path.of("build/beach-preview");
     private static final int[][] PORTALS={{0,28,18,9,40},{1,9,34,40,40},{1,39,23,40,29},
         {2,39,13,9,29},{2,9,17,9,19},{2,19,16,40,19},{3,14,40,9,9},{3,9,5,40,9}};
     private static final String[] ROOMS={"Chicken","Flower","Spiky","Pump","Hongui","Ghost","Ic","Handy"};
     private static final Map<String,List<String>> table=new LinkedHashMap<>();
     private static List<String> god,exit,coast;
     private static Path scratch;
+    private static final AtomicInteger SURF_OPENS=new AtomicInteger(), SURF_LOOPS=new AtomicInteger(),
+        SURF_CLOSES=new AtomicInteger(), SURF_ACTIVE=new AtomicInteger(), SURF_PEAK=new AtomicInteger();
 
     public static void main(String[] args) throws Exception {
         String guide=Files.readString(Path.of("design/lore/GUION-Y-ENCARGO.md"));
         parse(guide);
+        gp.csManager=new CutsceneManager(gp,index -> {
+            SURF_OPENS.incrementAndGet();
+            return AudioRegression.fake(SURF_LOOPS,SURF_CLOSES,SURF_ACTIVE,SURF_PEAK,new AtomicBoolean());
+        });
         gp.setupGame();
         Files.createDirectories(OUT);
         scratch=Files.createTempDirectory(Path.of("build"),"lore-save-");
         gp.saveLoad=new SaveLoad(gp,scratch.resolve("save-v1.dat"));
         checkLayout();
-        ending(true); // A fresh world with zero optional readings or refuges.
+        checkBeachAssets();
+        legacyBeach();
+        check(SURF_OPENS.get()==0,"muted effects leave surf silent");
+        gp.se.volumeScale=2;
+        ending(true); // The open-door checkpoint has no optional readings or refuges.
+        gp.se.volumeScale=0;
         gp.resetGame(true);
         npcAndSecrets();
         objectsAndMarket();
@@ -54,7 +67,7 @@ public final class LoreRegression {
         ending(false);
         legacyDialogue();
         gp.stopGame();
-        System.out.println("LORE PASS: canonical pages and viewport, all optional sources and refuge order, direct and exploratory ending, coast timing and credits, legacy dialogue save");
+        System.out.println("LORE PASS: canonical pages, refuge order, animated portal, beach controls, one photo pickup, credits and legacy dialogue/ending saves");
     }
 
     private static void parse(String guide) {
@@ -277,30 +290,28 @@ public final class LoreRegression {
         gp.bossBattleOn=false;
         Progress.GodFishDefeated=true;
         gp.monster[FinalArena.MAP][FinalArena.BOSS_SLOT]=null;
-        place(FinalArena.MAP,FinalArena.EXIT_X*48,(FinalArena.EXIT_Y+1)*48,"up");
-        key(VK_W,true);
-        waitFor(() -> gp.csManager.isDialogueActive(),25,"walk to original ending actor");
-        key(VK_W,false);
+        gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT]=null;
+        place(FinalArena.MAP,FinalArena.EXIT_X*48,(FinalArena.EXIT_Y+2)*48,"up");
+        portalAndPhoto(screenshots);
         if (screenshots) {
             waitFor(() -> normalized(gp.ui.currentDialogue).equals(exit.get(0)),160,"first ending page");
             tap(VK_ENTER);
             waitFor(() -> normalized(gp.ui.currentDialogue).equals(exit.get(1)),160,"Echo's first page");
-            capture("00-eco");
+            capture("03b-eco");
             tap(VK_ENTER);
             readPages(exit,2);
         } else readPages(exit);
-        check(!gp.csManager.isCoast(),"arena fades before the coast");
-        waitFor(() -> gp.csManager.isCoast(),75,"fade leads to the coast");
+        check(gp.csManager.isCoast(),"dialogue leads to the portrait on the same coast");
         waitFor(() -> gp.csManager.counter==CoastEpilogue.QUIET-1,130,"quiet pause");
-        check(gp.tracks.isEmpty() && CoastEpilogue.captionAt(gp.csManager.counter)==-1,"silent mock-up starts without words or music");
-        if (screenshots) capture("01-costa-en-silencio");
+        check(gp.tracks.isEmpty() && CoastEpilogue.captionAt(gp.csManager.counter)==-1,"ocean pause starts without words or music");
+        if (screenshots) capture("04-retrato-oleaje");
         for (int i=0;i<coast.size();i++) {
             tick(1);
             check(CoastEpilogue.captionAt(gp.csManager.counter)==i
                 && normalized(CoastEpilogue.CAPTIONS[i]).equals(coast.get(i)),"canonical coast caption "+i);
             check(CoastEpilogue.photoOffset(gp.csManager.counter)==0,"photo stays visible through the captions");
             if (screenshots) {
-                capture("0"+(i+2)+"-costa-linea-"+(i+1));
+                capture("0"+(i+5)+"-costa-linea-"+(i+1));
                 if (i==0) captureWide();
             }
             tick(CoastEpilogue.LINE-1);
@@ -308,15 +319,169 @@ public final class LoreRegression {
         }
         tick(CoastEpilogue.LOWER+1);
         check(gp.csManager.isCoast() && CoastEpilogue.photoOffset(gp.csManager.counter)==86
-            && CoastEpilogue.captionAt(gp.csManager.counter)==-1,"photo lowers before the silent sea hold");
-        if (screenshots) capture("05-costa-sin-foto");
+            && CoastEpilogue.captionAt(gp.csManager.counter)==-1,"photo lowers before the sea hold");
+        if (screenshots) capture("08-costa-sin-foto");
         waitFor(() -> !gp.csManager.isCoast(),300,"coast reaches title");
         check(gp.tracks.equals(List.of(24)),"original track begins once after the coast");
-        if (screenshots) capture("06-titulo");
+        if (screenshots) {
+            awaitAudio(SURF_CLOSES,1);
+            check(SURF_OPENS.get()==1 && SURF_LOOPS.get()==1 && SURF_ACTIVE.get()==0 && SURF_PEAK.get()==1,
+                "one surf loop survives walk and dialogue and closes before credits");
+            capture("09-titulo");
+        }
         waitFor(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,260,"title leads to credits");
         check(gp.csManager.endCredit.contains("David Silva Padilla") && gp.csManager.endCredit.contains("Agradecimientos especiales"),
             "original credits");
-        if (screenshots) capture("07-creditos");
+        if (screenshots) capture("10-creditos");
+    }
+
+    private static void portalAndPhoto(boolean screenshots) throws Exception {
+        int exitSlot=FinalArena.DOOR_SLOT+1;
+        check(gp.obj[FinalArena.MAP][exitSlot] instanceof OBJ_Exit,"portal exists after load");
+        if (screenshots) {
+            capture("00-portal");
+            int[] first=gp.tempScreen.getRGB(450,145,60,75,null,0,60);
+            tick(14);
+            gp.drawToTempScreen();
+            check(!Arrays.equals(first,gp.tempScreen.getRGB(450,145,60,75,null,0,60)),
+                "portal atlas advances on game ticks");
+        }
+        key(VK_ENTER,true);
+        key(VK_W,true);
+        waitFor(() -> gp.csManager.sceneNum==gp.csManager.ending,70,"walk to portal");
+        key(VK_W,false);
+        int x=gp.player.worldX,y=gp.player.worldY;
+        tick(20);
+        check(!gp.csManager.isBeachWalk() && !gp.csManager.isDialogueActive(),"portal starts with a fade only");
+        waitFor(gp.csManager::isBeachWalk,90,"portal reaches playable coast");
+        if (screenshots) {
+            awaitAudio(SURF_LOOPS,1);
+            capture("01-llegada");
+        }
+        int items=gp.player.inventory.size(), life=gp.player.life, water=gp.player.water;
+        var save=gp.saveLoad;
+        byte[] before=Files.readAllBytes(save.getSavePath());
+        for (int code:new int[]{VK_W,VK_S,VK_F,VK_SPACE,VK_ESCAPE,VK_C,VK_M,VK_P})
+            tap(code);
+        check(gp.csManager.isBeachWalk() && gp.player.life==life && gp.player.water==water,
+            "arena controls and damage are inactive");
+        check(!save.trySave() && Arrays.equals(before,Files.readAllBytes(save.getSavePath())),
+            "beach cannot write a checkpoint");
+
+        key(VK_D,true);
+        tick(160);
+        key(VK_D,false);
+        int forward=beachPosition();
+        tick(100);
+        check(beachPosition()==forward,"fish stays put while observing the sea");
+        key(VK_A,true);
+        tick(70);
+        key(VK_A,false);
+        check(beachPosition()<forward,"player can backtrack");
+        check(gp.csManager.isBeachWalk(),"backtracking cannot reopen the portal");
+        if (screenshots) capture("02-paseo");
+        key(VK_D,true);
+        tick(420);
+        check(gp.csManager.isBeachWalk(),"photo is still visible shortly before contact");
+        if (screenshots) capture("02b-foto-en-la-arena");
+        waitFor(gp.csManager::isDialogueActive,90,"touching the photo starts dialogue");
+        key(VK_D,false);
+        for (int i=0;i<80;i++) { key(VK_ENTER,true); tick(1); }
+        check(gp.ui.npc!=null && gp.ui.npc.dialogueIndex==0,"held Enter cannot skip pickup dialogue");
+        key(VK_ENTER,false);
+        check(gp.player.worldX==x && gp.player.worldY==y && gp.player.inventory.size()==items,
+            "photo is independent of arena position and inventory");
+        if (screenshots) capture("03-recogida");
+    }
+
+    private static int beachPosition() throws Exception {
+        var scene=CutsceneManager.class.getDeclaredField("coast");
+        scene.setAccessible(true);
+        var position=CoastEpilogue.class.getDeclaredField("fishX");
+        position.setAccessible(true);
+        return position.getInt(scene.get(gp.csManager));
+    }
+
+    private static void awaitAudio(AtomicInteger count,int expected) throws InterruptedException {
+        for (int i=0;i<200 && count.get()<expected;i++) Thread.sleep(10);
+        check(count.get()==expected,"surf worker completed");
+    }
+
+    private static void checkBeachAssets() throws Exception {
+        Path source=Path.of("design/lore/playa/assets");
+        for (String name:List.of("atardecer.png","mar.png","arena-detalle.png","portal.png",
+                "foto-item.png","foto.png","oleaje.wav")) {
+            try (var stream=LoreRegression.class.getResourceAsStream("/ending/"+name)) {
+                check(stream!=null && Arrays.equals(Files.readAllBytes(source.resolve(name)),stream.readAllBytes()),
+                    "prepared beach asset preserved: "+name);
+            }
+        }
+        try (var stream=javax.sound.sampled.AudioSystem.getAudioInputStream(
+                LoreRegression.class.getResource("/ending/oleaje.wav"))) {
+            var format=stream.getFormat();
+            check(format.getSampleRate()==22050 && format.getChannels()==1 && format.getSampleSizeInBits()==16
+                && stream.getFrameLength()==22050*12,"manifest wave audio matches packaged PCM");
+        }
+        int frame=0, wrap=0;
+        for (int tick=1;tick<175;tick++) {
+            int next=CoastEpilogue.frame(tick,90,16);
+            check(next==frame || next==(frame+1)%16,"sea advances each consecutive frame");
+            if (next==0 && frame==15) wrap++;
+            frame=next;
+        }
+        check(wrap==2,"sea loops twice without skipping frames");
+    }
+
+    private static void legacyBeach() throws Exception {
+        gp.se.volumeScale=0;
+        int slot=FinalArena.DOOR_SLOT+1;
+        for (String name:List.of("pending","consumed","open")) {
+            gp.resetGame(true);
+            Path file=scratch.resolve(name+".dat");
+            Path old=Path.of("build/beach-baseline",name+".dat");
+            var save=new SaveLoad(gp,file);
+            if (Files.isRegularFile(old)) Files.copy(old,file);
+            else {
+                place(FinalArena.MAP,FinalArena.KEY_X*48,(FinalArena.KEY_Y+1)*48,"up");
+                Progress.GodFishDefeated=true;
+                gp.monster[FinalArena.MAP][FinalArena.BOSS_SLOT]=null;
+                if (name.equals("pending"))
+                    gp.obj[FinalArena.MAP][FinalArena.KEY_SLOT]=Temple.place(new OBJ_Key(gp),FinalArena.KEY_X,FinalArena.KEY_Y);
+                else gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT]=null;
+                if (name.equals("consumed")) gp.obj[FinalArena.MAP][slot]=null;
+                check(save.trySave(),save.getLastError());
+            }
+            gp.saveLoad=save;
+            check(save.tryLoad(),save.getLastError());
+            check(Progress.GodFishDefeated,"loaded victory "+name);
+            if (name.equals("pending")) {
+                gp.player.pickUpObject(slot);
+                check(gp.csManager.sceneNum==gp.csManager.NA && gp.obj[FinalArena.MAP][slot]!=null,
+                    "locked portal rejects without disappearing");
+                key(VK_W,true);
+                waitFor(() -> gp.player.searchItemInInventory("Key")!=999,40,"pending key picked up");
+                key(VK_W,false);
+                var door=gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT];
+                place(FinalArena.MAP,door.worldX,door.worldY+48-gp.player.solidArea.y+gp.player.speed-1,"up");
+                tap(VK_C);
+                int index=gp.player.searchItemInInventory("Key");
+                gp.ui.playerSlotCol=index%5;
+                gp.ui.playerSlotRow=index/5;
+                tap(VK_ENTER);
+                check(gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT]==null,"pending key opens original door");
+                readPages(List.of("You use the Key and open the door"));
+                place(FinalArena.MAP,FinalArena.EXIT_X*48,(FinalArena.EXIT_Y+2)*48,"up");
+                portalAndPhoto(false);
+                readPages(exit);
+                waitFor(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,1600,
+                    "pending-key save reaches credits");
+            } else {
+                check(gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT]==null
+                    && (gp.obj[FinalArena.MAP][slot]==null)==name.equals("consumed"),
+                    "open door and consumed ending keep their saved state");
+            }
+            System.out.println("BEACH save "+name+" from 356bb1b="+Files.isRegularFile(old));
+        }
     }
 
     private static void capture(String name) throws Exception {
@@ -333,7 +498,7 @@ public final class LoreRegression {
         graphics.dispose();
         check(wide.getRGB(0,360)==Color.BLACK.getRGB() && wide.getRGB(1279,360)==Color.BLACK.getRGB(),
             "the wide coast preserves aspect ratio");
-        ImageIO.write(wide,"png",OUT.resolve("08-costa-pantalla-ancha.png").toFile());
+        ImageIO.write(wide,"png",OUT.resolve("11-costa-pantalla-ancha.png").toFile());
     }
 
     private static void checkLayout() throws Exception {

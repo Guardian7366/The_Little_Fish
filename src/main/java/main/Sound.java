@@ -31,6 +31,7 @@ public final class Sound implements AutoCloseable {
     private volatile int selected = -1;
     volatile int volumeScale = 1;
     private volatile int cachedCount;
+    private volatile float attenuation;
 
     public Sound() { this(1); }
     public Sound(int maxVoices) { this(maxVoices, Sound::openClip); }
@@ -44,8 +45,12 @@ public final class Sound implements AutoCloseable {
     }
 
     private static Clip openClip(int index) throws Exception {
-        var resource = Sound.class.getResource("/sound/" + FILES[index]);
-        if (resource == null) throw new IllegalArgumentException("Missing audio resource: " + index);
+        return openClip("/sound/" + FILES[index]);
+    }
+
+    static Clip openClip(String path) throws Exception {
+        var resource = Sound.class.getResource(path);
+        if (resource == null) throw new IllegalArgumentException("Missing audio resource: " + path);
         Clip clip = AudioSystem.getClip();
         try (AudioInputStream stream = AudioSystem.getAudioInputStream(resource)) {
             clip.open(stream);
@@ -69,6 +74,11 @@ public final class Sound implements AutoCloseable {
             pending.put(index, new Request(index, loop, System.nanoTime()));
             lock.notifyAll();
         }
+    }
+
+    void setAttenuation(float decibels) {
+        attenuation=decibels;
+        checkVolume();
     }
 
     public void checkVolume() {
@@ -164,7 +174,7 @@ public final class Sound implements AutoCloseable {
         int scale = Math.max(0, Math.min(5, volumeScale));
         if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             FloatControl control = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-            control.setValue(Math.max(control.getMinimum(), Math.min(control.getMaximum(), VOLUMES[scale])));
+            control.setValue(Math.max(control.getMinimum(), Math.min(control.getMaximum(), VOLUMES[scale]-attenuation)));
         }
     }
 

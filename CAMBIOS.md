@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## La última orilla · entrega aprobada
+
+- La salida de la fosa muestra el portal animado y lleva a una playa jugable. El pez puede recorrer la orilla en ambos sentidos. La foto activa una sola vez el diálogo aprobado de D y Echo.
+- Integrados los recursos del paquete. El mar sigue animado durante el paseo, el diálogo y el retrato. El oleaje se desvanece antes de que entre la música original del título y los créditos. [Encargo y manifiesto](design/lore/playa/TAREA-CODEX.md)
+- Pasaron las 35 suites de `build.ps1 -Test`. Se comprobó el recorrido hasta los créditos con partidas de `356bb1b` con la llave pendiente o la puerta abierta. El usuario aprobó la entrega y autorizó publicarla.
+
 ## Lore y desenlace de D · entrega aprobada
 
 - Incorporadas las memorias de D en los diálogos, los ocho refugios y las inscripciones y murales existentes. Las conversaciones nuevas comienzan en la primera página de su grupo, incluidos los grupos cargados de partidas anteriores.

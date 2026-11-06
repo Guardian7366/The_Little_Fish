@@ -3,6 +3,7 @@
  */
 package object;
 
+import java.awt.Graphics2D;
 import entity.Entity;
 import main.GamePanel;
 
@@ -16,7 +17,6 @@ extends Entity {
         this.gp = gp;
         this.name = objName;
         this.type = 7;
-        this.down = this.setup("/objects/Diana", gp.tileSize, gp.tileSize);
         this.collision = true;
         this.setDialogues();
     }
@@ -34,9 +34,12 @@ extends Entity {
 
     @Override
     public boolean use(Entity entity) {
-        this.gp.gameState = this.gp.cutsceneState;
-        this.gp.csManager.sceneNum = this.gp.csManager.ending;
-        return true;
+        return gp.csManager.enterBeach();
+    }
+
+    @Override
+    public void draw(Graphics2D graphics) {
+        gp.csManager.drawExitPortal(graphics,worldX-gp.cameraX()+gp.tileSize/2,worldY-gp.cameraY()+44);
     }
 }
 

@@ -296,14 +296,20 @@ public final class StoryRegression {
         equal(999, gp.player.searchItemInInventory("Key"), "key consumed once");
         finishDialogue();
         int exit = find(gp.obj[6], "Exit");
-        truth(exit >= 0 && gp.obj[6][exit] instanceof OBJ_Exit, "original ending character present");
+        truth(exit >= 0 && gp.obj[6][exit] instanceof OBJ_Exit, "portal retains the original exit identity");
         gp.player.pickUpObject(exit);
         equal(gp.cutsceneState, gp.gameState, "ending begins");
-        for (int i = 0; i < 30 && gp.csManager.scenePhase <= 1; i++) {
-            gp.keyH.enterPressed = true; gp.update();
+        ticks(100);
+        truth(gp.csManager.isBeachWalk(),"portal opens into the walk");
+        gp.keyH.rightPressed=true;
+        for (int i=0;i<600 && !gp.csManager.isDialogueActive();i++) gp.update();
+        truth(gp.csManager.isDialogueActive(),"photo starts the dialogue");
+        for (int i=0;i<18 && gp.csManager.isDialogueActive();i++) {
+            gp.keyH.enterPressed=true;
+            gp.update();
         }
         gp.keyH.releaseAll();
-        truth(gp.csManager.scenePhase >= 2, "ending dialogue finished");
+        truth(gp.csManager.isCoast(), "ending dialogue finished");
         for (int i = 0; i < 2000 && gp.csManager.scenePhase < CutsceneManager.ENDING_CREDITS; i++) gp.update();
         equal(CutsceneManager.ENDING_CREDITS, gp.csManager.scenePhase, "credits reached");
         equal(24, gp.lastMusic, "credits music");

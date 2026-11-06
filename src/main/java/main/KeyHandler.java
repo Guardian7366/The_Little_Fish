@@ -67,11 +67,14 @@ implements KeyListener {
 
     private void handlePressed(int code) {
         if (code == KeyEvent.VK_ENTER) {
-            if (enterHeld && (gp.gameState == gp.tradeState || gp.csManager.sceneNum == gp.csManager.GodFish
+            if (enterHeld && (gp.gameState == gp.tradeState || gp.gameState == gp.cutsceneState
                     || (gp.currentMap==FinalArena.MAP && gp.bossBattleOn))) return;
             enterHeld = true;
         }
-        if (this.gp.gameState == this.gp.titleState) {
+        if (gp.csManager.isBeachWalk()) {
+            if (code==KeyEvent.VK_A) leftPressed=true;
+            if (code==KeyEvent.VK_D) rightPressed=true;
+        } else if (this.gp.gameState == this.gp.titleState) {
             this.titleState(code);
         } else if (this.gp.gameState == this.gp.playState) {
             this.playState(code);

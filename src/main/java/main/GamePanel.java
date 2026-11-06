@@ -218,6 +218,7 @@ implements Runnable {
                 if (System.nanoTime() - deadline > frameNanos * 5) deadline = System.nanoTime();
             }
         } finally {
+            csManager.stopSurf();
             music.close();
             se.close();
         }
@@ -227,6 +228,7 @@ implements Runnable {
         Thread running = gameThread;
         gameThread = null;
         if (running != null) running.interrupt();
+        csManager.stopSurf();
         music.close();
         se.close();
     }
@@ -236,6 +238,7 @@ implements Runnable {
         if (gameState == titleState) ui.titleBackground.update();
         if (this.gameState == 1) {
             this.player.update();
+            if (csManager.sceneNum==csManager.ending) return;
             if (currentMap==FinalArena.MAP) finalArena.update();
             extraRooms.later.update();
             if(SixthZone.usesAbyss(currentMap)) ocean.fifth.update();
@@ -290,7 +293,7 @@ implements Runnable {
             }
             this.eManager.update();
         }
-        if (gameState != titleState && gameState != mapState && gameState != pauseState) {
+        if (gameState != titleState && gameState != mapState && gameState != pauseState && csManager.sceneNum!=csManager.ending) {
             for (Entity entity : monster[currentMap]) if (extraRooms.visible(entity)) entity.updateVisualState();
         }
         csManager.update();
@@ -316,6 +319,10 @@ implements Runnable {
     }
 
     public void drawToTempScreen() {
+        if (csManager.drawsBeach()) {
+            csManager.draw(g2);
+            return;
+        }
         g2.setColor(testing);
         g2.fillRect(0, 0, screenWidht, screenHeight);
         long drawStart = 0L;
@@ -444,7 +451,7 @@ implements Runnable {
         synchronized (frameLock) {
             if (tempScreen != null) {
                 Graphics2D screen = (Graphics2D) graphics.create();
-                if (gameState == titleState || csManager.isCoast()) {
+                if (gameState == titleState || csManager.drawsBeach()) {
                     screen.setColor(Color.black); screen.fillRect(0, 0, getWidth(), getHeight());
                     double scale = Math.min(getWidth() / 960.0, getHeight() / 576.0);
                     int width = (int)Math.round(960 * scale), height = (int)Math.round(576 * scale);

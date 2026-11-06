@@ -14,10 +14,13 @@ public class CutsceneManager {
     Graphics2D g2;
     public int sceneNum;
     public int scenePhase;
-    private static final int ENDING_DIALOGUE=1, ENDING_FADE=2, ENDING_COAST=3,
-        ENDING_TITLE=4, ENDING_CREDITS_HOLD=5;
-    static final int ENDING_CREDITS=6;
-    private static final int FADE_TICKS=65;
+    private static final int EXIT_FADE=0, BEACH_ARRIVAL=1, BEACH_WALK=2,
+        ENDING_DIALOGUE=3, ENDING_COAST=4, ENDING_TITLE=5, ENDING_CREDITS_HOLD=6;
+    static final int ENDING_CREDITS=7;
+    private static final int FADE_TICKS=45;
+    private int portalTick;
+    private Sound surf;
+    private final Sound.ClipFactory surfClipFactory;
     private final CoastEpilogue coast=new CoastEpilogue();
     int counter = 0;
     private int introTick, introStartY, introTargetY;
@@ -29,13 +32,19 @@ public class CutsceneManager {
     public final int ending = 2;
 
     public CutsceneManager(GamePanel gp) {
+        this(gp,index -> Sound.openClip("/ending/oleaje.wav"));
+    }
+
+    CutsceneManager(GamePanel gp,Sound.ClipFactory surfClipFactory) {
         this.gp = gp;
+        this.surfClipFactory = surfClipFactory;
         this.endCredit = "Encargado de hacer todo: Yo\nDavid Silva Padilla\n\n\n\n\n\n\n\n\n\n\n\n\n\nAgradecimientos especiales\nYo\nMi papa\nMi mama\nMi hermano (un poco)\nMolly\nSammy\nLuny\nKitty\nDina\nMis amigos (no los topo)\nEs broma XD\nLos limones son god\nque\nso\nNumero de cuenta bancaria: \nMe acorde de que no tengo\nAyer que hice?\nNose\nPero mientras les cuento que...\nBla bla bla\nBla bla bla\nBla bla bla\nNo eh dormido nada hoy\nUn saludo a la Grasa :v \nChao Chao \n";
     }
 
     public void update() {
         if (sceneNum == GodFish) updateFinalIntro();
         else if (sceneNum == ending) scene_Ending();
+        else if (gp.currentMap==FinalArena.MAP && gp.gameState==gp.playState) portalTick++;
     }
 
     public boolean isDialogueActive() {
@@ -48,13 +57,22 @@ public class CutsceneManager {
         g2.setFont(gp.ui.purisaB);
         g2.setColor(Color.WHITE);
         if (sceneNum == GodFish) drawFinalIntro(g2);
-        if (isDialogueActive()) {
-            gp.ui.drawDialogueScreen();
+        if (sceneNum != ending) {
+            if (isDialogueActive()) gp.ui.drawDialogueScreen();
+            return;
         }
-        if (sceneNum != ending) return;
         switch (scenePhase) {
-            case ENDING_FADE -> drawBlackBackground(counter/(float)FADE_TICKS);
-            case ENDING_COAST -> coast.draw(g2,counter,gp.ui.purisaB);
+            case EXIT_FADE -> drawBlackBackground(counter/(float)FADE_TICKS);
+            case BEACH_ARRIVAL, BEACH_WALK, ENDING_DIALOGUE -> {
+                coast.drawWalk(g2,gp.player,scenePhase!=ENDING_DIALOGUE);
+                if (scenePhase==BEACH_ARRIVAL) drawBlackBackground(1f-counter/(float)FADE_TICKS);
+                if (isDialogueActive()) gp.ui.drawDialogueScreen();
+            }
+            case ENDING_COAST -> {
+                coast.drawPortrait(g2,counter,gp.ui.purisaB);
+                if (counter>=CoastEpilogue.DURATION-CoastEpilogue.FADE)
+                    drawBlackBackground(1f-(CoastEpilogue.DURATION-counter)/(float)CoastEpilogue.FADE);
+            }
             case ENDING_TITLE -> {
                 drawBlackBackground(1f);
                 drawString(1f,80f,gp.screenHeight/2,"The little fish",40);
@@ -70,7 +88,9 @@ public class CutsceneManager {
     public void reset() {
         sceneNum = NA;
         scenePhase = counter = y = 0;
-        introTick = 0;
+        introTick = portalTick = 0;
+        coast.reset();
+        stopSurf();
     }
 
     public void clearIntroMemory(boolean newSession) {
@@ -170,24 +190,83 @@ public class CutsceneManager {
         gp.player.draw(g);
     }
 
+    public boolean enterBeach() {
+        if (sceneNum!=NA || gp.gameState!=gp.playState || gp.currentMap!=FinalArena.MAP
+                || !data.Progress.GodFishDefeated || gp.obj[FinalArena.MAP][FinalArena.DOOR_SLOT]!=null)
+            return false;
+        gp.keyH.clearPlayKeys();
+        gp.flow.resetDialogue();
+        gp.stopMusic();
+        coast.reset();
+        sceneNum=ending;
+        scenePhase=EXIT_FADE;
+        counter=0;
+        gp.gameState=gp.cutsceneState;
+        return true;
+    }
+
+    public void drawExitPortal(Graphics2D graphics,int x,int y) {
+        CoastEpilogue.drawPortal(graphics,x,y,portalTick);
+    }
+
+    boolean isBeachWalk() { return sceneNum==ending && scenePhase==BEACH_WALK; }
+
+    boolean drawsBeach() { return sceneNum==ending && scenePhase>=BEACH_ARRIVAL; }
+
+    private synchronized void startSurf() {
+        if (gp.se.volumeScale==0) return;
+        surf=new Sound(1,surfClipFactory);
+        surf.volumeScale=gp.se.volumeScale;
+        surf.requestPlay(0,true);
+    }
+
+    synchronized void stopSurf() {
+        if (surf==null) return;
+        surf.close();
+        surf=null;
+    }
+
+    private synchronized void fadeSurf(float amount) {
+        if (surf!=null) surf.setAttenuation(50f*amount);
+    }
+
     public void scene_Ending() {
+        if (scenePhase>=BEACH_ARRIVAL && scenePhase<=ENDING_COAST) coast.advanceSea();
         switch (scenePhase) {
-            case 0 -> {
-                gp.stopMusic();
-                gp.flow.beginDialogue(new OBJ_Exit(gp),0,0);
-                nextEndingBeat();
-            }
-            case ENDING_DIALOGUE -> gp.flow.updateDialogue();
-            case ENDING_FADE -> {
+            case EXIT_FADE -> {
                 if (++counter>=FADE_TICKS) {
-                    gp.ui.npc=null;
+                    startSurf();
                     nextEndingBeat();
+                }
+            }
+            case BEACH_ARRIVAL -> {
+                if (++counter>=FADE_TICKS) {
+                    gp.keyH.clearPlayKeys();
+                    nextEndingBeat();
+                }
+            }
+            case BEACH_WALK -> {
+                if (coast.move(gp.keyH.leftPressed,gp.keyH.rightPressed)) {
+                    coast.stopFish();
+                    gp.keyH.clearPlayKeys();
+                    gp.flow.beginDialogue(new OBJ_Exit(gp),0,0);
+                    nextEndingBeat();
+                }
+            }
+            case ENDING_DIALOGUE -> {
+                gp.flow.updateDialogue();
+                if (scenePhase==ENDING_COAST) {
+                    gp.ui.npc=null;
+                    gp.keyH.clearPlayKeys();
                 }
             }
             case ENDING_COAST -> {
                 if (++counter>=CoastEpilogue.DURATION) {
+                    stopSurf();
                     gp.playMusic(24);
                     nextEndingBeat();
+                } else if (counter>=CoastEpilogue.DURATION-CoastEpilogue.FADE && counter%3==0) {
+                    fadeSurf(1f-(CoastEpilogue.DURATION-counter)/(float)CoastEpilogue.FADE);
                 }
             }
             case ENDING_TITLE -> {

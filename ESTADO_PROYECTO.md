@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados, incluida la revisión de movilidad, ritmo y objetivos aprobada por el usuario. El recorrido principal ya llega del arrecife a los créditos. La integración narrativa está aprobada. Los recursos finales de la costa siguen pendientes.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados, incluida la revisión de movilidad, ritmo y objetivos aprobada por el usuario. El recorrido principal ya llega del arrecife a los créditos. La integración narrativa está aprobada. La playa jugable y sus recursos están integrados y aprobados.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -117,8 +117,14 @@ Sobre `d75386b`, la entrega aprobada incorpora Aguijón y Baluarte exclusivament
 
 ## Lore y desenlace de D
 
-Integración sobre `1a609a8`. El usuario revisó los diálogos y el nuevo final en juego, aprobó la entrega y autorizó publicarla. Las pistas de NPC, refugios, inscripciones y murales usan los puntos de interacción existentes. God Fish conserva cuatro páginas de introducción y el reintento usa la cuarta. La salida muestra el diálogo de D y Echo. La escena de la costa usa una maqueta visual identificada y silenciosa hasta contar con arte y audio revisados. Después se muestran el título y los créditos con su música y atribuciones. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
+Integración sobre `1a609a8`. El usuario revisó los diálogos y el nuevo final en juego, aprobó la entrega y autorizó publicarla. Las pistas de NPC, refugios, inscripciones y murales usan los puntos de interacción existentes. God Fish conserva cuatro páginas de introducción y el reintento usa la cuarta. La primera entrega del desenlace incluía el diálogo de D y Echo y una maqueta silenciosa de la costa. La playa jugable descrita abajo sustituyó esa maqueta. Después se muestran el título y los créditos con su música y atribuciones. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
 
 Pasaron las 35 suites de `build.ps1 -Test`. Se leyeron las pistas en sus interacciones normales, incluidos los grupos 3–17, y se visitaron los ocho refugios en un orden alternativo. El desenlace llegó a los créditos con y sin pistas opcionales. Una partida generada con las fuentes de `1a609a8` conservó sus datos y permitió iniciar las conversaciones con índices de diálogo guardados. Se verificaron el texto a 960 × 576, la costa a 1280 × 720 y el recorrido del mercado a los créditos con reintento. Registro en `build/lore-verification.txt`.
 
-Quedan pendientes el arte y el audio definitivos de la costa. El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/lore-preview/`.
+## La última orilla
+
+Sobre `356bb1b` se integró el portal en la salida original de la fosa y el paseo horizontal de tres pantallas. La recogida de la foto abre el diálogo de D y Echo y da paso al retrato, al atardecer y a los créditos. El paseo se mantiene en memoria durante la escena. El oleaje usa el volumen de efectos y se desvanece antes del título. [Encargo y manifiesto](design/lore/playa/TAREA-CODEX.md)
+
+Pasaron las 35 suites de `build.ps1 -Test`. Se repitió con el JAR empaquetado el recorrido del mercado a los créditos. Tres partidas generadas con `356bb1b` confirmaron la recuperación de la llave pendiente, el paso por la puerta abierta y la conservación del desenlace consumido. Se comprobaron la ida y vuelta con los controles normales, el bloqueo de guardado, la recogida única con Enter retenido, la proporción de pantalla ancha y el ciclo del audio con un dispositivo simulado. Registros en `build/beach-verification.txt` y `build/beach-packaged.txt`. La comprobación técnica del oleaje se hizo con un dispositivo simulado.
+
+El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/beach-preview/`. El usuario aprobó esta entrega y autorizó su publicación en `main`.

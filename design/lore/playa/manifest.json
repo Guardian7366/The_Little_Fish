@@ -1,0 +1,87 @@
+{
+  "scale": 3,
+  "view": [
+    320,
+    192
+  ],
+  "assets": {
+    "background": {
+      "file": "assets/atardecer.png",
+      "size": [
+        320,
+        192
+      ]
+    },
+    "sea": {
+      "file": "assets/mar.png",
+      "cell": [
+        320,
+        82
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "frames": 16,
+      "frameMs": 90,
+      "origin": [
+        0,
+        100
+      ]
+    },
+    "sand": {
+      "file": "assets/arena-detalle.png",
+      "size": [
+        320,
+        16
+      ],
+      "origin": [
+        0,
+        176
+      ],
+      "repeatX": true
+    },
+    "portal": {
+      "file": "assets/portal.png",
+      "cell": [
+        32,
+        48
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frames": 6,
+      "frameMs": 110,
+      "anchor": [
+        16,
+        44
+      ]
+    },
+    "pickup": {
+      "file": "assets/foto-item.png",
+      "size": [
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        22
+      ]
+    },
+    "photo": {
+      "file": "assets/foto.png",
+      "size": [
+        64,
+        72
+      ]
+    },
+    "audio": {
+      "file": "assets/oleaje.wav",
+      "sampleRate": 22050,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 12
+    }
+  }
+}
