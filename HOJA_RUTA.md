@@ -73,3 +73,7 @@ La fosa, la introducción y las seis fases de God Fish están completadas. Pasar
 La revisión posterior de God Fish está completada y aprobada. Incluye movilidad entre ataques, retorno anunciado al centro, nuevos objetivos por fase y una apertura del ojo que puede repetirse. [Guía de la revisión](GOD-FISH.md)
 
 El encuentro final incorpora los esbirros Aguijón y Baluarte y el daño de contacto en el centro del manto protegido. El usuario aprobó la entrega y autorizó su publicación. [Guía del jefe final](GOD-FISH.md)
+
+## Reintegración del lore
+
+Preparado el guion de las memorias de D. Siguiente entrega: integrar las pistas y la escena final sin alterar la progresión aprobada. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).

@@ -114,3 +114,7 @@ Sobre `e1d17bb`, se integraron los seis atlas de nado, la movilidad protegida, e
 ### Esbirros de la fase 4 y contacto del manto
 
 Sobre `d75386b`, la entrega aprobada incorpora Aguijón y Baluarte exclusivamente como las cuatro invocaciones de God Fish. Los sellos conservan un solo esbirro activo y un vínculo por derrota confirmada. Pasaron las 34 suites y se repitió el recorrido del mercado a los créditos con el JAR empaquetado. Se comprobaron el bloqueo de aparición, el reintento, la correspondencia de los avisos con el daño y la apertura tras el cuarto vínculo. El centro del manto inflige 1 HP mientras el jefe está protegido. Se comprobó el contacto entre ataques, la ausencia de daño y empuje durante la vulnerabilidad y el desplazamiento lateral seguro junto a una pared. El usuario aprobó esta entrega y autorizó su publicación. [Guía del encuentro](GOD-FISH.md)
+
+## Lore y desenlace de D
+
+Sobre a6f2788 se documentaron el canon, los diálogos, las pistas opcionales y la escena final en la costa. La integración jugable y los recursos de la costa están pendientes. [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).

@@ -242,3 +242,7 @@ Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres
 ## God Fish · encargo de integración
 
 - Guía unificada para la fosa, el diálogo de introducción, las seis fases, la victoria y la migración de guardados. Incluye orden de implementación y criterios de revisión.
+
+## Guion de las memorias de D
+
+- Textos de NPC, refugios, secretos, murales, introducción de God Fish y desenlace en la costa. Incluye criterios de integración y revisión.
