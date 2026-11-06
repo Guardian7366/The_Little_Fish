@@ -209,3 +209,8 @@ Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres
 
 - Titán calamar con ojo verde, tridente, escudo con emblema y desarme animado. Incluye poses para seis fases, telegráficos, invocación, proyectiles, mecanismos de arena y derrota.
 - Manifiesto de atlas con cuadrícula y anclas, vistas de los recursos y guía de integración.
+
+## God Fish · revisión de los sprites del titán
+
+- Se retira la forma bajo el ojo. Se redibujan los perfiles, las articulaciones y las poses de puños, con un ceño más marcado para las dos fases sin armas.
+- Los atlas conservan sus anclas y su cuadrícula. Los efectos y los mecanismos de la arena conservan sus archivos.

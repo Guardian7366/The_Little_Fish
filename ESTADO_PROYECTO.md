@@ -101,4 +101,4 @@ Base revisada c022bb7, mercado aprobado. El usuario aprobó seis fases para God 
 
 ## Arte de combate de God Fish
 
-Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis paletas, 24 atlas PNG con 291 celdas y tres vistas. Incluye armas, ataques, proyectiles, efectos y mecanismos. Pendiente la integración jugable de la arena y el combate. [Guía y atlas](design/jefe-final/god-fish/ARTE-GOD-FISH.md).
+Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis paletas, 24 atlas PNG con 291 celdas y cuatro vistas. El titán tiene un ojo sin boca, perfiles en tres cuartos y poses de puños diferenciadas para preparación, golpe y recuperación. Incluye armas, ataques, proyectiles, efectos y mecanismos. Pendiente la integración jugable de la arena y el combate. [Guía y atlas](design/jefe-final/god-fish/ARTE-GOD-FISH.md).

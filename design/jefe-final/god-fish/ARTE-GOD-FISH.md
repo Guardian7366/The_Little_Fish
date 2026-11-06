@@ -1,14 +1,14 @@
 # God Fish · arte de combate del titán calamar
 
-El manto puntiagudo, las aletas y los seis tentáculos cortos identifican al calamar. En el centro siempre conserva su ojo verde. Lleva el tridente en su mano derecha (a la izquierda de la pantalla en reposo) y el escudo con un pez verde en la otra. El escudo físico viaja con el brazo. El campo de invulnerabilidad se dibuja en una capa independiente.
+El manto puntiagudo, las aletas y los seis tentáculos cortos identifican al calamar. El ojo verde es el único rasgo facial. En las fases 5 y 6 se estrecha bajo el ceño del manto. Lleva el tridente en su mano derecha (a la izquierda de la pantalla en reposo) y el escudo con un pez verde en la otra. El escudo físico viaja con el brazo. El campo de invulnerabilidad se dibuja en una capa independiente.
 
-[Paletas y siluetas](preview/fases.png) · [Poses de ataque](preview/ataques.png) · [Proyectiles, armas y mecanismos](preview/efectos.png) · [Arte de la fosa](../fosa/ARTE-FOSA.md)
+[Paletas y siluetas](preview/fases.png) · [Poses de ataque](preview/ataques.png) · [Perfiles, puños y golpe doble](preview/perfiles.png) · [Proyectiles, armas y mecanismos](preview/efectos.png) · [Arte de la fosa](../fosa/ARTE-FOSA.md)
 
 ## Lectura de los atlas
 
 - Los PNG de assets tienen fondo transparente y píxeles nativos. manifest.json define tamaño de celda, ancla, columnas y filas de cada atlas, en orden desde cero. El rectángulo de cada cuadro empieza en columna × ancho y fila × alto. No recortar las celdas por transparencia.
 - El jefe ocupa celdas de 144 × 128 con ancla [72, 63] en el centro corporal. Dibujar con interpolación de vecino más cercano a la escala de los tiles del juego (3× por defecto). Colocar el aura en el mismo punto del mundo con su propia ancla [80, 72]. Dibujar el aura como contorno superpuesto sin tapar el ojo.
-- Mantener el jefe frontal. Las cuatro direcciones cambian mirada, posición de armas o puños y línea del ataque. Las acciones con fila front se reutilizan en todas las direcciones. No espejar toda la celda, para conservar mano y escudo. Conservar dimensiones y posición de combate por separado del tamaño del PNG.
+- El reposo es frontal. Las filas left y right giran el manto, el ojo y los hombros en tres cuartos. Las filas de ataque colocan armas o puños en la dirección correspondiente. Las acciones con fila front se reutilizan en todas las direcciones. No espejar toda la celda, para conservar mano y escudo. Conservar dimensiones y posición de combate por separado del tamaño del PNG.
 - Las columnas windup, impact, hold y recover son poses. Su duración la controla el estado del ataque. Mostrar el aviso antes de habilitar daño y retirar la colisión al acabar el golpe. Reposo alterna idle-a e idle-b. Usar exposed al perder la barrera y hit al recibir un golpe válido.
 - Las marcas de peligro, las decoraciones y el aura son capas visuales. Las colisiones salen de la arena y del estado del combate. Si se reutiliza una marca como segmento de carril u onda, repetirla y orientarla con el patrón de daño real. Las marcas de refugio señalan zonas que quedan libres.
 
