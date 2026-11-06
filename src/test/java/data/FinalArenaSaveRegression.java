@@ -110,12 +110,34 @@ public final class FinalArenaSaveRegression {
             check(save.trySave() && save.tryLoad(),save.getLastError());
             check(read(file).arenaRevision==REVISION,"re-save writes current arena revision");
         }
+        int published=0;
+        for (int i=0;i<2;i++) {
+            Path original=Path.of("build/final-revision-baseline/case"+i+".dat");
+            if (!Files.isRegularFile(original)) continue;
+            Files.copy(original,file,java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            byte[] before=Files.readAllBytes(file);
+            check(read(file).arenaRevision==1 && save.tryLoad(),save.getLastError());
+            check(Arrays.equals(before,Files.readAllBytes(file)) && gp.player.coin==47 && gp.player.exp==74,
+                "published arena checkpoint preserved without rewriting");
+            if (i==0) {
+                check(gp.player.worldX==RETURN_X*48 && gp.player.worldY==ARRIVAL_Y*48
+                    && gp.finalArena.boss().worldX==BOSS_X && gp.finalArena.boss().worldY==BOSS_Y,
+                    "published pre-fight player unchanged and boss recentered");
+            } else {
+                check(Progress.GodFishDefeated && gp.finalArena.boss()==null
+                    && gp.obj[MAP][KEY_SLOT] instanceof OBJ_Key && gp.obj[MAP][DOOR_SLOT] instanceof OBJ_Door,
+                    "published victory preserves unclaimed key and door");
+                check(gp.player.worldX==26*48 && gp.player.worldY==14*48,"north corridor save remains on floor");
+            }
+            check(save.trySave() && read(file).arenaRevision==REVISION,save.getLastError());
+            published++;
+        }
         gp.gameState=gp.cutsceneState;
         byte[] good=Files.readAllBytes(file);
         check(!save.trySave() && Arrays.equals(good,Files.readAllBytes(file)),"no save during cutscene");
         gp.gameState=gp.transitionState;
         check(!save.trySave() && Arrays.equals(good,Files.readAllBytes(file)),"no save during transition");
         gp.stopGame();
-        System.out.println("FINAL_ARENA_SAVE PASS: six pre-arena cases, retry migration, pending key, completed credits, roundtrip; historical="+originals);
+        System.out.println("FINAL_ARENA_SAVE PASS: six pre-arena cases, retry migration, pending key, completed credits, roundtrip; historical="+originals+", e1d17bb="+published);
     }
 }

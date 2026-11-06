@@ -516,6 +516,8 @@ public class Entity {
         return oppositeDirection;
     }
 
+    private long finalArenaSwing;
+
     public void attacking() {
         block21: {
             ++this.spriteCounter;
@@ -559,8 +561,10 @@ public class Entity {
                     var strike=main.Temple.bounds(this,worldX,worldY);
                     gp.extraRooms.later.cutBindings(strike);
                     gp.extraRooms.ending.hitLatches(strike,spriteCounter==motion1_duration+1);
-                    if (gp.currentMap==main.FinalArena.MAP && gp.finalArena.boss()!=null)
-                        gp.finalArena.boss().hit(strike,currentWorldX+24,currentWorldY+24,currentWeapon,attack);
+                    if (gp.currentMap==main.FinalArena.MAP && gp.finalArena.boss()!=null) {
+                        if (spriteCounter==motion1_duration+1) finalArenaSwing++;
+                        gp.finalArena.boss().hit(strike,currentWorldX+24,currentWorldY+24,currentWeapon,attack,finalArenaSwing);
+                    }
                 }
                 int monsterIndex = this.gp.cChecker.checkEntity(this, this.gp.monster, room);
                 this.gp.player.damageMonster(monsterIndex, this, this.attack, this.currentWeapon.knockBackPower);

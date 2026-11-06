@@ -255,9 +255,11 @@ implements Runnable {
                         this.monster[this.currentMap][i].update();
                     }
                     if (!this.monster[this.currentMap][i].alive) {
-                        if (currentMap!=FinalArena.MAP || i!=FinalArena.SUMMON_SLOT)
-                            this.monster[this.currentMap][i].checkDrop();
-                        this.monster[this.currentMap][i] = null;
+                        Entity defeated = monster[currentMap][i];
+                        if (currentMap==FinalArena.MAP && i==FinalArena.SUMMON_SLOT) {
+                            if (finalArena.boss()!=null) finalArena.boss().summonDefeated(defeated);
+                        } else defeated.checkDrop();
+                        monster[currentMap][i] = null;
                     }
                 }
                 ++i;

@@ -114,7 +114,8 @@ extends Entity {
     }
 
     private void patrol() {
-        int targetX = homeX + (ticks / 24 % 2 == 0 ? 12 : 0);
+        boolean finalArena=gp.currentMap==main.FinalArena.MAP;
+        int targetX = homeX + (ticks / (finalArena?58:24) % 2 == 0 ? (finalArena?48:12) : 0);
         if (targetX == worldX) return;
         direction = targetX > worldX ? "right" : "left";
         if (!sector.contains(worldX + (targetX > worldX ? 1 : -1), worldY)) return;

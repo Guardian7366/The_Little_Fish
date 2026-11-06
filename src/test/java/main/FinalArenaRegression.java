@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.function.BooleanSupplier;
 import monster.MON_GodFish;
 import monster.MON_Picaron;
@@ -25,7 +27,7 @@ public final class FinalArenaRegression {
         @Override public void playMusic(int id) { lastMusic=id; if (id==23) music23++; }
     }
 
-    private static final Path OUT=Path.of("build/final-preview");
+    private static final Path OUT=Path.of("build/final-revision-preview");
     private static final Quiet gp=new Quiet();
     private static final Field PLAN=field("plan"), STEP=field("step"), FLAGS=field("flags");
 
@@ -137,7 +139,7 @@ public final class FinalArenaRegression {
         int x=gp.player.worldX,y=gp.player.worldY,camera=gp.cameraY();
         key(VK_ENTER,true);
         tick(44);
-        check(gp.cameraY()!=camera && gp.player.worldX==x && gp.player.worldY==y,"camera pans without moving fish");
+        check(gp.cameraY()!=camera && gp.player.worldX==x && gp.player.worldY<y,"camera and player advance independently");
         if (!abbreviated) { tick(29); capture("01-presencia"); }
         for (int i=0; i<85; i++) {
             key(VK_ENTER,true);
@@ -145,6 +147,8 @@ public final class FinalArenaRegression {
         }
         check(gp.csManager.isDialogueActive() && boss().dialogueIndex==(abbreviated?3:0),"held Enter cannot skip pages");
         key(VK_ENTER,false);
+        y=gp.player.worldY;
+        check(y==INTRO_Y,"player reaches the final shot by swimming on the floor");
         if (!abbreviated) { tick(40); capture("02-reconocimiento"); }
         int pages=abbreviated?1:4;
         for (int page=0;page<pages;page++) {
@@ -161,6 +165,7 @@ public final class FinalArenaRegression {
         check(gp.bossBattleOn && !boss().sleep && gp.player.worldX==x && gp.player.worldY==y && read(PLAN)==null,
             "control returns before first telegraph");
         check(gp.music23==(abbreviated?2:1),"one combat track request per introduction");
+        if (!abbreviated) capture("02b-entrega-de-control");
     }
 
     public static void main(String[] args) throws Exception {
@@ -191,18 +196,15 @@ public final class FinalArenaRegression {
         phaseFive();
         phaseSix();
         finish();
-        bordersAndWave();
-        directions();
+        cornersAndBody();
+        summonPulses();
         gp.stopGame();
-        System.out.println("FINAL_ARENA PASS: movement from market to credits, retry, four-page intro, six objectives and one reward");
+        System.out.println("FINAL_ARENA PASS: movement from market to credits, retry, moving intro, six revised phases, four summons, two waves, four corners and one reward");
     }
 
     private static void retry() throws Exception {
-        walk(34*48,false);
         gp.player.life=1;
-        until(() -> at("SWEEP","WARN"),110,"first sweep is warned");
-        check(gp.player.life==1,"warning does not hurt");
-        until(() -> gp.gameState==gp.gameOverState,90,"unavoided sweep can kill");
+        until(() -> gp.gameState==gp.gameOverState,1000,"stationary player eventually hit");
         check(!gp.bossBattleOn && gp.obj[MAP][SEAL_SLOT]==null,"death clears encounter ownership");
         tap(VK_S);
         tap(VK_ENTER);
@@ -222,145 +224,343 @@ public final class FinalArenaRegression {
         gp.player.defense=gp.player.getDefense();
         gp.player.inventory.add(gp.eGenerator.requireObject("rock-tool"));
         gp.player.inventory.add(gp.eGenerator.requireObject("iron-tool"));
+        Entity pot=gp.eGenerator.requireObject("strong-potion");
+        pot.amount=5;
+        gp.player.inventory.add(pot);
+    }
+
+    private static int flags() { return (int)read(FLAGS); }
+    private static int[] counters(String name) { return (int[])read(field(name)); }
+    private static boolean returning() { return (boolean)read(field("returning")); }
+    private static Point cell(int x,int y) { return new Point(x*48+24,y*48+24); }
+    private static int px() { return gp.player.worldX+24; }
+    private static int py() { return gp.player.worldY+24; }
+
+    private static void heal() {
+        if (gp.player.life<18 && gp.player.searchItemInInventory("Strong Potion")!=999) equip("Strong Potion");
+    }
+
+    private static boolean route(int x,int y,int limit) {
+        for (int n=0;n<limit;n++) {
+            if (gp.gameState!=gp.playState) return false;
+            int dx=x-px(),dy=y-py();
+            if (Math.abs(dx)<=3 && Math.abs(dy)<=3) return true;
+            int[] axes=Math.abs(dx)>Math.abs(dy)?new int[]{0,1}:new int[]{1,0};
+            boolean moved=false;
+            for (int axis:axes) {
+                int amount=axis==0?dx:dy;
+                if (Math.abs(amount)<=3) continue;
+                int oldX=px(),oldY=py();
+                int dir=axis==0?(amount<0?VK_A:VK_D):(amount<0?VK_W:VK_S);
+                tap(dir);
+                if (oldX!=px() || oldY!=py()) { moved=true; break; }
+            }
+            if (!moved && !gp.player.knockBack && !gp.player.attacking) return false;
+        }
+        return false;
+    }
+
+    private static boolean touch(Point target) {
+        int[][] sides=boss().phase()==6
+            ? (px()<target.x?new int[][]{{-40,0,VK_D},{40,0,VK_A}}:new int[][]{{40,0,VK_A},{-40,0,VK_D}})
+            : new int[][]{{0,40,VK_W},{0,-40,VK_S},{-40,0,VK_D},{40,0,VK_A}};
+        for (int[] side:sides) {
+            int x=target.x+side[0],y=target.y+side[1];
+            var standing=Temple.bounds(gp.player,x-24,y-24);
+            if (!gp.finalArena.clear(standing) || (boss().protectedBody()
+                    && standing.intersects(Temple.bounds(boss(),boss().worldX,boss().worldY)))) continue;
+            if (route(x,y,235)) {
+                face(side[2]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static java.awt.Shape danger() {
+        Object track=plan("track");
+        if (track==null) return (Rectangle)plan("danger");
+        try {
+            Method accessor=track.getClass().getDeclaredMethod("warning");
+            accessor.setAccessible(true);
+            return (java.awt.Shape)accessor.invoke(track);
+        } catch (ReflectiveOperationException error) { throw new AssertionError(error); }
+    }
+
+    private static void dodge() {
+        java.awt.Shape warning=danger();
+        if (warning==null) return;
+        var body=Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY);
+        if (!warning.intersects(body)) return;
+        for (int n=16;n<=196;n+=4) for (int[] side:new int[][]{{-1,0},{1,0},{0,-1},{0,1}}) {
+            var landing=new Rectangle(body.x+n*side[0],body.y+n*side[1],body.width,body.height);
+            if (warning.intersects(landing) || !gp.finalArena.clear(landing)) continue;
+            boolean clear=true;
+            for (int k=4;k<=n;k+=4) {
+                var path=new Rectangle(body.x+k*side[0],body.y+k*side[1],body.width,body.height);
+                if (!gp.finalArena.clear(path) || (boss().protectedBody()
+                        && path.intersects(Temple.bounds(boss(),boss().worldX,boss().worldY)))) { clear=false; break; }
+            }
+            if (clear) {
+                route(px()+n*side[0],py()+n*side[1],65);
+                return;
+            }
+        }
     }
 
     private static void phaseOne() throws Exception {
-        int life=boss().life;
-        check(!boss().hit(new Rectangle(BOSS_X-30,BOSS_Y-30,60,60),BOSS_X,BOSS_Y,null,10000)
-            || boss().life==life,"closed barrier prevents a huge direct hit");
         walk(34*48,false);
-        xy(19,34);
-        face(VK_W);
-        strike();
-        check((int)read(FLAGS)==0,"ordinary weapon cannot break anchor");
         equip("Rocky");
-        capture("03-anclajes");
-        strike();
-        check((int)read(FLAGS)==1 && !boss().exposed(),"one Rocky anchor leaves the other linked");
-        xy(30,34);
-        face(VK_W);
-        strike();
-        check(boss().exposed(),"second Rocky anchor opens phase 1");
+        for (int i=0;i<2;i++) {
+            Point stone=cell(i==0?19:30,33);
+            for (int count=1;count<=3;count++) {
+                int old=counters("stoneHits")[i];
+                for (int tries=0;tries<9 && counters("stoneHits")[i]==old;tries++) {
+                    heal();
+                    if (touch(stone)) strike();
+                    else tick(12);
+                }
+                check(counters("stoneHits")[i]==count,"one Rocky increment per whole swing");
+            }
+        }
+        check(boss().exposed(),"both anchors required");
         equip("Iron");
         finishSegment(1);
     }
 
     private static void finishSegment(int phase) {
-        for (int attempts=0; attempts<32 && boss().phase()==phase && boss().life>0; attempts++) {
-            until(() -> !gp.player.knockBack,18,"recover from the preceding impact");
-            walk(BOSS_X-24,true);
-            walk(boss().worldY+(phase==6?49:67),false);
-            face(VK_W);
-            strike();
+        for (int attempts=0;attempts<45 && boss().phase()==phase && boss().life>0 && !returning();attempts++) {
+            heal();
+            int offset=phase==6?24:0;
+            if (touch(new Point(boss().worldX,boss().worldY+offset))) strike();
+            else tick(8);
+            if (phase==6 && !boss().exposed()) break;
         }
-        check(phase==6?boss().life==0:boss().phase()==phase+1,"exactly one life segment consumed");
+        if (phase==6) return;
+        check(returning(),"threshold announces return before next phase");
+        route(16*48+36,32*48+24,240);
+        until(() -> boss().phase()==phase+1,180,"next phase materializes at center");
+        check(!boss().exposed(),"new phase protected");
     }
 
     private static void phaseTwo() throws Exception {
-        xy(27,33);
-        face(VK_W);
-        equip("Rocky");
-        strike();
-        check((int)read(FLAGS)==0 && !boss().exposed(),"Rocky cannot open grille");
         gp.player.water=0;
-        capture("04-rejilla-y-respiradero");
-        equip("Iron");
-        strike();
-        check((int)read(FLAGS)==4 && !boss().exposed(),"Iron opens grille without activating core");
-        xy(30,35);
-        tick(2);
-        check(gp.player.water==2,"empty water can be restored in the arena");
-        xy(27,33);
-        face(VK_W);
-        tap(VK_F);
-        until(() -> boss().exposed(),60,"player bubble hits the open core");
+        for (Point block:new Point[]{new Point(BOSS_X-240,27*48+24),new Point(BOSS_X+240,27*48+24),
+                new Point(BOSS_X,33*48+24)}) {
+            int before=flags();
+            for (int i=0;i<10 && flags()==before;i++) {
+                heal();
+                if (touch(block)) strike();
+                else tick(14);
+            }
+            check(Integer.bitCount(flags())==Integer.bitCount(before)+1,"each Iron block is separate");
+        }
+        check(!boss().exposed() && flags()==7,"core waits for bubble");
+        for (int i=0;i<4 && gp.player.water==0;i++) route(cell(31,35).x,cell(31,35).y,260);
+        check(gp.player.water==2,"vent restores water from zero");
+        for (int i=0;i<6 && !boss().exposed();i++) {
+            heal();
+            if (gp.player.water==0) route(cell(31,35).x,cell(31,35).y,300);
+            Point core=new Point(BOSS_X,22*48+24);
+            if (route(core.x,core.y+70,280)) {
+                face(VK_W);
+                key(VK_F,true);
+                until(() -> boss().exposed() || gp.player.water==0,160,"fire toward the exposed core");
+                key(VK_F,false);
+            }
+        }
+        check(boss().exposed(),"bubble opens barrier after three iron blocks");
         finishSegment(2);
     }
 
     private static void phaseThree() throws Exception {
-        walk(20*48,true);
-        until(() -> at("CHARGE","WARN"),180,"leftward charge is telegraphed");
-        check("LEFT".equals(String.valueOf(plan("aim"))),"first charge aims toward the player");
-        walk(34*48,false);
-        until(() -> at("CHARGE","IMPACT"),140,"charge executes on its fixed heading");
-        while (at("CHARGE","IMPACT")) {
-            check(gp.finalArena.clear(Temple.bounds(boss(),boss().worldX,boss().worldY)),"whole charging body stays on floor");
-            tick(1);
+        until(() -> at("CHARGE","WARN"),400,"charge announces");
+        dodge();
+        until(() -> plan("move")==null,210,"failed charge recovers");
+        check(flags()==0,"charge without an altar cannot open the defense");
+        for (Point altar:new Point[]{cell(18,23),cell(31,23),cell(29,35)}) {
+            int before=flags();
+            for (int tries=0;tries<8 && flags()==before;tries++) {
+                heal();
+                while (plan("move")!=null && flags()==before) {
+                    if (at("CHARGE","WARN")) dodge();
+                    tick(1);
+                }
+                if (flags()!=before) break;
+                route(altar.x,altar.y,310);
+                until(() -> at("CHARGE","WARN"),400,"altar charge commits");
+                dodge();
+                until(() -> flags()!=before || plan("move")==null,220,"charge resolves");
+            }
+            check(Integer.bitCount(flags())==Integer.bitCount(before)+1,"one distinct altar cracks");
         }
-        check(!boss().exposed(),"missed charge keeps barrier");
-        xy(20,36);
-        walk(24*48,true);
-        until(() -> at("CHARGE","WARN") && "DOWN".equals(String.valueOf(plan("aim"))),480,"next attempt can target altar");
-        capture("05-aviso-embestida");
-        walk(27*48,true);
-        until(() -> boss().exposed(),180,"trident must hit altar even after player dodges");
-        capture("06-tridente-clavado");
-        walk(36*48,false);
+        check(boss().exposed(),"third altar lodges trident");
+        capture("03-altares");
         finishSegment(3);
     }
 
-    private static void defeatSummon(Class<?> expected,String image) throws Exception {
+    private static void defeatSummon(Class<?> expected) throws Exception {
         until(() -> gp.monster[MAP][SUMMON_SLOT]!=null,450,"summon appears after visible seal");
         Entity enemy=gp.monster[MAP][SUMMON_SLOT];
         check(expected.isInstance(enemy),"summon order");
-        capture(image);
-        for (int attempt=0; attempt<70 && !enemy.dying; attempt++) {
-            int dx=enemy.worldX-gp.player.worldX, dy=enemy.worldY-gp.player.worldY;
-            int toward=Math.abs(dx)>Math.abs(dy)?(dx<0?VK_A:VK_D):(dy<0?VK_W:VK_S);
-            key(toward,true);
-            tick(Math.max(Math.abs(dx),Math.abs(dy))>57?8:2);
-            key(toward,false);
-            if (Math.abs(enemy.worldX-gp.player.worldX)<75 && Math.abs(enemy.worldY-gp.player.worldY)<75)
-                strike();
+        if (enemy instanceof MON_Tella tella) {
+            int start=tella.worldX;
+            until(() -> tella.worldX!=start,80,"Fishtella swims clear of its seal");
         }
-        check(enemy.dying,"live melee defeats summoned " + enemy.name);
+        for (int attempt=0;attempt<700 && !enemy.dying;attempt++) {
+            heal();
+            if (gp.player.knockBack) { tick(4); continue; }
+            var choice=routeToSummon(enemy);
+            if (choice==null) { tick(6); continue; }
+            if (choice.first()!=0) {
+                key(choice.first(),true);
+                tick(3);
+                key(choice.first(),false);
+            } else {
+                face(choice.facing());
+                strike();
+            }
+        }
+        check(enemy.dying,"live melee defeats " + enemy.name);
         until(() -> gp.monster[MAP][SUMMON_SLOT]==null,70,"summoned enemy removed");
     }
 
+    private record Search(int x,int y,int first) {}
+    private record Approach(int first,int facing) {}
+    private static final int[][] STEPS={{0,-1,VK_W},{-1,0,VK_A},{1,0,VK_D},{0,1,VK_S}};
+
+    private static Approach routeToSummon(Entity enemy) {
+        var goal=Temple.bounds(enemy,enemy.worldX,enemy.worldY);
+        var mantle=Temple.bounds(boss(),boss().worldX,boss().worldY);
+        var player=gp.player;
+        var queue=new ArrayDeque<Search>();
+        var seen=new HashSet<Point>();
+        queue.add(new Search(player.worldX,player.worldY,0));
+        seen.add(new Point(player.worldX,player.worldY));
+        while (!queue.isEmpty()) {
+            Search node=queue.remove();
+            for (int[] move:STEPS) {
+                var strike=new Rectangle(node.x()+player.solidArea.x+move[0]*player.attackArea.width,
+                    node.y()+player.solidArea.y+move[1]*player.attackArea.height,
+                    player.attackArea.width,player.attackArea.height);
+                if (strike.intersects(goal)) return new Approach(node.first(),move[2]);
+                int x=node.x()+12*move[0],y=node.y()+12*move[1];
+                Point next=new Point(x,y);
+                if (seen.contains(next)) continue;
+                boolean clear=true;
+                for (int n=4;n<=12;n+=4) {
+                    var step=Temple.bounds(player,node.x()+n*move[0],node.y()+n*move[1]);
+                    if (!gp.finalArena.clear(step) || step.intersects(goal) || step.intersects(mantle)) {
+                        clear=false;
+                        break;
+                    }
+                }
+                if (clear) {
+                    seen.add(next);
+                    queue.add(new Search(x,y,node.first()==0?move[2]:node.first()));
+                }
+            }
+        }
+        return null;
+    }
+
     private static void phaseFour() throws Exception {
-        xy(20,36);
-        defeatSummon(MON_Picaron.class,"07-picaron");
-        check(!boss().exposed(),"one minion is insufficient");
-        xy(29,36);
-        defeatSummon(MON_Tella.class,"08-fishtella");
-        until(() -> boss().exposed(),5,"second defeat opens phase");
-        xy(29,33);
+        for (int i=0;i<4;i++) {
+            defeatSummon(i%2==0?MON_Picaron.class:MON_Tella.class);
+            check(flags()==i+1,"real defeat removes exactly one link");
+        }
+        check(boss().exposed(),"four summons open phase");
         finishSegment(4);
     }
 
+    private static Point plantedHand() {
+        try {
+            Method method=boss().getClass().getDeclaredMethod("plantedHand",read(PLAN).getClass());
+            method.setAccessible(true);
+            return (Point)method.invoke(boss(),read(PLAN));
+        } catch (ReflectiveOperationException error) { throw new AssertionError(error); }
+    }
+
     private static void phaseFive() throws Exception {
-        walk(36*48,false);
-        for (String attack:new String[]{"FIST_L","FIST_R"}) {
-            until(() -> at(attack,"HOLD"),620,"wait for planted " + attack);
-            Point hand=(Point)plan("target");
-            check("DOWN".equals(String.valueOf(plan("aim"))),"down-facing planted fist accessible from south");
-            walk(hand.x-24,true);
-            walk(hand.y+7,false);
-            face(VK_W);
-            capture(attack.endsWith("L")?"09-puno-izquierdo":"10-puno-derecho");
-            strike();
-            if (attack.endsWith("L")) {
-                check((int)read(FLAGS)==1 && !boss().exposed(),"left fist marks once");
-                walk(35*48,false);
+        for (int attack=0;attack<55 && !boss().exposed();attack++) {
+            heal();
+            until(() -> at("FIST_L","WARN") || at("FIST_R","WARN"),350,"next marked fist");
+            String move=String.valueOf(plan("move"));
+            int hand=move.equals("FIST_L")?0:1;
+            dodge();
+            until(() -> at(move,"HOLD"),115,"fist is planted");
+            Point target=plantedHand();
+            if (attack==0) capture("05-puno");
+            for (int n=0;n<5 && at(move,"HOLD") && counters("fistHits")[hand]<10;n++) {
+                int before=counters("fistHits")[hand];
+                if (touch(target) && at(move,"HOLD")) strike();
+                else break;
+                check(counters("fistHits")[hand]<=before+1,"one count per whole melee swing");
             }
+            if (!boss().exposed()) until(() -> plan("move")==null,220,"recover between fists");
         }
-        check(boss().exposed(),"two distinct fists expose phase 5");
+        check(counters("fistHits")[0]==10 && counters("fistHits")[1]==10 && boss().exposed(),"10 hits on both fists");
         finishSegment(5);
     }
 
-    private static void phaseSix() throws Exception {
-        walk(33*48,false);
-        until(() -> at("SLAM","WARN"),670,"two directed attacks precede slam");
-        capture("11-refugios");
-        walk(17*48,true);
+    private static boolean inRefuge() {
+        Rectangle body=Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY);
+        return body.x+body.width<=19*48 || body.x>=31*48;
+    }
+
+    private static void approachRefuge(int side,int limit) {
+        int x=cell(side,33).x;
+        for (int n=0;n<limit && Math.abs(px()-x)>4;n++) {
+            Rectangle body=Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY);
+            Rectangle mantle=Temple.bounds(boss(),boss().worldX,boss().worldY);
+            Rectangle path=body.union(new Rectangle(body.x+x-px(),body.y,body.width,body.height));
+            if (boss().protectedBody() && path.intersects(mantle)) {
+                int north=mantle.y-24,south=mantle.y+mantle.height+24;
+                boolean northFits=north>=19*48+22,southFits=south<=38*48-22;
+                boolean goNorth=northFits && (!southFits || Math.abs(py()-north)<Math.abs(py()-south));
+                tap(goNorth?VK_W:VK_S);
+            } else tap(px()<x?VK_D:VK_A);
+            if (at("SLAM","IMPACT")) return;
+        }
+    }
+
+    private static void waitWave(int side) throws Exception {
+        approachRefuge(side,115);
+        for (int n=0;n<4 && !at("SLAM","WARN");n++) {
+            heal();
+            until(() -> at("FIST_L","WARN") || at("FIST_R","WARN") || at("SLAM","WARN"),440,"furia commits a move");
+            if (at("SLAM","WARN")) break;
+            dodge();
+            until(() -> plan("move")==null,210,"directed fist ends");
+            approachRefuge(side,44);
+        }
+        check(at("SLAM","WARN"),"two fists precede wave");
+        if (!inRefuge()) approachRefuge(px()<BOSS_X?17:32,82);
+        check(inRefuge() && at("SLAM","WARN"),"player reaches a marked refuge before the wave");
+        capture(side==17?"06-onda-izquierda":"06-onda-derecha");
         int hp=gp.player.life;
-        until(() -> boss().exposed(),220,"wave finishes and exposes the eye");
-        check(gp.player.life==hp,"left marked refuge avoids entire wave");
-        capture("12-ojo");
-        walk(33*48,false);
-        finishSegment(6);
-        tick(10);
-        capture("13-derrota");
+        until(() -> boss().exposed(),220,"wave exposes eye");
+        check(gp.player.life==hp,"marked refuge avoids wave");
+    }
+
+    private static void phaseSix() throws Exception {
+        waitWave(17);
+        int initial=boss().life;
+        for (int i=0;i<3 && boss().life==initial;i++) {
+            touch(new Point(boss().worldX,boss().worldY+24));
+            strike();
+        }
+        check(boss().life<initial && boss().life>0,"damage eye without finishing");
+        int carried=boss().life;
+        until(() -> !boss().exposed(),330,"eye closes after its opening");
+        check(boss().life==carried,"life persists when eye closes");
+        waitWave(32);
+        check(boss().life==carried,"second wave preserves eye damage");
+        for (int window=0;window<5 && boss().life>0;window++) {
+            if (!boss().exposed()) waitWave(window%2==0?17:32);
+            finishSegment(6);
+        }
+        check(boss().life==0,"final eye defeated through normal hits");
         until(() -> Progress.GodFishDefeated,80,"victory finalized");
         finishDialogue();
     }
@@ -380,6 +580,9 @@ public final class FinalArenaRegression {
         walk(26*48,true);
         walk(DOOR_Y*48+40,false);
         face(VK_W);
+        check(gp.obj[MAP][DOOR_SLOT]!=null && !gp.finalArena.clear(new Rectangle(25*48+12,DOOR_Y*48+12,20,20))
+            && !gp.finalArena.clear(new Rectangle(27*48+12,DOOR_Y*48+12,20,20)),"north passage cannot bypass the key gate");
+        capture("08-pasillo-norte");
         equip("Key");
         check(gp.obj[MAP][DOOR_SLOT]==null && gp.player.searchItemInInventory("Key")==999,"key opens north door once");
         walk(EXIT_Y*48,false);
@@ -402,91 +605,96 @@ public final class FinalArenaRegression {
         gp.gameState=gp.playState;
         Temple.place(gp.player,col,row);
         gp.player.maxLife=gp.player.life=30;
+        gp.finalArena.beginCombatCamera();
     }
 
-    private static void bordersAndWave() throws Exception {
-        int[][] edges={{16,27,VK_A},{33,27,VK_D},{23,19,VK_W},{23,37,VK_S}};
-        for (int[] edge:edges) {
+
+    private static void cornersAndBody() throws Exception {
+        for (int[] corner:new int[][]{{16,19},{33,19},{16,37},{33,37}}) {
+            arenaAt(corner[0],corner[1]);
+            gp.bossBattleOn=true;
+            boss().beginFight();
+            setBoss("rest",0);
+            int hp=gp.player.life;
+            until(() -> (boolean)read(field("swimming")),60,"boss swims toward corner");
+            if (corner[0]==16 && corner[1]==19) {
+                until(() -> (int)read(field("swimDistance"))>=10,15,"swim frame advances with distance");
+                until(() -> Math.hypot(boss().worldX-BOSS_X,boss().worldY-BOSS_Y)>120
+                    && (boolean)read(field("swimming")),150,"swims into the corner framing");
+                capture("07-nado");
+            }
+            until(() -> gp.player.life<hp,1500,"stationary corner is threatened");
+            check(gp.finalArena.clear(Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY)),"corner impact stays on floor");
+        }
+        arenaAt(24,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        int x=px(),y=py(),hp=gp.player.life;
+        setBoss("returnTicks",1);
+        field("returning").setBoolean(boss(),true);
+        tick(90);
+        check(boss().phase()==1 && px()==x && py()==y && gp.player.life==hp && !boss().protectedBody(),
+            "materialization waits harmlessly if the center is occupied");
+        walk(20*48,true);
+        until(() -> boss().phase()==2,6,"return resumes after leaving center");
+        check(boss().worldX==BOSS_X && boss().worldY==BOSS_Y,"returns to marked center");
+        for (int[] side:new int[][]{{16,28,1,0},{33,28,-1,0},{24,19,0,1},{24,37,0,-1}}) {
+            arenaAt(side[0],side[1]);
+            boss().worldX=px()+side[2]*65;
+            boss().worldY=py()+side[3]*59;
+            gp.bossBattleOn=true;
+            boss().beginFight();
+            tick(24);
+            check(gp.player.life==30 && gp.finalArena.clear(Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY)),
+                "protected contact next to a wall is safe");
+        }
+        arenaAt(22,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        field("exposed").setBoolean(boss(),true);
+        walk(27*48,true);
+        check(px()>boss().worldX+80 && gp.player.life==30,"the player crosses the exposed body without a push");
+        arenaAt(24,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        setBoss("phase",6);
+        field("exposed").setBoolean(boss(),true);
+        setBoss("eyeTicks",1);
+        tick(1);
+        check(!boss().exposed() && !boss().protectedBody(),"reforming armor cannot trap an overlapping player");
+        walk(21*48,true);
+        until(() -> boss().protectedBody(),4,"body returns as soon as the player swims clear");
+        for (int[] edge:new int[][]{{16,27,VK_A},{33,27,VK_D},{23,19,VK_W},{23,37,VK_S}}) {
             arenaAt(edge[0],edge[1]);
             face(edge[2]);
             gp.player.shotAvailableCounter=50;
             gp.player.projectile.speed=110;
             tap(VK_F);
-            check(!gp.player.projectile.alive && gp.player.water==5,"even a fast shot hits the solid rim");
+            check(!gp.player.projectile.alive && gp.player.water==5,"fast player bubble hits the solid rim");
             gp.player.projectile.speed=6;
         }
-        for (int tool=0;tool<2;tool++) {
-            arenaAt(24,44);
-            gp.player.inventory.add(gp.eGenerator.requireObject(tool==0?"rock-tool":"iron-tool"));
-            key(VK_W,true);
-            tick(135);
-            key(VK_W,false);
-            check(gp.gameState==gp.playState && gp.obj[MAP][SEAL_SLOT]==null,"each missing tool leaves the vestibule open");
-            xy(24,44);
-            walk(23*48,true);
-            tap(VK_ENTER);
-            until(() -> gp.currentMap==Market.MAP,55,"retreat to market with one missing tool");
-        }
-        for (int col:new int[]{24,32}) {
-            arenaAt(col,35);
+    }
+    private static void summonPulses() throws Exception {
+        for (int index:new int[]{1,3}) {
+            arenaAt(index==1?21:28,index==1?26:36);
             gp.bossBattleOn=true;
             boss().beginFight();
-            setBoss("phase",6);
-            boss().life=105;
-            setBoss("cycle",2);
+            setBoss("phase",4);
+            boss().life=320;
+            setBoss("flags",index);
+            setBoss("summon",index);
             setBoss("rest",0);
-            until(() -> at("SLAM","WARN"),4,"wave preview");
-            tick(70);
-            check(gp.player.life==30,"telegraph never damages");
-            until(() -> at("SLAM","IMPACT"),40,"wave emitted");
-            if (col==32) { tick(21); capture("15-onda-refugio-derecho"); }
-            until(() -> boss().exposed(),190,"eye after wave");
-            check(gp.player.life==(col==32?30:18),"central wave hits exactly once and right refuge stays safe");
+            until(() -> gp.monster[MAP][SUMMON_SLOT] instanceof MON_Tella,95,"the marked seal summons Fishtella");
+            var tella=(MON_Tella)gp.monster[MAP][SUMMON_SLOT];
+            int start=tella.worldX;
+            until(() -> tella.worldX!=start,24,"the Fishtella has floor to patrol");
+            until(() -> tella.phase()==MON_Tella.Phase.WARNING,95,"Fishtella detects the player in its own sector");
+            var bands=tella.bands();
+            check(!bands.isEmpty(),"each Fishtella has warned pulse bands");
+            capture("04-fishtella-"+(index/2+1));
+            until(() -> tella.phase()==MON_Tella.Phase.PULSE,85,"Fishtella fires from its warning");
+            check(tella.bands().equals(bands),"pulse matches its warning");
+            for (Rectangle band:bands) check(gp.finalArena.clear(band),"pulse stays on arena floor");
         }
-    }
-    private static void directions() throws Exception {
-        int[][] baits={{24,35},{20,31},{28,31},{24,27}};
-        String[] aims={"DOWN","LEFT","RIGHT","UP"};
-        for (int phase:new int[]{1,3,5}) {
-            for (int i=0; i<aims.length; i++) {
-                arenaAt(baits[i][0],baits[i][1]);
-                gp.bossBattleOn=true;
-                boss().beginFight();
-                setBoss("phase",phase);
-                setBoss("rest",0);
-                String move=phase==1?"SWEEP":phase==3?"CHARGE":"FIST_L";
-                until(() -> at(move,"WARN"),3,"directional telegraph");
-                check(aims[i].equals(String.valueOf(plan("aim"))),"correct committed " + move + " heading");
-                Rectangle danger=(Rectangle)plan("danger");
-                check(!danger.isEmpty(),"telegraph has a bounded hit area");
-                int life=gp.player.life;
-                boolean vertical=i==0 || i==3;
-                int position=vertical?gp.player.worldX:gp.player.worldY;
-                double dangerCenter=vertical?danger.getCenterX():danger.getCenterY();
-                int escape=position+24<dangerCenter ? -144 : 144;
-                if (phase!=5 && i>=2) escape=-144;
-                walk(position+escape,vertical);
-                until(() -> !at(move,"WARN"),100,"attack follows its warning");
-                for (int t=0; t<45 && at(move,"IMPACT"); t++) {
-                    check(gp.finalArena.clear(Temple.bounds(boss(),boss().worldX,boss().worldY)),
-                        "body respects basalt in every direction");
-                    tick(1);
-                }
-                check(gp.player.life==life,"perpendicular dodge avoids " + move + " " + aims[i]);
-            }
-        }
-        arenaAt(24,35);
-        gp.bossBattleOn=true;
-        boss().beginFight();
-        setBoss("phase",2);
-        setBoss("rest",0);
-        until(() -> at("VOLLEY","WARN"),4,"volley announced before any bubble");
-        int hp=gp.player.life;
-        tick(35);
-        check(gp.player.life==hp,"volley warning is harmless");
-        until(() -> at("VOLLEY","IMPACT"),25,"three shots begin after warning");
-        tick(12);
-        capture("04b-salva");
-        until(() -> gp.player.life<hp,65,"standing in warned line is hit by volley");
     }
 }

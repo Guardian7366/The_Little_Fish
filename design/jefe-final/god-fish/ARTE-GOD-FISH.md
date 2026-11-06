@@ -32,3 +32,9 @@ Las seis filas de fx/aura se asignan por fase. Activar pulse-a/pulse-b mientras 
 3. Verificar con Rocky, Iron y burbujas que los mecanismos reaccionan al objeto indicado. Mostrar cada cambio de estado y comprobar que un fallo permite reintentar.
 4. Comprobar que los dos esbirros aparecen en secuencia y que el segundo aviso no tapa el anterior. Limpiar esbirros, proyectiles, aura y armas de suelo al salir o reiniciar el intento.
 5. Probar que la onda deja libres los refugios que anuncia, que el ojo queda expuesto tras el golpe doble y que la derrota limpia todo daño residual.
+
+## Desplazamiento del titán
+
+Los seis atlas boss/nado-1 a boss/nado-6 añaden 96 cuadros. Cada fila es una dirección: down, left, right, up. Las cuatro columnas alternan extensión y empuje de los tentáculos. Los perfiles usan la perspectiva de tres cuartos. La fila up conserva el ojo visible y eleva el manto mientras los tentáculos quedan rezagados. Se mantienen la celda de 144 × 128, el ancla [72, 63] y la escala ×3. [Vista de cuatro secuencias](preview/nado.png).
+
+Para integrar, copiar los seis atlas al classpath bajo final/god-fish/boss/ y registrarlos en GodFishArt. Avanzar una columna por distancia real recorrida durante aproximación o flanqueo; como valor inicial, usar 8–12 píxeles lógicos por cuadro. La dirección sale del desplazamiento aplicado, no del objetivo deseado. Con avance cero, usar reposo. Aviso, golpe, puño plantado, embestida, desarme, apertura, retorno y derrota conservan sus poses propias y tienen prioridad sobre el ciclo. Mantener ancla, colisión y temporización de combate independientes del movimiento interno del dibujo. Preparar las celdas una vez fuera del bucle.

@@ -14,19 +14,20 @@ import object.OBJ_Rock;
 
 /** Geometry, arrival, presentation and ownership shared by the final encounter and its save migration. */
 public final class FinalArena {
-    public static final int MAP=6, REVISION=1, FIRST_TILE=182, BOSS_SLOT=87, SUMMON_SLOT=86;
+    public static final int MAP=6, REVISION=2, FIRST_TILE=182, BOSS_SLOT=87, SUMMON_SLOT=86;
     public static final int ARRIVAL_X=24, ARRIVAL_Y=44, RETURN_X=23;
     public static final int THRESHOLD_Y=38, SEAL_Y=39, SAFE_Y=41;
     public static final int DOOR_SLOT=9, DOOR_X=26, DOOR_Y=12, EXIT_X=26, EXIT_Y=5;
     public static final int KEY_SLOT=28, SEAL_SLOT=29, KEY_X=24, KEY_Y=32;
-    public static final int BOSS_X=24*48+24, BOSS_Y=31*48+24;
+    public static final int BOSS_X=25*48, BOSS_Y=28*48+24, INTRO_Y=35*48;
     private static final BufferedImage FAR = background("far-trench");
     private static final BufferedImage SIDES = background("basalt-sides");
     private static final BufferedImage SEDIMENT = background("sediment");
     private static final BufferedImage COLUMN = prop("broken-column"), RUBBLE = prop("basalt-rubble"), SILT = prop("silt");
+    private static final BufferedImage NORTH_ARCH = SpriteCache.load("/septima/tiles/return-arch.png",48,48);
     private static final int[][] COLUMNS={{16,20},{33,20},{16,36},{33,36},{21,42},{28,45},{26,15}};
     private final GamePanel gp;
-    private int tick;
+    private int tick, cameraY;
     private boolean warned;
 
     FinalArena(GamePanel gp) { this.gp = gp; }
@@ -119,11 +120,57 @@ public final class FinalArena {
     }
 
     int combatCameraY() {
-        int follow=gp.player.worldY-gp.player.screenY;
-        return Math.max(gp.player.worldY-440,Math.min(follow,BOSS_Y-181));
+        return cameraY;
     }
 
-    void update() { tick = (tick+1)%3840; }
+    int targetCameraY() {
+        var boss = boss();
+        int focus = boss==null ? gp.player.worldY : boss.cameraFocusY();
+        int playerY=gp.player.worldY+24;
+        int framing=playerY>focus+220?285:245;
+        int y=(playerY+focus)/2-framing;
+        return Math.max(gp.player.worldY-448,Math.min(gp.player.worldY-36,y));
+    }
+
+    void beginCombatCamera() { cameraY = targetCameraY(); }
+
+    void advanceIntroPlayer() {
+        var player=gp.player;
+        int next=Math.max(INTRO_Y,player.worldY-4);
+        if (next>=player.worldY || !clear(Temple.bounds(player,player.worldX,next))) return;
+        player.worldY=next;
+        player.spriteNum=(next/24)%2+1;
+    }
+
+    public boolean pushPlayer(Rectangle body,int dx,int dy) {
+        var player=gp.player;
+        if (!body.intersects(Temple.bounds(player,player.worldX,player.worldY))) return true;
+        int sx=Integer.compare(dx,0), sy=Integer.compare(dy,0);
+        if (sx==0 && sy==0) sy=1;
+        for (int[] direction : new int[][]{{sx,sy},{-sy,sx},{sy,-sx}}) {
+            for (int n=1;n<=12;n++) {
+                int x=player.worldX+direction[0]*n,y=player.worldY+direction[1]*n;
+                var next=Temple.bounds(player,x,y);
+                if (!clear(next)) break;
+                Entity summon=gp.monster[MAP][SUMMON_SLOT];
+                if (summon!=null && next.intersects(Temple.bounds(summon,summon.worldX,summon.worldY))) break;
+                if (!next.intersects(body)) {
+                    player.worldX=x;
+                    player.worldY=y;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    void update() {
+        tick = (tick+1)%3840;
+        if (gp.bossBattleOn && boss()!=null && !boss().holdsCamera()) {
+            int delta=targetCameraY()-cameraY;
+            cameraY+=Math.max(-5,Math.min(5,delta));
+        }
+    }
 
     void background(Graphics2D g) {
         g.drawImage(FAR,0,0,null);
@@ -136,6 +183,8 @@ public final class FinalArena {
         g.drawImage(RUBBLE,16*48-gp.cameraX(),36*48-gp.cameraY(),null);
         g.drawImage(RUBBLE,33*48-gp.cameraX(),36*48-gp.cameraY(),null);
         g.drawImage(SILT,26*48-gp.cameraX(),14*48-gp.cameraY(),null);
+        g.drawImage(NORTH_ARCH,26*48-gp.cameraX(),11*48-gp.cameraY(),null);
+        g.drawImage(NORTH_ARCH,24*48-gp.cameraX(),37*48-gp.cameraY(),null);
         if (boss()!=null) boss().drawFloor(g);
     }
 

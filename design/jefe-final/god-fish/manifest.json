@@ -531,6 +531,144 @@
         "up"
       ],
       "file": "assets/boss/4-sweep.png"
+    },
+    "boss/nado-1": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-1.png"
+    },
+    "boss/nado-2": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-2.png"
+    },
+    "boss/nado-3": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-3.png"
+    },
+    "boss/nado-4": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-4.png"
+    },
+    "boss/nado-5": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-5.png"
+    },
+    "boss/nado-6": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "reach-a",
+        "push-a",
+        "reach-b",
+        "push-b"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/nado-6.png"
     }
   }
 }

@@ -69,3 +69,5 @@ El mercado está completado en el mapa 10, con compra y venta CRT y migración d
 Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Segunda etapa visual: God Fish y los recursos del combate de seis fases preparados. Ambos paquetes forman parte de la arena final. [Arte de God Fish](design/jefe-final/god-fish/ARTE-GOD-FISH.md). [Arte de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
 
 La fosa, la introducción y las seis fases de God Fish están completadas. Pasaron las pruebas de recorrido, reintento, migración y créditos. El usuario autorizó publicar la entrega el 6 de noviembre de 2026. [Guía del encuentro final](GOD-FISH.md)
+
+La revisión posterior de God Fish está completada y aprobada. Incluye movilidad entre ataques, retorno anunciado al centro, nuevos objetivos por fase y una apertura del ojo que puede repetirse. [Guía de la revisión](GOD-FISH.md)

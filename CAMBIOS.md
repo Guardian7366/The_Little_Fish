@@ -1,5 +1,12 @@
 # Historial de cambios
 
+## God Fish · revisión aprobada del combate, 6 de noviembre de 2026
+
+- God Fish nada, persigue y flanquea entre ataques. Los puños avanzan con una trayectoria anunciada y la fase siguiente empieza tras un retorno visible al centro.
+- La introducción incluye desplazamiento físico del pez y los accesos de la arena tienen continuidad de suelo, bordes y arcos. Se mantienen la llave, los créditos y el reintento desde el mercado.
+- Se completaron los objetivos revisados de las seis fases, incluidos cuatro esbirros y una onda que puede repetirse conservando el daño al ojo. Pasaron las 34 suites, el recorrido del mercado a los créditos con el JAR de prueba y los dos guardados de la versión anterior del jefe. El usuario aprobó la revisión y su publicación. [Guía y balance](GOD-FISH.md)
+
+
 ## Fosa y God Fish — 6 de noviembre de 2026, entrega autorizada
 
 - Nueva arena en el mapa 6, con retorno previo al mercado, introducción hablada y cámara independiente del jugador.

@@ -295,7 +295,7 @@ public final class SaveLoad {
         require(s.maxLife > 0 && s.life >= 0 && s.life <= s.maxLife &&
             s.maxWater >= 0 && s.water >= 0 && s.water <= s.maxWater, "Invalid life or water");
         require(s.exp >= 0 && s.nextLevelExp > 0 && s.coin >= 0, "Invalid progression");
-        require(s.arenaRevision==0 || s.arenaRevision==FinalArena.REVISION, "Unsupported final arena layout");
+        require(s.arenaRevision>=0 && s.arenaRevision<=FinalArena.REVISION, "Unsupported final arena layout");
         require(!s.bossBattleOn || (s.arenaRevision==0 && s.map==FinalArena.MAP && !s.godFishDefeated),
             "Invalid active boss checkpoint");
         Player player = new Player(gp, gp.keyH);
@@ -534,6 +534,11 @@ public final class SaveLoad {
                 }
             }
         } else {
+            if (s.arenaRevision==1 && arenaMonsters[FinalArena.BOSS_SLOT] instanceof MON_GodFish boss
+                    && boss.worldX==24*48+24 && boss.worldY==31*48+24) {
+                boss.worldX=FinalArena.BOSS_X;
+                boss.worldY=FinalArena.BOSS_Y;
+            }
             require(arenaMonsters[FinalArena.SUMMON_SLOT]==null && arenaObjects[FinalArena.SEAL_SLOT]==null,
                 "Transient arena actors cannot be saved");
             Entity boss=arenaMonsters[FinalArena.BOSS_SLOT];

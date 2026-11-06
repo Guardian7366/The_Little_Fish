@@ -76,7 +76,7 @@ public class CutsceneManager {
         gp.player.attacking = gp.player.guarding = false;
         gp.player.projectile.alive = false;
         introStartY = gp.player.worldY-gp.player.screenY;
-        introTargetY = FinalArena.BOSS_Y-181;
+        introTargetY = FinalArena.BOSS_Y-174;
         shortIntro = seenIntro;
         introTick = 0;
         sceneNum = GodFish;
@@ -87,8 +87,8 @@ public class CutsceneManager {
 
     int finalCameraY() {
         if (scenePhase==0) return introStartY;
-        if (scenePhase==1) return smooth(introStartY,introTargetY,introTick/(shortIntro?27f:60f));
-        if (scenePhase==4) return smooth(introTargetY,gp.finalArena.combatCameraY(),(introTick-18)/42f);
+        if (scenePhase==1) return smooth(introStartY,introTargetY,introTick/(shortIntro?42f:60f));
+        if (scenePhase==4) return smooth(introTargetY,gp.finalArena.targetCameraY(),(introTick-18)/42f);
         return introTargetY;
     }
 
@@ -113,7 +113,8 @@ public class CutsceneManager {
                 if (++introTick >= (shortIntro ? 8 : 18)) advanceIntro();
             }
             case 1 -> {
-                if (++introTick >= (shortIntro ? 27 : 60)) advanceIntro();
+                gp.finalArena.advanceIntroPlayer();
+                if (++introTick >= (shortIntro ? 42 : 60)) advanceIntro();
             }
             case 2 -> {
                 if (++introTick >= (shortIntro ? 14 : 28)) {
@@ -132,6 +133,7 @@ public class CutsceneManager {
                     reset();
                     gp.gameState = gp.playState;
                     gp.bossBattleOn = true;
+                    gp.finalArena.beginCombatCamera();
                     boss.beginFight();
                     gp.stopMusic();
                     gp.playMusic(23);

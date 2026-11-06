@@ -52,7 +52,7 @@ La nueva cuarta conecta la tercera con la antigua cuarta, ahora quinta en el rec
 
 ## Siguiente paso
 
-La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados y autorizados para publicación. El recorrido principal ya llega del arrecife a los créditos. El alcance de la próxima entrega queda por acordar.
+La quinta, la sexta, la séptima y la octava zona están completadas y aprobadas. Los tres primeros refugios del mapa 5 también están completados y aprobados. Pump, Hongui y Ghost también están completados y aprobados. Handy e Ic completan los ocho refugios aprobados del mapa 5. El mercado de TV también está completado y aprobado. La fosa y el encuentro final de God Fish están completados, incluida la revisión de movilidad, ritmo y objetivos aprobada por el usuario. El recorrido principal ya llega del arrecife a los créditos. El alcance de la próxima entrega queda por acordar.
 
 
 ## Paquete visual para Codex — 2026-11-01
@@ -106,3 +106,7 @@ Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis pa
 ## God Fish y la fosa
 
 Sobre `8ab5965`, el mapa 6 incorpora la fosa, la introducción con cámara independiente y las seis fases de God Fish. Se mantienen el regreso previo al mercado, la llave y los créditos. La migración adapta posiciones, reinicia los combates legados y conserva las victorias con su botín. Pasaron las 34 suites, el recorrido automatizado del mercado a los créditos y seis guardados generados con las fuentes de la versión anterior. El usuario autorizó publicar esta entrega el 6 de noviembre de 2026. [Guía de juego y balance](GOD-FISH.md)
+
+### Revisión aprobada del combate
+
+Sobre `e1d17bb`, se integraron los seis atlas de nado, la movilidad protegida, el retorno anunciado, la introducción con movimiento y los objetivos revisados de las seis fases. La revisión de arena conserva el regreso al mercado y las victorias con llave pendiente. Pasaron las 34 suites y el recorrido automatizado con el JAR empaquetado. El usuario aprobó la revisión y autorizó su publicación el 6 de noviembre de 2026. [Guía y balance](GOD-FISH.md)
