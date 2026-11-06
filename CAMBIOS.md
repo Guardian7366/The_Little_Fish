@@ -204,3 +204,8 @@ Añadidos 32 PNG de TV, mercado, consumibles y paneles CRT, junto con cuatro vis
 ## 2026-11-05 · Arte de la fosa abismal
 
 Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres capas de fondo. Se incluyen tres vistas, inventario e indicaciones para integración. Verificados datos PNG, dimensiones y transparencia.
+
+## 2026-11-05 · Arte de God Fish
+
+- Titán calamar con ojo verde, tridente, escudo con emblema y desarme animado. Incluye poses para seis fases, telegráficos, invocación, proyectiles, mecanismos de arena y derrota.
+- Manifiesto de atlas con cuadrícula y anclas, vistas de los recursos y guía de integración.

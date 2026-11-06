@@ -1,0 +1,536 @@
+{
+  "version": 1,
+  "pixelScale": 3,
+  "sheets": {
+    "boss/fase-1": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-1.png"
+    },
+    "boss/fase-2": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-2.png"
+    },
+    "boss/fase-3": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-3.png"
+    },
+    "boss/fase-4": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-4.png"
+    },
+    "boss/fase-5": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-5.png"
+    },
+    "boss/fase-6": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "idle-a",
+        "idle-b",
+        "exposed",
+        "hit"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/fase-6.png"
+    },
+    "boss/1-sweep": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/1-sweep.png"
+    },
+    "boss/2-volley": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/2-volley.png"
+    },
+    "boss/3-charge": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/3-charge.png"
+    },
+    "boss/4-cast": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/4-cast.png"
+    },
+    "boss/5-fist-l": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/5-fist-l.png"
+    },
+    "boss/5-fist-r": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/5-fist-r.png"
+    },
+    "boss/6-fist-l": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/6-fist-l.png"
+    },
+    "boss/6-fist-r": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/6-fist-r.png"
+    },
+    "boss/6-slam": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/6-slam.png"
+    },
+    "boss/3-tridente-clavado": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "lodged",
+        "retrieve"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/3-tridente-clavado.png"
+    },
+    "boss/4-desarme": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "release",
+        "unarmed"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/4-desarme.png"
+    },
+    "boss/6-final": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "exhaust",
+        "weak-windup",
+        "weak-impact",
+        "defeat"
+      ],
+      "rows": [
+        "front"
+      ],
+      "file": "assets/boss/6-final.png"
+    },
+    "fx/aura": {
+      "cell": [
+        160,
+        144
+      ],
+      "anchor": [
+        80,
+        72
+      ],
+      "columns": [
+        "pulse-a",
+        "pulse-b",
+        "crack",
+        "break",
+        "fade"
+      ],
+      "rows": [
+        "teal",
+        "blue",
+        "purple",
+        "rose",
+        "red",
+        "amber"
+      ],
+      "file": "assets/fx/aura.png"
+    },
+    "fx/marcas": {
+      "cell": [
+        32,
+        32
+      ],
+      "anchor": [
+        16,
+        16
+      ],
+      "columns": [
+        "charge",
+        "spark",
+        "fade"
+      ],
+      "rows": [
+        "summon",
+        "summon-hatch",
+        "tether",
+        "sweep",
+        "iron",
+        "stone",
+        "fist",
+        "slam",
+        "safe",
+        "despawn",
+        "phase",
+        "trident-dust"
+      ],
+      "file": "assets/fx/marcas.png"
+    },
+    "fx/proyectil": {
+      "cell": [
+        32,
+        32
+      ],
+      "anchor": [
+        16,
+        16
+      ],
+      "columns": [
+        "charge",
+        "flight-a",
+        "flight-b",
+        "impact",
+        "fade"
+      ],
+      "rows": [
+        "volley",
+        "water-core",
+        "ground-wave"
+      ],
+      "file": "assets/fx/proyectil.png"
+    },
+    "escena/mecanismos": {
+      "cell": [
+        32,
+        32
+      ],
+      "anchor": [
+        16,
+        24
+      ],
+      "columns": [
+        "intact",
+        "active",
+        "broken"
+      ],
+      "rows": [
+        "stone-anchor",
+        "iron-grille",
+        "water-core",
+        "refill-vent",
+        "altar",
+        "summon-seal",
+        "hand-seal",
+        "safe-refuge"
+      ],
+      "file": "assets/escena/mecanismos.png"
+    },
+    "escena/armas": {
+      "cell": [
+        80,
+        80
+      ],
+      "anchor": [
+        40,
+        40
+      ],
+      "columns": [
+        "clavado",
+        "tridente-suelto",
+        "escudo-suelto"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/escena/armas.png"
+    },
+    "boss/4-sweep": {
+      "cell": [
+        144,
+        128
+      ],
+      "anchor": [
+        72,
+        63
+      ],
+      "columns": [
+        "windup",
+        "impact",
+        "hold",
+        "recover"
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "file": "assets/boss/4-sweep.png"
+    }
+  }
+}

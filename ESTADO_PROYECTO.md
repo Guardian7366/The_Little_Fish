@@ -98,3 +98,7 @@ El usuario probó el mercado y a TV, confirmó que funcionan correctamente y aut
 ## Arte de la fosa final
 
 Base revisada c022bb7, mercado aprobado. El usuario aprobó seis fases para God Fish y pidió preparar primero los tiles y fondo. Se prepararon 19 PNG nativos y tres vistas. Formato y transparencia verificados. Quedan las siguientes etapas de arte y la integración jugable. [Paquete de la fosa](design/jefe-final/fosa/ARTE-FOSA.md).
+
+## Arte de combate de God Fish
+
+Paquete visual del titán calamar sobre la base de la fosa de `ae8dd70`. Seis paletas, 24 atlas PNG con 291 celdas y tres vistas. Incluye armas, ataques, proyectiles, efectos y mecanismos. Pendiente la integración jugable de la arena y el combate. [Guía y atlas](design/jefe-final/god-fish/ARTE-GOD-FISH.md).
