@@ -110,3 +110,7 @@ Sobre `8ab5965`, el mapa 6 incorpora la fosa, la introducción con cámara indep
 ### Revisión aprobada del combate
 
 Sobre `e1d17bb`, se integraron los seis atlas de nado, la movilidad protegida, el retorno anunciado, la introducción con movimiento y los objetivos revisados de las seis fases. La revisión de arena conserva el regreso al mercado y las victorias con llave pendiente. Pasaron las 34 suites y el recorrido automatizado con el JAR empaquetado. El usuario aprobó la revisión y autorizó su publicación el 6 de noviembre de 2026. [Guía y balance](GOD-FISH.md)
+
+### Esbirros de la fase 4 y contacto del manto
+
+Sobre `d75386b`, la entrega aprobada incorpora Aguijón y Baluarte exclusivamente como las cuatro invocaciones de God Fish. Los sellos conservan un solo esbirro activo y un vínculo por derrota confirmada. Pasaron las 34 suites y se repitió el recorrido del mercado a los créditos con el JAR empaquetado. Se comprobaron el bloqueo de aparición, el reintento, la correspondencia de los avisos con el daño y la apertura tras el cuarto vínculo. El centro del manto inflige 1 HP mientras el jefe está protegido. Se comprobó el contacto entre ataques, la ausencia de daño y empuje durante la vulnerabilidad y el desplazamiento lateral seguro junto a una pared. El usuario aprobó esta entrega y autorizó su publicación. [Guía del encuentro](GOD-FISH.md)

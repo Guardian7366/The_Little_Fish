@@ -124,8 +124,8 @@ public class CollisionChecker {
         while (i < target[1].length) {
             block19: {
                 if (!gp.extraRooms.visible(target[gp.currentMap][i],room)) break block19;
-                if (target[gp.currentMap][i] instanceof monster.MON_GodFish boss
-                        && (entity!=gp.player || entity.attacking || !boss.protectedBody())) break block19;
+                // God Fish resolves player contact against its own mantle zone.
+                if (target[gp.currentMap][i] instanceof monster.MON_GodFish) break block19;
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
                 target[this.gp.currentMap][i].solidArea.x = target[this.gp.currentMap][i].worldX + target[this.gp.currentMap][i].solidArea.x;

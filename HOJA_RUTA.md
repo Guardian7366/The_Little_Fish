@@ -71,3 +71,5 @@ Primera etapa visual: fosa abismal, suelo, bordes y capas de fondo. Segunda etap
 La fosa, la introducción y las seis fases de God Fish están completadas. Pasaron las pruebas de recorrido, reintento, migración y créditos. El usuario autorizó publicar la entrega el 6 de noviembre de 2026. [Guía del encuentro final](GOD-FISH.md)
 
 La revisión posterior de God Fish está completada y aprobada. Incluye movilidad entre ataques, retorno anunciado al centro, nuevos objetivos por fase y una apertura del ojo que puede repetirse. [Guía de la revisión](GOD-FISH.md)
+
+El encuentro final incorpora los esbirros Aguijón y Baluarte y el daño de contacto en el centro del manto protegido. El usuario aprobó la entrega y autorizó su publicación. [Guía del jefe final](GOD-FISH.md)

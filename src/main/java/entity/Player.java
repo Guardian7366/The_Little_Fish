@@ -375,7 +375,8 @@ extends Entity {
             (gp.monster[gp.currentMap][i] instanceof monster.MON_Flower ||
              gp.monster[gp.currentMap][i] instanceof monster.MON_Secret)) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Tella tella && tella.usesPulse()) return;
-        if (i!=999 && gp.monster[gp.currentMap][i] instanceof monster.MON_GodFish) return;
+        if (i!=999 && (gp.monster[gp.currentMap][i] instanceof monster.MON_GodFish
+                || gp.monster[gp.currentMap][i] instanceof monster.FinalSummon)) return;
         if (i != 999 && this.gp.monster[this.gp.currentMap][i] instanceof monster.MON_Sharky shark) {
             if (!shark.dying && shark.alive) shark.damagePlayer(shark.attack);
             return;
@@ -396,6 +397,10 @@ extends Entity {
         if (i!=999 && gp.currentMap==main.FinalArena.MAP && i==main.FinalArena.BOSS_SLOT) return;
         if (i != 999 && !this.gp.monster[this.gp.currentMap][i].invincible &&
             this.gp.monster[this.gp.currentMap][i].alive && !this.gp.monster[this.gp.currentMap][i].dying) {
+            if (gp.monster[gp.currentMap][i] instanceof monster.FinalSummon summon) {
+                if (summon.blocks(attacker)) return;
+                knockBackPower=0;
+            }
             int damage;
             this.gp.playSE(10);
             if (knockBackPower > 0) {

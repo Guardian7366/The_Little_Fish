@@ -44,7 +44,10 @@ public final class GodFishArt {
         Map.entry("boss/nado-3", new Atlas("boss/nado-3", 144, 128, 72, 63, 4, 4)),
         Map.entry("boss/nado-4", new Atlas("boss/nado-4", 144, 128, 72, 63, 4, 4)),
         Map.entry("boss/nado-5", new Atlas("boss/nado-5", 144, 128, 72, 63, 4, 4)),
-        Map.entry("boss/nado-6", new Atlas("boss/nado-6", 144, 128, 72, 63, 4, 4))
+        Map.entry("boss/nado-6", new Atlas("boss/nado-6", 144, 128, 72, 63, 4, 4)),
+        Map.entry("esbirros/aguijon", new Atlas("esbirros/aguijon",32,32,16,16,8,4)),
+        Map.entry("esbirros/baluarte", new Atlas("esbirros/baluarte",32,32,16,16,8,4)),
+        Map.entry("esbirros/efectos", new Atlas("esbirros/efectos",16,16,8,8,5,2))
     );
     private static final BufferedImage[] VOLLEY = nativeVolley();
     private static final BufferedImage EYE = ATLASES.get("boss/fase-1").cells[0][0].getSubimage(63*3, 52*3, 19*3, 17*3);

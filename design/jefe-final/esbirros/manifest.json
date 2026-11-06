@@ -1,0 +1,81 @@
+{
+  "pixelScale": 3,
+  "sheets": {
+    "aguijon": {
+      "file": "assets/aguijon.png",
+      "cell": [
+        32,
+        32
+      ],
+      "anchor": [
+        16,
+        16
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "columns": [
+        "idle",
+        "step-a",
+        "step-b",
+        "windup",
+        "impact",
+        "recover-a",
+        "recover-b",
+        "defeat"
+      ]
+    },
+    "baluarte": {
+      "file": "assets/baluarte.png",
+      "cell": [
+        32,
+        32
+      ],
+      "anchor": [
+        16,
+        16
+      ],
+      "rows": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "columns": [
+        "idle",
+        "step-a",
+        "step-b",
+        "windup",
+        "impact",
+        "recover-a",
+        "recover-b",
+        "defeat"
+      ]
+    },
+    "efectos": {
+      "file": "assets/efectos.png",
+      "cell": [
+        16,
+        16
+      ],
+      "anchor": [
+        8,
+        8
+      ],
+      "rows": [
+        "spike",
+        "shield"
+      ],
+      "columns": [
+        "warn-a",
+        "warn-b",
+        "impact-a",
+        "impact-b",
+        "fade"
+      ]
+    }
+  }
+}

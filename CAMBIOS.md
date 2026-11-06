@@ -1,5 +1,15 @@
 # Historial de cambios
 
+## God Fish · contacto del manto, ajuste aprobado
+
+- El centro del manto inflige 1 HP mientras el jefe está protegido y aplica un empujón corto si hay una salida libre. El usuario aprobó el ajuste. Pasaron las 34 suites y se repitió el recorrido del mercado a los créditos con el JAR empaquetado.
+
+## God Fish · esbirros de la fase 4, entrega aprobada
+
+- Aguijón, Baluarte, Aguijón y Baluarte sustituyen las cuatro invocaciones. Se reutilizan los sellos y la defensa se abre tras la cuarta derrota confirmada.
+- Aguijón anuncia tres puntas y queda expuesto al recuperar el tridente. Baluarte bloquea de frente y planta el escudo tras su golpe corto. [Guía del encuentro](GOD-FISH.md)
+
+
 ## God Fish · revisión aprobada del combate, 6 de noviembre de 2026
 
 - God Fish nada, persigue y flanquea entre ataques. Los puños avanzan con una trayectoria anunciada y la fase siguiente empieza tras un retorno visible al centro.

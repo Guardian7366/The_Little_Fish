@@ -14,8 +14,8 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.function.BooleanSupplier;
 import monster.MON_GodFish;
-import monster.MON_Picaron;
-import monster.MON_Tella;
+import monster.FinalSummon;
+import monster.FinalSummon.Kind;
 import object.OBJ_Key;
 
 import static java.awt.event.KeyEvent.*;
@@ -27,7 +27,7 @@ public final class FinalArenaRegression {
         @Override public void playMusic(int id) { lastMusic=id; if (id==23) music23++; }
     }
 
-    private static final Path OUT=Path.of("build/final-revision-preview");
+    private static final Path OUT=Path.of("build/esbirros-preview");
     private static final Quiet gp=new Quiet();
     private static final Field PLAN=field("plan"), STEP=field("step"), FLAGS=field("flags");
 
@@ -197,9 +197,11 @@ public final class FinalArenaRegression {
         phaseSix();
         finish();
         cornersAndBody();
-        summonPulses();
+        mantleContact();
+        summonAttacks();
+        blockedSpawnAndRetry();
         gp.stopGame();
-        System.out.println("FINAL_ARENA PASS: movement from market to credits, retry, moving intro, six revised phases, four summons, two waves, four corners and one reward");
+        System.out.println("FINAL_ARENA PASS: movement from market to credits, retry, moving intro, six revised phases, Aguijon and Baluarte in order, four links, two waves, four corners and one reward");
     }
 
     private static void retry() throws Exception {
@@ -399,14 +401,12 @@ public final class FinalArenaRegression {
         finishSegment(3);
     }
 
-    private static void defeatSummon(Class<?> expected) throws Exception {
+    private static void defeatSummon(Kind expected) throws Exception {
         until(() -> gp.monster[MAP][SUMMON_SLOT]!=null,450,"summon appears after visible seal");
         Entity enemy=gp.monster[MAP][SUMMON_SLOT];
-        check(expected.isInstance(enemy),"summon order");
-        if (enemy instanceof MON_Tella tella) {
-            int start=tella.worldX;
-            until(() -> tella.worldX!=start,80,"Fishtella swims clear of its seal");
-        }
+        check(enemy instanceof FinalSummon minion && minion.kind()==expected,"summon order");
+        int before=flags();
+        check(gp.finalArena.clear(Temple.bounds(enemy,enemy.worldX,enemy.worldY)),"summon starts on clear floor");
         for (int attempt=0;attempt<700 && !enemy.dying;attempt++) {
             heal();
             if (gp.player.knockBack) { tick(4); continue; }
@@ -422,7 +422,10 @@ public final class FinalArenaRegression {
             }
         }
         check(enemy.dying,"live melee defeats " + enemy.name);
+        check(flags()==before,"death pose still owns its seal");
         until(() -> gp.monster[MAP][SUMMON_SLOT]==null,70,"summoned enemy removed");
+        boss().summonDefeated(enemy);
+        check(flags()==before+1,"removed summon cannot count twice");
     }
 
     private record Search(int x,int y,int first) {}
@@ -466,8 +469,8 @@ public final class FinalArenaRegression {
 
     private static void phaseFour() throws Exception {
         for (int i=0;i<4;i++) {
-            defeatSummon(i%2==0?MON_Picaron.class:MON_Tella.class);
-            check(flags()==i+1,"real defeat removes exactly one link");
+            defeatSummon(i%2==0?Kind.AGUIJON:Kind.BALUARTE);
+            check(flags()==i+1 && boss().exposed()==(i==3),"only the fourth confirmed defeat opens the defense");
         }
         check(boss().exposed(),"four summons open phase");
         finishSegment(4);
@@ -674,27 +677,180 @@ public final class FinalArenaRegression {
             gp.player.projectile.speed=6;
         }
     }
-    private static void summonPulses() throws Exception {
-        for (int index:new int[]{1,3}) {
-            arenaAt(index==1?21:28,index==1?26:36);
-            gp.bossBattleOn=true;
-            boss().beginFight();
-            setBoss("phase",4);
-            boss().life=320;
-            setBoss("flags",index);
-            setBoss("summon",index);
-            setBoss("rest",0);
-            until(() -> gp.monster[MAP][SUMMON_SLOT] instanceof MON_Tella,95,"the marked seal summons Fishtella");
-            var tella=(MON_Tella)gp.monster[MAP][SUMMON_SLOT];
-            int start=tella.worldX;
-            until(() -> tella.worldX!=start,24,"the Fishtella has floor to patrol");
-            until(() -> tella.phase()==MON_Tella.Phase.WARNING,95,"Fishtella detects the player in its own sector");
-            var bands=tella.bands();
-            check(!bands.isEmpty(),"each Fishtella has warned pulse bands");
-            capture("04-fishtella-"+(index/2+1));
-            until(() -> tella.phase()==MON_Tella.Phase.PULSE,85,"Fishtella fires from its warning");
-            check(tella.bands().equals(bands),"pulse matches its warning");
-            for (Rectangle band:bands) check(gp.finalArena.clear(band),"pulse stays on arena floor");
+    private static void mantleContact() throws Exception {
+        arenaAt(22,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        // The test moves the stationary boss away from its spawn before approaching with D.
+        boss().worldX+=48;
+        walk(boss().worldX-24-44,true);
+        check(gp.player.life==30 && plan("move")==null,"the outer mantle is harmless between attacks");
+        int before=gp.player.worldX;
+        while (gp.player.life==30 && gp.player.worldX<boss().worldX-24) {
+            before=gp.player.worldX;
+            tap(VK_D);
+            check(plan("move")==null,"central contact is independent of attack plans");
+            if (gp.player.life==30) check(gp.player.worldX>before,"can swim into the mantle center");
         }
+        check(gp.player.life==29 && gp.player.invincible && gp.player.worldX<before+4,
+            "central contact costs one HP and pushes outward");
+        gp.player.worldX=boss().worldX-24;
+        tick(12);
+        check(gp.player.life==29,"normal damage invulnerability suppresses repeated contact");
+
+        arenaAt(22,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        field("exposed").setBoolean(boss(),true);
+        walk(boss().worldX-24,true);
+        int x=gp.player.worldX,y=gp.player.worldY;
+        tick(8);
+        check(gp.player.life==30 && gp.player.worldX==x && gp.player.worldY==y,
+            "overlap while exposed applies neither damage nor push");
+
+        arenaAt(16,28);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        gp.player.worldX=16*48-gp.player.solidArea.x;
+        boss().worldX=px()+25;
+        boss().worldY=py()+26;
+        x=gp.player.worldX;
+        y=gp.player.worldY;
+        check(!gp.finalArena.clear(Temple.bounds(gp.player,x-1,y-1)),"wall blocks direct outward push");
+        tick(1);
+        check(gp.player.life==29 && gp.player.worldX>x && gp.player.worldY<y
+            && gp.finalArena.clear(Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY)),
+            "contact beside a wall uses a clear lateral exit");
+        System.out.println("GOD_FISH_CONTACT PASS: central overlap between attacks, invulnerability, exposed overlap and wall fallback");
+    }
+
+    private static Object member(Object object,String name) {
+        try {
+            var field=object.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            return field.get(object);
+        } catch (ReflectiveOperationException error) { throw new AssertionError(error); }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static java.util.List<Rectangle> zones(FinalSummon minion) {
+        return (java.util.List<Rectangle>)member(member(minion,"strike"),"zones");
+    }
+
+    private static boolean state(FinalSummon minion,String name) {
+        return name.equals(String.valueOf(member(minion,"state")));
+    }
+
+    private static FinalSummon attackFixture(Kind kind) {
+        arenaAt(20,27);
+        gp.player.strength=8;
+        gp.player.getAttack();
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        setBoss("phase",4);
+        setBoss("rest",10000);
+        setBoss("summon",1);
+        FinalSummon minion=new FinalSummon(gp,kind);
+        Temple.place(minion,19,27);
+        gp.monster[MAP][SUMMON_SLOT]=minion;
+        check(minion.maxLife==(kind==Kind.AGUIJON?45:55) && minion.attack==(kind==Kind.AGUIJON?7:9),
+            "manifest balance");
+        until(() -> state(minion,"WARN"),100,"summon warns before attack");
+        return minion;
+    }
+
+    private static void summonAttacks() throws Exception {
+        for (int target=-1;target<3;target++) {
+            var spike=attackFixture(Kind.AGUIJON);
+            var warned=zones(spike).stream().map(Rectangle::new).toList();
+            check(warned.size()==3 && warned.stream().distinct().count()==3,"three separate spike warnings");
+            int x=spike.worldX,y=spike.worldY,hp=gp.player.life;
+            var stand=warned.get(Math.max(0,target));
+            if (target<0) walk(gp.player.worldY+48,false);
+            walk((int)stand.getCenterX()-24,true);
+            check(gp.player.life==hp,"warning never hits");
+            if (target==1) capture("esbirro-aguijon-aviso");
+            until(() -> state(spike,"IMPACT"),40,"spikes begin");
+            while (state(spike,"IMPACT") && gp.player.life==hp) {
+                check(spike.worldX==x && spike.worldY==y && warned.equals(zones(spike)),"committed spike centers stay fixed");
+                tick(1);
+            }
+            if (target<0) check(gp.player.life==hp,"outside spike zones stays safe");
+            else {
+                check(gp.player.life==hp-(7-gp.player.defense)
+                    && (int)member(spike,"tick")/11==target,"only the scheduled spike at the warned center hits");
+                if (target==1) capture("esbirro-aguijon-impacto");
+            }
+            until(() -> state(spike,"RECOVER"),40,"Aguijon recovers");
+            check(spike.defense==0 && spike.worldX==x && spike.worldY==y,"trident recovery exposes a stationary Aguijon");
+        }
+
+        var shield=attackFixture(Kind.BALUARTE);
+        var warned=zones(shield).stream().map(Rectangle::new).toList();
+        check(warned.size()==1 && gp.finalArena.clear(warned.get(0)),"shield warns its committed arc");
+        int hp=shield.life;
+        face(VK_A);
+        gp.player.shotAvailableCounter=50;
+        tap(VK_F);
+        until(() -> !gp.player.projectile.alive,20,"front bubble collides with shield");
+        check(shield.life==hp,"raised shield blocks front bubble");
+        strike();
+        check(shield.life==hp,"raised shield blocks front melee");
+        final var firstShield=shield;
+        until(() -> state(firstShield,"RECOVER"),55,"Baluarte plants shield");
+        check(warned.equals(zones(shield)) && shield.defense==2,"recovery lowers the shield");
+        capture("esbirro-baluarte-recuperacion");
+        check(route(shield.getCenterX()+40,shield.getCenterY(),70),"reach planted shield from the front");
+        face(VK_A);
+        strike();
+        check(shield.life<hp,"front melee damages Baluarte during recovery");
+
+        shield=attackFixture(Kind.BALUARTE);
+        int playerHp=gp.player.life;
+        var arc=zones(shield).get(0);
+        check(arc.intersects(Temple.bounds(gp.player,gp.player.worldX,gp.player.worldY)),"player stands in warned arc");
+        final var striking=shield;
+        until(() -> state(striking,"IMPACT"),40,"shield strike resolves");
+        check(gp.player.life==playerHp-(9-gp.player.defense) && zones(shield).get(0).equals(arc),
+            "shield damage matches its warning");
+        capture("esbirro-baluarte-impacto");
+
+        final var evaded=attackFixture(Kind.BALUARTE);
+        playerHp=gp.player.life;
+        walk(gp.player.worldY+48,false);
+        until(() -> state(evaded,"RECOVER"),50,"shield strike finishes after sidestep");
+        check(gp.player.life==playerHp,"outside the shield warning stays safe");
+    }
+
+    private static void blockedSpawnAndRetry() throws Exception {
+        arenaAt(24,33);
+        gp.bossBattleOn=true;
+        boss().beginFight();
+        setBoss("phase",4);
+        setBoss("rest",0);
+        int[][] blocked={{20,34},{20,33},{20,35},{18,34},{19,32},{19,36},{21,34},{17,34}};
+        int[] old=new int[blocked.length];
+        for (int i=0;i<blocked.length;i++) {
+            int x=blocked[i][0],y=blocked[i][1];
+            old[i]=gp.tileM.mapTileNum[MAP][x][y];
+            gp.tileM.mapTileNum[MAP][x][y]=194;
+        }
+        try {
+            until(() -> at("SUMMON","RECOVER"),100,"blocked cast recovers");
+            check(gp.monster[MAP][SUMMON_SLOT]==null && flags()==0 && (int)read(field("summon"))==0,
+                "blocked appearance consumes no summon or link");
+        } finally {
+            for (int i=0;i<blocked.length;i++)
+                gp.tileM.mapTileNum[MAP][blocked[i][0]][blocked[i][1]]=old[i];
+        }
+        until(() -> gp.monster[MAP][SUMMON_SLOT] instanceof FinalSummon,190,"the same seal retries on free floor");
+        check(((FinalSummon)gp.monster[MAP][SUMMON_SLOT]).kind()==Kind.AGUIJON && flags()==0,"retry preserves first seal");
+        gp.player.life=0;
+        tick(1);
+        check(gp.gameState==gp.gameOverState && gp.monster[MAP][SUMMON_SLOT]==null,"death clears active summon");
+        tap(VK_S);
+        tap(VK_ENTER);
+        check(gp.currentMap==Market.MAP && gp.monster[MAP][SUMMON_SLOT]==null && boss().phase()==1,
+            "normal retry clears summons and restarts the boss");
     }
 }

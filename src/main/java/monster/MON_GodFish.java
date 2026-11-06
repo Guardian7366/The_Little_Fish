@@ -32,7 +32,6 @@ public final class MON_GodFish extends Entity {
     private static final Point CORE = new Point(FinalArena.BOSS_X,22*48+24), VENT = cell(31,35);
     private static final Point[] ALTARS = {cell(18,23),cell(31,23),cell(29,35)};
     private static final Point[] SEALS = {cell(19,34),cell(19,24),cell(30,24),cell(30,34)};
-    private static final Point[] SPAWNS = {cell(21,34),cell(21,24),cell(28,24),cell(28,34)};
     private static final Point HOME = new Point(FinalArena.BOSS_X,FinalArena.BOSS_Y);
     private static final Rectangle ARENA = new Rectangle(16*48,19*48,18*48,19*48);
     private static final int ANCHOR_HITS=3, FIST_HITS=10, EYE_WINDOW=300;
@@ -131,12 +130,7 @@ public final class MON_GodFish extends Entity {
             rest=24;
         }
         if (bodyReforming && !bodyAt(worldX,worldY).intersects(playerBody())) bodyReforming=false;
-        if (protectedBody() && pushCooldown==0) {
-            Rectangle contact=bodyAt(worldX,worldY);
-            contact.grow(4,4);
-            if (contact.intersects(playerBody())
-                    && gp.finalArena.pushPlayer(contact,playerX()-worldX,playerY()-worldY)) pushCooldown=12;
-        }
+        mantleContact();
         if (plan!=null) tickPlan();
         else if (rest>0) rest--;
         else if (exposed) {
@@ -144,6 +138,20 @@ public final class MON_GodFish extends Entity {
         } else if (shouldApproach() && approach()) {
             approachTicks++;
         } else choosePlan();
+    }
+
+    private void mantleContact() {
+        var player=gp.player;
+        if (!protectedBody() || player.invincible || player.life<=0 || gp.keyH.godModeOn) return;
+        Rectangle core=box(new Point(worldX,worldY),40,40);
+        if (!core.intersects(playerBody())) return;
+
+        player.life--;
+        player.invincible=true;
+        player.invincibleCounter=0;
+        player.transparent=true;
+        gp.playSE(8);
+        if (gp.finalArena.pushPlayer(core,playerX()-worldX,playerY()-worldY)) pushCooldown=12;
     }
 
     public boolean protectedBody() {
@@ -162,7 +170,9 @@ public final class MON_GodFish extends Entity {
     }
 
     public void summonDefeated(Entity enemy) {
-        if (phase!=4 || !protectedBody() || enemy.life>0 || !enemy.dying || summon!=flags+1) return;
+        if (phase!=4 || !protectedBody() || !(enemy instanceof FinalSummon)
+                || gp.monster[FinalArena.MAP][FinalArena.SUMMON_SLOT]!=enemy
+                || enemy.life>0 || !enemy.dying || enemy.alive || summon!=flags+1) return;
         flags++;
         auraTicks=36;
         rest=Math.max(rest,32);
@@ -487,10 +497,13 @@ public final class MON_GodFish extends Entity {
 
     private boolean spawn() {
         if (gp.monster[FinalArena.MAP][FinalArena.SUMMON_SLOT]!=null || summon>=SEALS.length) return false;
-        Point base=SPAWNS[summon];
+        Point seal=SEALS[summon];
+        int inward=summon<2?48:-48;
+        int[][] offsets={{inward,0},{inward,-48},{inward,48},{-inward,0},
+            {0,-96},{0,96},{2*inward,0},{-2*inward,0}};
         Point center=null;
-        for (int dy : new int[]{0,-48,48}) {
-            Point candidate=new Point(base.x,base.y+dy);
+        for (int[] offset:offsets) {
+            Point candidate=new Point(seal.x+offset[0],seal.y+offset[1]);
             Rectangle entry=box(candidate,52,52);
             if (!entry.intersects(playerBody()) && !entry.intersects(bodyAt(worldX,worldY))
                     && gp.finalArena.clear(entry)) {
@@ -499,15 +512,8 @@ public final class MON_GodFish extends Entity {
             }
         }
         if (center==null) return false;
-        Entity enemy;
-        if (summon%2==0) enemy=new MON_Picaron(gp);
-        else {
-            MON_Tella tella=new MON_Tella(gp);
-            Rectangle sector=summon==1 ? new Rectangle(16*48,20*48,10*48,12*48)
-                : new Rectangle(24*48,26*48,10*48,12*48);
-            tella.configureAbyss(center.x-24,sector);
-            enemy=tella;
-        }
+        var kind=summon%2==0 ? FinalSummon.Kind.AGUIJON : FinalSummon.Kind.BALUARTE;
+        Entity enemy=new FinalSummon(gp,kind);
         enemy.worldX=center.x-24;
         enemy.worldY=center.y-24;
         gp.monster[FinalArena.MAP][FinalArena.SUMMON_SLOT]=enemy;
