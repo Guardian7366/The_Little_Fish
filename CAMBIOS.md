@@ -1,5 +1,12 @@
 # Historial de cambios
 
+## Créditos finales y despedida · entrega aprobada
+
+- Las 14 tarjetas sincronizan tomas animadas de los mapas vigentes, letra inglesa y dibujos en un reloj de 120 segundos. El título y la letra usan Purisa. La autoría aparece en el título y los agradecimientos originales se pueden abrir desde la despedida.
+- Integradas las tres versiones de la foto en la arena, el epílogo y la despedida. **Play Again** vuelve al menú con Enter o clic y conserva la partida. El punto de entrada de la pista instrumental queda preparado. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md)
+
+- Pasaron las 36 suites de `build.ps1 -Test` y la prueba con el JAR empaquetado. El usuario aprobó los créditos y la despedida.
+
 ## La última orilla · entrega aprobada
 
 - La salida de la fosa muestra el portal animado y lleva a una playa jugable. El pez puede recorrer la orilla en ambos sentidos. La foto activa una sola vez el diálogo aprobado de D y Echo.

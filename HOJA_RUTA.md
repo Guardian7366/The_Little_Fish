@@ -81,4 +81,4 @@ La integración de las pistas y el desenlace está aprobada. El usuario revisó 
 
 ## Créditos finales
 
-Siguiente entrega jugable: sustituir las fotos, montar las 14 tomas y completar la despedida. El tema instrumental se integrará cuando esté disponible. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
+Las 14 tomas, las fotos y la despedida están integradas y aprobadas para publicación. El tema instrumental se integrará cuando esté disponible. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).

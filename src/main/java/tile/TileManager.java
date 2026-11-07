@@ -146,6 +146,16 @@ public class TileManager {
     /** Parse and validate first; a failed reload leaves the current terrain intact. */
     public void loadMap(String resource, int map) {
         if (map < 0 || map >= mapResources.length) throw new IllegalArgumentException("Invalid map: " + map);
+        mapTileNum[map] = readTerrain(resource);
+        mapResources[map] = resource;
+        mapRevisions[map]++;
+    }
+
+    public int[][] originalTerrain(int map) {
+        return readTerrain(INITIAL_MAPS[map]);
+    }
+
+    private int[][] readTerrain(String resource) {
         List<String> lines = readLines(resource);
         if (lines.size() != gp.maxWorldRow) {
             throw new IllegalArgumentException(resource + ": expected " + gp.maxWorldRow + " rows");
@@ -164,9 +174,7 @@ public class TileManager {
                 terrain[col][row] = number;
             }
         }
-        mapTileNum[map] = terrain;
-        mapResources[map] = resource;
-        mapRevisions[map]++;
+        return terrain;
     }
 
     public void setTerrainCell(int map, int x, int y, int tileId) {

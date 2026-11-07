@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class KeyHandler
 implements KeyListener {
     GamePanel gp;
+    private static final int PLAY_AGAIN_CLICK=-2;
     private record Input(int code, boolean pressed) {}
     private final ConcurrentLinkedQueue<Input> pending = new ConcurrentLinkedQueue<>();
 
@@ -18,9 +19,15 @@ implements KeyListener {
         Input input;
         while ((input = pending.poll()) != null) {
             if (input.code() == -1) clearHeldKeys();
+            else if (input.code()==PLAY_AGAIN_CLICK) gp.csManager.playAgain();
             else if (input.pressed()) handlePressed(input.code());
             else handleReleased(input.code());
         }
+    }
+
+    void clickPlayAgain() {
+        if (gp.gameThread!=null) pending.add(new Input(PLAY_AGAIN_CLICK,true));
+        else gp.csManager.playAgain();
     }
 
     public void releaseAll() {
@@ -67,11 +74,15 @@ implements KeyListener {
 
     private void handlePressed(int code) {
         if (code == KeyEvent.VK_ENTER) {
-            if (enterHeld && (gp.gameState == gp.tradeState || gp.gameState == gp.cutsceneState
+            if (enterHeld && (gp.gameState == gp.tradeState || gp.gameState == gp.cutsceneState || gp.gameState == gp.titleState
                     || (gp.currentMap==FinalArena.MAP && gp.bossBattleOn))) return;
             enterHeld = true;
         }
-        if (gp.csManager.isBeachWalk()) {
+        if (gp.csManager.inCredits()) {
+            if (code==KeyEvent.VK_ENTER) gp.csManager.playAgain();
+            else if (code==KeyEvent.VK_C || code==KeyEvent.VK_ESCAPE)
+                gp.csManager.toggleAcknowledgements(code==KeyEvent.VK_ESCAPE);
+        } else if (gp.csManager.isBeachWalk()) {
             if (code==KeyEvent.VK_A) leftPressed=true;
             if (code==KeyEvent.VK_D) rightPressed=true;
         } else if (this.gp.gameState == this.gp.titleState) {

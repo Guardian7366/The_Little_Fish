@@ -119,6 +119,19 @@ implements Runnable {
         this.setBackground(this.testing);
         this.setDoubleBuffered(true);
         this.addKeyListener(this.keyH);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override public void mousePressed(java.awt.event.MouseEvent event) {
+                if (event.getButton()!=java.awt.event.MouseEvent.BUTTON1) return;
+                synchronized (frameLock) {
+                    if (!csManager.canPlayAgain()) return;
+                    var viewport=letterbox();
+                    if (viewport.width==0 || viewport.height==0 || !viewport.contains(event.getPoint())) return;
+                    int x=(event.getX()-viewport.x)*screenWidht/viewport.width;
+                    int y=(event.getY()-viewport.y)*screenHeight/viewport.height;
+                    if (CreditRoll.PLAY_AGAIN.contains(x,y)) keyH.clickPlayAgain();
+                }
+            }
+        });
         this.setFocusable(true);
         addFocusListener(new FocusAdapter() {
             @Override public void focusLost(FocusEvent event) { keyH.releaseAll(); }
@@ -218,7 +231,7 @@ implements Runnable {
                 if (System.nanoTime() - deadline > frameNanos * 5) deadline = System.nanoTime();
             }
         } finally {
-            csManager.stopSurf();
+            csManager.stopEndingAudio();
             music.close();
             se.close();
         }
@@ -228,7 +241,7 @@ implements Runnable {
         Thread running = gameThread;
         gameThread = null;
         if (running != null) running.interrupt();
-        csManager.stopSurf();
+        csManager.stopEndingAudio();
         music.close();
         se.close();
     }
@@ -445,6 +458,12 @@ implements Runnable {
 
     public void drawToScreen() { repaint(); }
 
+    private java.awt.Rectangle letterbox() {
+        double scale=Math.min(getWidth()/(double)screenWidht,getHeight()/(double)screenHeight);
+        int width=(int)Math.round(screenWidht*scale),height=(int)Math.round(screenHeight*scale);
+        return new java.awt.Rectangle((getWidth()-width)/2,(getHeight()-height)/2,width,height);
+    }
+
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -453,11 +472,10 @@ implements Runnable {
                 Graphics2D screen = (Graphics2D) graphics.create();
                 if (gameState == titleState || csManager.drawsBeach()) {
                     screen.setColor(Color.black); screen.fillRect(0, 0, getWidth(), getHeight());
-                    double scale = Math.min(getWidth() / 960.0, getHeight() / 576.0);
-                    int width = (int)Math.round(960 * scale), height = (int)Math.round(576 * scale);
+                    var viewport=letterbox();
                     screen.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION,
                         java.awt.RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-                    screen.drawImage(tempScreen, (getWidth()-width)/2, (getHeight()-height)/2, width, height, null);
+                    screen.drawImage(tempScreen,viewport.x,viewport.y,viewport.width,viewport.height,null);
                 } else screen.drawImage(tempScreen, 0, 0, getWidth(), getHeight(), null);
                 screen.dispose();
             }

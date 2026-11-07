@@ -602,7 +602,11 @@ public final class FinalArenaRegression {
         key(VK_D,false);
         for (int i=0; i<8; i++) tap(VK_ENTER);
         until(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,2000,"original credits reached");
-        check(gp.lastMusic==24,"credits music");
+        check(gp.lastMusic!=24,"legacy track is not replayed over the new credits");
+        tick(60*120+CreditRoll.REVEAL_TICKS);
+        check(gp.csManager.canPlayAgain(),"credits reach farewell");
+        tap(VK_ENTER);
+        check(gp.gameState==gp.titleState && Progress.GodFishDefeated,"Play Again returns to the menu with victory intact");
         capture("14-creditos");
     }
     private static void setBoss(String field,int value) {

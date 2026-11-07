@@ -132,4 +132,8 @@ El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/bea
 
 ## Créditos finales
 
-El paquete autorizado reúne las exportaciones de la foto, el GIF, la letra inglesa, los 14 dibujos y una maqueta. Pendientes la integración de las tomas con los mapas vigentes y la entrega del tema instrumental. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
+Integración sobre `0b18f2d`. Los créditos reproducen 14 tomas deterministas de los mapas vigentes, con las 71 líneas y los dibujos en el orden y los tiempos del manifiesto. Las tres fotos se usan en la recogida, el epílogo y la despedida. **Play Again** devuelve al menú conservando la partida. El reloj dura 120 segundos y corre en silencio hasta disponer de la pista instrumental. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
+
+Pasaron las 36 suites de `build.ps1 -Test` y la comprobación de los créditos con el JAR empaquetado. Se validaron los 14 cortes, el ajuste de letra en resolución lógica y el escalado panorámico, la independencia de los mapas jugables, el Enter nuevo, el clic y la conservación del archivo de guardado. Se revisaron fotogramas de las 14 tomas en su cronología y se verificó el MP4 continuo a 30 fps. Registros en `build/credits-verification.txt` y `build/credits-packaged.txt`.
+
+El usuario probó los créditos y la despedida, aprobó la entrega y autorizó su publicación. El JAR está en `build/TheLittleFish.jar` y el video en `build/credits-preview/TheLittleFish-creditos.mp4`.

@@ -11,13 +11,19 @@ import org.w3c.dom.Node;
 /** Decode once before the loop; playback never reads files or waits for an image observer. */
 public final class TitleBackground {
     private record Animation(BufferedImage[] frames, int[] delays) { }
-    private static final class Cache { static final Animation VALUE = load(); }
-    private final Animation animation = Cache.VALUE;
+    private static final class Cache { static final Animation VALUE = load("/menu/ocean.gif"); }
+    private static final class Farewell { static final Animation VALUE=load("/credits/fondo.gif"); }
+    private final Animation animation;
     private int index, elapsed;
 
-    private static Animation load() {
+    public TitleBackground() { this(Cache.VALUE); }
+    static TitleBackground farewell() { return new TitleBackground(Farewell.VALUE); }
+    private TitleBackground(Animation animation) { this.animation=animation; }
+    void reset() { index=elapsed=0; }
+
+    private static Animation load(String path) {
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        try (InputStream source = TitleBackground.class.getResourceAsStream("/menu/ocean.gif");
+        try (InputStream source = CreditAssets.open(path);
              ImageInputStream input = ImageIO.createImageInputStream(source)) {
             reader.setInput(input);
             int count = reader.getNumImages(true);
@@ -33,7 +39,7 @@ public final class TitleBackground {
                 if(delays[i]<=0) throw new IllegalStateException("Menu GIF needs explicit frame timing");
             }
             return new Animation(frames,delays);
-        } catch(Exception e) { throw new IllegalStateException("Cannot load menu animation",e); }
+        } catch(Exception e) { throw new IllegalStateException("Cannot load animation: "+path+"",e); }
         finally { reader.dispose(); }
     }
     public void update() {

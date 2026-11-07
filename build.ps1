@@ -8,6 +8,7 @@ $buildRoot = Join-Path $projectRoot 'build'
 $classes = Join-Path $buildRoot 'classes'
 $testClasses = Join-Path $buildRoot 'test-classes'
 $resources = Join-Path $projectRoot 'src/main/resources'
+$creditsStage = Join-Path $buildRoot 'credits-resources'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 function Invoke-Checked([string]$Program, [string[]]$Arguments) {
@@ -39,14 +40,31 @@ try {
     Write-Output 'Compiling game sources...'
     Invoke-Checked $javac @('-encoding', 'UTF-8', '--release', '17', '-d', $classes, ('@' + $sourceList))
 
+    Reset-BuildFolder $creditsStage
+    $credits = Join-Path $creditsStage 'credits'
+    New-Item -ItemType Directory -Path $credits | Out-Null
+    $package = Join-Path $projectRoot 'design/lore/creditos-finales'
+    Copy-Item -LiteralPath "$package/dibujos","$package/foto" -Destination $credits -Recurse
+    Copy-Item -LiteralPath "$package/pantalla-final/fondo.gif" -Destination $credits
+    $instrumental = "$package/tema-instrumental.wav"
+    if (Test-Path -LiteralPath $instrumental) { Copy-Item -LiteralPath $instrumental -Destination $credits }
+    $script = Get-Content -LiteralPath "$package/creditos.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+    $timeline = @($script.durationMs,$script.title.startMs,$script.title.endMs,$script.title.text,
+        $script.transition.dipMs,$script.transition.finalFadeStartMs,$script.cards.Count)
+    foreach ($card in $script.cards) {
+        $timeline += @($card.id,$card.startMs,$card.endMs,$card.doodleFile,$card.lyrics.Count)
+        $timeline += $card.lyrics
+    }
+    [IO.File]::WriteAllLines((Join-Path $credits 'timeline.txt'),[string[]]$timeline,$utf8)
+
     if ($Test) {
         Reset-BuildFolder $testClasses
         $testSources = Get-ChildItem 'src/test/java' -Recurse -Filter '*.java' | Sort-Object FullName
         $testList = Join-Path $buildRoot 'test-sources.txt'
         [IO.File]::WriteAllLines($testList, [string[]]($testSources | ForEach-Object { '"' + $_.FullName.Replace('\', '/') + '"' }), $utf8)
         Invoke-Checked $javac @('-encoding', 'UTF-8', '--release', '17', '-cp', $classes, '-d', $testClasses, ('@' + $testList))
-        $classpath = "$testClasses;$classes;$resources"
-        foreach ($suite in @('CombatRegression', 'main.ResourceRegression', 'main.AudioRegression', 'main.RuntimeRegression', 'main.StoryRegression', 'main.FirstZoneRegression', 'main.TitleRegression', 'main.EnemyShotRegression', 'main.SecondZoneRegression', 'main.ThirdZoneRegression', 'main.FourthZoneRegression', 'main.SharkyRegression', 'main.FifthZoneRegression', 'main.FifthLightingRegression', 'main.FifthArtRegression', 'main.FishtellaRegression', 'main.SixthZoneRegression', 'main.TempleRegression', 'main.TempleExtensionRegression', 'main.ExtraRoomsRegression', 'main.LaterRoomsRegression', 'main.FinalRoomsRegression', 'main.MarketRegression', 'main.FinalArenaRegression', 'main.LoreRegression')) {
+        $classpath = "$testClasses;$classes;$resources;$creditsStage"
+        foreach ($suite in @('CombatRegression', 'main.ResourceRegression', 'main.AudioRegression', 'main.RuntimeRegression', 'main.StoryRegression', 'main.FirstZoneRegression', 'main.TitleRegression', 'main.EnemyShotRegression', 'main.SecondZoneRegression', 'main.ThirdZoneRegression', 'main.FourthZoneRegression', 'main.SharkyRegression', 'main.FifthZoneRegression', 'main.FifthLightingRegression', 'main.FifthArtRegression', 'main.FishtellaRegression', 'main.SixthZoneRegression', 'main.TempleRegression', 'main.TempleExtensionRegression', 'main.ExtraRoomsRegression', 'main.LaterRoomsRegression', 'main.FinalRoomsRegression', 'main.MarketRegression', 'main.FinalArenaRegression', 'main.LoreRegression', 'main.CreditsRegression')) {
             Invoke-Checked $java @('-Djava.awt.headless=true', '-cp', $classpath, $suite)
         }
         $saveArguments = @('-Djava.awt.headless=true', '-cp', $classpath, 'data.SaveRegression')
@@ -64,6 +82,6 @@ try {
     }
 
     $destination = Join-Path $buildRoot 'TheLittleFish.jar'
-    Invoke-Checked $jar @(('-J-Djava.io.tmpdir=' + $buildRoot), '--create', '--file', $destination, '--main-class', 'main.Main', '-C', $classes, '.', '-C', $resources, '.')
+    Invoke-Checked $jar @(('-J-Djava.io.tmpdir=' + $buildRoot), '--create', '--file', $destination, '--main-class', 'main.Main', '-C', $classes, '.', '-C', $resources, '.', '-C', $creditsStage, 'credits')
     Write-Output "Ready: $destination"
 } finally { Pop-Location }

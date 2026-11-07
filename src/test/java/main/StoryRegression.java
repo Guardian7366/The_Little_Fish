@@ -312,11 +312,11 @@ public final class StoryRegression {
         truth(gp.csManager.isCoast(), "ending dialogue finished");
         for (int i = 0; i < 2000 && gp.csManager.scenePhase < CutsceneManager.ENDING_CREDITS; i++) gp.update();
         equal(CutsceneManager.ENDING_CREDITS, gp.csManager.scenePhase, "credits reached");
-        equal(24, gp.lastMusic, "credits music");
-        int y = gp.csManager.y;
+        equal(-1, gp.lastMusic, "credits stay silent without the instrumental");
+        int elapsed=gp.csManager.creditsElapsed();
         render(30);
-        equal(y, gp.csManager.y, "drawing cannot scroll credits");
-        ticks(10);
-        equal(y - 10, gp.csManager.y, "credits scroll once per tick");
+        equal(elapsed,gp.csManager.creditsElapsed(),"drawing cannot advance credits");
+        ticks(12);
+        equal(elapsed+200,gp.csManager.creditsElapsed(),"credits advance once per tick");
     }
 }

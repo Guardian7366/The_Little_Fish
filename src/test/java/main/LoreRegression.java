@@ -322,7 +322,7 @@ public final class LoreRegression {
             && CoastEpilogue.captionAt(gp.csManager.counter)==-1,"photo lowers before the sea hold");
         if (screenshots) capture("08-costa-sin-foto");
         waitFor(() -> !gp.csManager.isCoast(),300,"coast reaches title");
-        check(gp.tracks.equals(List.of(24)),"original track begins once after the coast");
+        check(gp.tracks.isEmpty(),"credits begin silently while awaiting the instrumental");
         if (screenshots) {
             awaitAudio(SURF_CLOSES,1);
             check(SURF_OPENS.get()==1 && SURF_LOOPS.get()==1 && SURF_ACTIVE.get()==0 && SURF_PEAK.get()==1,
@@ -332,7 +332,7 @@ public final class LoreRegression {
         waitFor(() -> gp.csManager.scenePhase==CutsceneManager.ENDING_CREDITS,260,"title leads to credits");
         check(gp.csManager.endCredit.contains("David Silva Padilla") && gp.csManager.endCredit.contains("Agradecimientos especiales"),
             "original credits");
-        if (screenshots) capture("10-creditos");
+        if (screenshots) { tick(300); capture("10-creditos"); }
     }
 
     private static void portalAndPhoto(boolean screenshots) throws Exception {

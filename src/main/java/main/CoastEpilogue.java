@@ -20,7 +20,7 @@ final class CoastEpilogue {
     static final int DURATION=LOWER_START+LOWER+HOLD+FADE;
     private static final int VIEW=320, WORLD=3*VIEW, FOOT=185, PHOTO_X=WORLD-46;
     private static final BufferedImage BACKDROP=load("atardecer"), SAND=load("arena-detalle"),
-        PICKUP=load("foto-item"), PHOTO=load("foto");
+        PICKUP=CreditAssets.image("foto/foto-item.png"), PHOTO=CreditAssets.image("foto/foto-cinematica.png");
     private static final BufferedImage[] SEA=frames(load("mar"),320,82,4,16),
         PORTAL=frames(load("portal"),32,48,6,6);
 
@@ -106,7 +106,7 @@ final class CoastEpilogue {
         int camera=Math.max(0,Math.min(WORLD-VIEW,x-116));
         var g=pixels(graphics);
         drawScenery(g,camera);
-        if (showPickup) g.drawImage(PICKUP,PHOTO_X-camera-12,FOOT-22,null);
+        if (showPickup) g.drawImage(PICKUP,PHOTO_X-camera-12,FOOT-22,24,24,null);
         boolean second=moving && (swimDistance/22)%2!=0;
         var fish=facingRight?(second?player.right2:player.right):(second?player.left2:player.left);
         g.drawImage(fish,x-camera-8,FOOT-16,16,16,null);
@@ -117,7 +117,7 @@ final class CoastEpilogue {
         var pixels=pixels(graphics);
         drawScenery(pixels,0);
         int offset=photoOffset(tick);
-        if (offset<86) pixels.drawImage(PHOTO,228,102+offset,null);
+        if (offset<86) pixels.drawImage(PHOTO,225,106+offset,72,56,null);
         pixels.dispose();
 
         int caption=captionAt(tick);

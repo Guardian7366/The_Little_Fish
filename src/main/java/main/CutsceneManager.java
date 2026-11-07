@@ -15,17 +15,18 @@ public class CutsceneManager {
     public int sceneNum;
     public int scenePhase;
     private static final int EXIT_FADE=0, BEACH_ARRIVAL=1, BEACH_WALK=2,
-        ENDING_DIALOGUE=3, ENDING_COAST=4, ENDING_TITLE=5, ENDING_CREDITS_HOLD=6;
-    static final int ENDING_CREDITS=7;
+        ENDING_DIALOGUE=3, ENDING_COAST=4;
+    static final int ENDING_CREDITS=5;
+    private static final String INSTRUMENTAL="/credits/tema-instrumental.wav";
     private static final int FADE_TICKS=45;
     private int portalTick;
-    private Sound surf;
+    private Sound surf, creditsMusic;
+    private CreditRoll credits;
     private final Sound.ClipFactory surfClipFactory;
     private final CoastEpilogue coast=new CoastEpilogue();
     int counter = 0;
     private int introTick, introStartY, introTargetY;
     private boolean seenIntro, shortIntro;
-    int y;
     String endCredit;
     public final int NA = 0;
     public final int GodFish = 1;
@@ -73,24 +74,17 @@ public class CutsceneManager {
                 if (counter>=CoastEpilogue.DURATION-CoastEpilogue.FADE)
                     drawBlackBackground(1f-(CoastEpilogue.DURATION-counter)/(float)CoastEpilogue.FADE);
             }
-            case ENDING_TITLE -> {
-                drawBlackBackground(1f);
-                drawString(1f,80f,gp.screenHeight/2,"The little fish",40);
-            }
-            case ENDING_CREDITS_HOLD, ENDING_CREDITS -> {
-                drawBlackBackground(1f);
-                drawString(1f,38f,y,endCredit,40);
-            }
+            case ENDING_CREDITS -> credits.draw(g2,endCredit);
             default -> { }
         }
     }
 
     public void reset() {
         sceneNum = NA;
-        scenePhase = counter = y = 0;
+        scenePhase = counter = 0;
         introTick = portalTick = 0;
         coast.reset();
-        stopSurf();
+        stopEndingAudio();
     }
 
     public void clearIntroMemory(boolean newSession) {
@@ -226,6 +220,24 @@ public class CutsceneManager {
         surf=null;
     }
 
+    synchronized void stopEndingAudio() {
+        stopSurf();
+        stopCreditsMusic();
+    }
+
+    private synchronized void startCreditsMusic() {
+        if (gp.music.volumeScale==0 || CutsceneManager.class.getResource(INSTRUMENTAL)==null) return;
+        creditsMusic=new Sound(1,index -> Sound.openClip(INSTRUMENTAL));
+        creditsMusic.volumeScale=gp.music.volumeScale;
+        creditsMusic.requestPlay(0,false);
+    }
+
+    private synchronized void stopCreditsMusic() {
+        if (creditsMusic==null) return;
+        creditsMusic.close();
+        creditsMusic=null;
+    }
+
     private synchronized void fadeSurf(float amount) {
         if (surf!=null) surf.setAttenuation(50f*amount);
     }
@@ -235,6 +247,7 @@ public class CutsceneManager {
         switch (scenePhase) {
             case EXIT_FADE -> {
                 if (++counter>=FADE_TICKS) {
+                    if (credits==null) credits=new CreditRoll(gp);
                     startSurf();
                     nextEndingBeat();
                 }
@@ -263,22 +276,18 @@ public class CutsceneManager {
             case ENDING_COAST -> {
                 if (++counter>=CoastEpilogue.DURATION) {
                     stopSurf();
-                    gp.playMusic(24);
+                    credits.begin();
+                    startCreditsMusic();
                     nextEndingBeat();
                 } else if (counter>=CoastEpilogue.DURATION-CoastEpilogue.FADE && counter%3==0) {
                     fadeSurf(1f-(CoastEpilogue.DURATION-counter)/(float)CoastEpilogue.FADE);
                 }
             }
-            case ENDING_TITLE -> {
-                if (++counter>=180) {
-                    y=gp.screenHeight/2;
-                    nextEndingBeat();
-                }
+            case ENDING_CREDITS -> {
+                boolean wasFarewell=credits.farewell();
+                credits.update();
+                if (!wasFarewell && credits.farewell()) stopCreditsMusic();
             }
-            case ENDING_CREDITS_HOLD -> {
-                if (++counter>=60) nextEndingBeat();
-            }
-            case ENDING_CREDITS -> y--;
             default -> throw new IllegalStateException("Unknown ending beat");
         }
     }
@@ -290,6 +299,27 @@ public class CutsceneManager {
 
     boolean isCoast() { return sceneNum==ending && scenePhase==ENDING_COAST; }
 
+    boolean inCredits() { return sceneNum==ending && scenePhase==ENDING_CREDITS; }
+
+    int creditsElapsed() { return inCredits()?credits.elapsed():-1; }
+
+    boolean canPlayAgain() { return inCredits() && credits.canPlayAgain(); }
+
+    void toggleAcknowledgements(boolean onlyClose) {
+        if (inCredits() && (!onlyClose || credits.showAcknowledgements())) credits.toggleAcknowledgements();
+    }
+
+    void playAgain() {
+        if (!canPlayAgain()) return;
+        gp.keyH.clearPlayKeys();
+        gp.flow.reset();
+        reset();
+        gp.stopMusic();
+        gp.ui.titleScreenState=0;
+        gp.ui.commandNum=0;
+        gp.gameState=gp.titleState;
+    }
+
     public void drawBlackBackground(float alpha) {
         this.g2.setComposite(AlphaComposite.getInstance(3, alpha));
         this.g2.setColor(Color.black);
@@ -297,21 +327,4 @@ public class CutsceneManager {
         this.g2.setComposite(AlphaComposite.getInstance(3, 1.0f));
     }
 
-    public void drawString(float alpha, float fontSize, int y, String text, int lineHeight) {
-        this.g2.setComposite(AlphaComposite.getInstance(3, alpha));
-        this.g2.setColor(Color.white);
-        this.g2.setFont(this.g2.getFont().deriveFont(fontSize));
-        String[] stringArray = text.split("\n");
-        int n = stringArray.length;
-        int n2 = 0;
-        while (n2 < n) {
-            String line = stringArray[n2];
-            int x = this.gp.ui.getXforCenteredText(line);
-            this.g2.drawString(line, x, y);
-            y += lineHeight;
-            ++n2;
-        }
-        this.g2.setComposite(AlphaComposite.getInstance(3, 1.0f));
-    }
 }
-
