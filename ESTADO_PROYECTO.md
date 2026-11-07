@@ -137,3 +137,7 @@ Integración sobre `0b18f2d`. Los créditos reproducen 14 tomas deterministas de
 Pasaron las 36 suites de `build.ps1 -Test` y la comprobación de los créditos con el JAR empaquetado. Se validaron los 14 cortes, el ajuste de letra en resolución lógica y el escalado panorámico, la independencia de los mapas jugables, el Enter nuevo, el clic y la conservación del archivo de guardado. Se revisaron fotogramas de las 14 tomas en su cronología y se verificó el MP4 continuo a 30 fps. Registros en `build/credits-verification.txt` y `build/credits-packaged.txt`.
 
 El usuario probó los créditos y la despedida, aprobó la entrega y autorizó su publicación. El JAR está en `build/TheLittleFish.jar` y el video en `build/credits-preview/TheLittleFish-creditos.mp4`.
+
+## Instrumental de los créditos
+
+El usuario aprobó La luz que queda y autorizó publicarla. Se añadió la pista WAV de 120 s en la ruta que ya contempla build.ps1. Copia exacta y formato verificados. Queda pendiente comprobar la reproducción y sincronización audibles en el JAR. [Integración musical](design/lore/creditos-finales/MUSICA-CODEX.md).

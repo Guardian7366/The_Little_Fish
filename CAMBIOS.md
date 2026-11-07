@@ -270,3 +270,7 @@ Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres
 ## Créditos finales
 
 Se añadió el paquete visual y la cronología de los créditos. Incluye 14 dibujos distintos, dos minutos de tarjetas y recursos de despedida con Purisa en la maqueta. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
+
+## La luz que queda · instrumental aprobado
+
+- Pista estéreo de 120 segundos en el paquete de créditos y guía para verificar su integración con los puntos de inicio y cierre existentes.

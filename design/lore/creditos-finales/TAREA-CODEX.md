@@ -64,3 +64,7 @@ Usar Purisa del juego para The Little Fish, la letra, Thanks for playing y Play 
 ## Puntos de integración en la playa aprobada
 
 En la base 3c8bac8, CoastEpilogue carga foto-item y foto para el paseo y el epílogo. Cambiar solo sus recursos de foto por las versiones de este paquete y adaptar sus dimensiones de dibujado sin cambiar la hitbox de recogida. CutsceneManager controla la secuencia a partir de ENDING_COAST. Añadir ahí el fundido y los nuevos estados posteriores. Mantener el manejo de entradas y los contratos de guardado de la playa. Revisar LoreRegression y las pruebas de playa existentes antes de actualizar las expectativas que dependan del cierre anterior.
+
+## Instrumental aprobado disponible
+
+La luz que queda está aprobado y disponible como tema-instrumental.wav en este paquete. La [guía de integración musical](MUSICA-CODEX.md) sustituye las indicaciones anteriores de ejecutar los créditos en silencio mientras llegaba la pista. Usar el audio aprobado con el reloj de 120 s existente.
