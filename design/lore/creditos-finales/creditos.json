@@ -1,0 +1,239 @@
+{
+  "durationMs": 120000,
+  "title": {
+    "text": "The Little Fish",
+    "startMs": 0,
+    "endMs": 4000
+  },
+  "transition": {
+    "dipMs": 320,
+    "finalFadeStartMs": 118500
+  },
+  "cards": [
+    {
+      "id": "primera-zona",
+      "zone": "Primera zona",
+      "doodle": "Normalillo",
+      "doodleFile": "dibujos/01-primera-zona.png",
+      "startMs": 4000,
+      "endMs": 11500,
+      "beat": "Primer tramo abierto. El pez pasa un Normalillo que patrulla y gira al extremo de su ruta.",
+      "lyrics": [
+        "He was a lonely boy",
+        "Who felt lost",
+        "In his own thoughts.",
+        "He thought he'd always feel that way,",
+        "Until a “light” appeared before him."
+      ]
+    },
+    {
+      "id": "chicken",
+      "zone": "Refugio de Chicken",
+      "doodle": "Chicken",
+      "doodleFile": "dibujos/02-chicken.png",
+      "startMs": 11500,
+      "endMs": 19500,
+      "beat": "Refugio de Chicken. Chicken alterna reposo. El pez cruza por los faroles y uno se ilumina al pasar.",
+      "lyrics": [
+        "The two of them talked for a long time.",
+        "He longed for her love.",
+        "To him, she was the most beautiful person in the world.",
+        "She was the one for him.",
+        "He truly loved her."
+      ]
+    },
+    {
+      "id": "flower",
+      "zone": "Refugio de Flower",
+      "doodle": "Flower",
+      "doodleFile": "dibujos/03-flower.png",
+      "startMs": 19500,
+      "endMs": 27500,
+      "beat": "Refugio de Flower. El pez rodea el claro y el guardián recorre un tramo corto. Flower permanece junto al remedio.",
+      "lyrics": [
+        "But she began to change.",
+        "She was no longer the person she'd been.",
+        "Little by little, he noticed.",
+        "He began to doubt, but he trusted her,",
+        "Because he loved her with all his heart."
+      ]
+    },
+    {
+      "id": "spiky",
+      "zone": "Refugio de Spiky",
+      "doodle": "Spiky",
+      "doodleFile": "dibujos/04-spiky.png",
+      "startMs": 27500,
+      "endMs": 36500,
+      "beat": "Refugio de Spiky. El pez pasa de una cobertura a otra. Mostrar un proyectil que recorre una línea despejada.",
+      "lyrics": [
+        "She would find other people",
+        "While he sank into misery and despair.",
+        "He fought for so long to win her approval.",
+        "But in the middle of it all,",
+        "He was left betrayed and abandoned."
+      ]
+    },
+    {
+      "id": "picaron",
+      "zone": "Primera zona de Picarón",
+      "doodle": "Picaron",
+      "doodleFile": "dibujos/05-picaron.png",
+      "startMs": 36500,
+      "endMs": 44500,
+      "beat": "Tercera zona principal. Picarón persigue dentro de su sector, anticipa un ataque y el pez se aparta.",
+      "lyrics": [
+        "He did all he could to love her,",
+        "To keep them together.",
+        "He tore out his heart just for her,",
+        "But she never answered",
+        "And left without ever saying goodbye."
+      ]
+    },
+    {
+      "id": "pump",
+      "zone": "Refugio de Pump",
+      "doodle": "Pump",
+      "doodleFile": "dibujos/06-pump.png",
+      "startMs": 44500,
+      "endMs": 51500,
+      "beat": "Refugio de Pump. El pez avanza entre macetas y corta uno de los amarres con una pose de ataque.",
+      "lyrics": [
+        "None of his efforts had been worth it.",
+        "She had already left him.",
+        "He had no one.",
+        "He was left alone.",
+        "He felt alone."
+      ]
+    },
+    {
+      "id": "ghost",
+      "zone": "Refugio de Ghost",
+      "doodle": "Ghost",
+      "doodleFile": "dibujos/07-ghost.png",
+      "startMs": 51500,
+      "endMs": 60500,
+      "beat": "Refugio de Ghost. El pez pasa por el pedestal y tres marcas se encienden en secuencia.",
+      "lyrics": [
+        "For so long, he felt cast out,",
+        "Walking endlessly in search of meaning.",
+        "Finding nothing, he felt his soul break more and more.",
+        "In pieces, he kept walking,",
+        "Hurting with every step he took."
+      ]
+    },
+    {
+      "id": "hongui",
+      "zone": "Refugio de Hongui",
+      "doodle": "Hongui",
+      "doodleFile": "dibujos/08-hongui.png",
+      "startMs": 60500,
+      "endMs": 68500,
+      "beat": "Refugio de Hongui. Un Picarón anuncia el golpe y el pez lo bloquea mirando al atacante.",
+      "lyrics": [
+        "He clung to the idea of a happy life,",
+        "Though there was nothing happy about it.",
+        "He was only fooling himself,",
+        "Trying to believe he was the happiest of all,",
+        "Just to feel that life was worth living."
+      ]
+    },
+    {
+      "id": "sharky",
+      "zone": "Primera zona de Sharky",
+      "doodle": "Sharky",
+      "doodleFile": "dibujos/09-sharky.png",
+      "startMs": 68500,
+      "endMs": 76500,
+      "beat": "Quinta zona principal. Sharky prepara y atraviesa un carril, y el pez lo esquiva lateralmente.",
+      "lyrics": [
+        "His past pursued him without rest.",
+        "It haunted him wherever he went.",
+        "He grew tired of it all and gave up on the future,",
+        "Because nothing made sense to him anymore.",
+        "He was only living for the sake of living."
+      ]
+    },
+    {
+      "id": "handy",
+      "zone": "Refugio de Handy",
+      "doodle": "Handy",
+      "doodleFile": "dibujos/10-handy.png",
+      "startMs": 76500,
+      "endMs": 84500,
+      "beat": "Refugio de Handy. El pez golpea un cerrojo con Rocky, con la animación del equipo original.",
+      "lyrics": [
+        "And yet something inside him",
+        "Still beat so strongly.",
+        "His resolve and the courage to go on",
+        "Stayed with him and kept him alive,",
+        "Because he simply wanted to live."
+      ]
+    },
+    {
+      "id": "ic",
+      "zone": "Refugio de Ic",
+      "doodle": "Ic",
+      "doodleFile": "dibujos/11-ic.png",
+      "startMs": 84500,
+      "endMs": 95500,
+      "beat": "Refugio de Ic. El pez se desliza hasta una marca y se detiene en la piedra rugosa.",
+      "lyrics": [
+        "I wanted a good life,",
+        "A life filled with happiness.",
+        "I wanted things to get better.",
+        "And you were there beside me.",
+        "You watched me grow.",
+        "You watched me suffer.",
+        "You watched me laugh."
+      ]
+    },
+    {
+      "id": "planta",
+      "zone": "Primera zona de Planta",
+      "doodle": "Planta",
+      "doodleFile": "dibujos/12-planta.png",
+      "startMs": 95500,
+      "endMs": 103500,
+      "beat": "Templo de la séptima zona. Planta señala y extiende una liana. El pez sale del carril antes del contacto.",
+      "lyrics": [
+        "You were always there",
+        "When I felt low.",
+        "I'll never forget anything about you.",
+        "I'll never forget what you meant to me.",
+        "I'll never forget my memories of you."
+      ]
+    },
+    {
+      "id": "tv",
+      "zone": "TV Supply",
+      "doodle": "TV",
+      "doodleFile": "dibujos/13-tv.png",
+      "startMs": 103500,
+      "endMs": 112500,
+      "beat": "Mercado. El pez se acerca al mostrador y TV enciende su pantalla. La toma mantiene la vista en el mercado.",
+      "lyrics": [
+        "Thank you for being here.",
+        "I promise I'll keep",
+        "The promise I made to you so long ago.",
+        "I'll honor your name.",
+        "I'll honor your memory,",
+        "Because I loved you so much."
+      ]
+    },
+    {
+      "id": "god-fish",
+      "zone": "Arena de God Fish",
+      "doodle": "God Fish",
+      "doodleFile": "dibujos/14-god-fish.png",
+      "startMs": 112500,
+      "endMs": 118500,
+      "beat": "Fosa final. Mostrar la pose de aviso y un barrido claro de God Fish, con el pez a distancia. Cerrar con el ojo visible.",
+      "lyrics": [
+        "I'll never forget…",
+        "Everything you were to me…",
+        "And the first time I met you…"
+      ]
+    }
+  ]
+}

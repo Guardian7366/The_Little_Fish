@@ -258,3 +258,8 @@ Añadidos 19 PNG de suelo de basalto, bordes y esquinas, ruinas pequeñas y tres
 ## Guion de las memorias de D
 
 - Textos de NPC, refugios, secretos, murales, introducción de God Fish y desenlace en la costa. Incluye criterios de integración y revisión.
+
+
+## Créditos finales
+
+Se añadió el paquete visual y la cronología de los créditos. Incluye 14 dibujos distintos, dos minutos de tarjetas y recursos de despedida con Purisa en la maqueta. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).

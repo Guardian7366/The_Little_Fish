@@ -77,3 +77,8 @@ El encuentro final incorpora los esbirros Aguijón y Baluarte y el daño de cont
 ## Reintegración del lore
 
 La integración de las pistas y el desenlace está aprobada. El usuario revisó en juego los diálogos y el final y autorizó publicar la entrega con la maqueta. La playa jugable con el arte y el audio del paquete está integrada y aprobada. El usuario autorizó publicar la entrega en `main`. [Encargo de la playa](design/lore/playa/TAREA-CODEX.md). [Guion y encargo](design/lore/GUION-Y-ENCARGO.md).
+
+
+## Créditos finales
+
+Siguiente entrega jugable: sustituir las fotos, montar las 14 tomas y completar la despedida. El tema instrumental se integrará cuando esté disponible. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).

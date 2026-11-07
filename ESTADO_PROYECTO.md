@@ -128,3 +128,8 @@ Sobre `356bb1b` se integró el portal en la salida original de la fosa y el pase
 Pasaron las 35 suites de `build.ps1 -Test`. Se repitió con el JAR empaquetado el recorrido del mercado a los créditos. Tres partidas generadas con `356bb1b` confirmaron la recuperación de la llave pendiente, el paso por la puerta abierta y la conservación del desenlace consumido. Se comprobaron la ida y vuelta con los controles normales, el bloqueo de guardado, la recogida única con Enter retenido, la proporción de pantalla ancha y el ciclo del audio con un dispositivo simulado. Registros en `build/beach-verification.txt` y `build/beach-packaged.txt`. La comprobación técnica del oleaje se hizo con un dispositivo simulado.
 
 El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/beach-preview/`. El usuario aprobó esta entrega y autorizó su publicación en `main`.
+
+
+## Créditos finales
+
+El paquete autorizado reúne las exportaciones de la foto, el GIF, la letra inglesa, los 14 dibujos y una maqueta. Pendientes la integración de las tomas con los mapas vigentes y la entrega del tema instrumental. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
