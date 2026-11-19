@@ -7,6 +7,11 @@
 - Se conservan el código, los recursos vigentes, los contratos de diseño, los generadores de mapas y las pruebas. Las comprobaciones de arte usan sus hashes aprobados.
 
 
+## La luz que queda · integración aprobada
+
+- El JAR incorpora el instrumental aprobado de 120 segundos en la ruta preparada de créditos. El título inicia la reproducción una vez, sin bucle. La música termina su caída antes de la despedida.
+- Se añadió la comprobación del tamaño, SHA-256, formato PCM y duración de la pista a CreditsRegression. El usuario autorizó publicar la integración y la limpieza el 18 de noviembre de 2026. [Guía musical](design/lore/creditos-finales/MUSICA-CODEX.md)
+
 ## Créditos finales y despedida · entrega aprobada
 
 - Las 14 tarjetas sincronizan tomas animadas de los mapas vigentes, letra inglesa y dibujos en un reloj de 120 segundos. El título y la letra usan Purisa. La autoría aparece en el título y los agradecimientos originales se pueden abrir desde la despedida.

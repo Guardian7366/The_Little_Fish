@@ -63,4 +63,4 @@ Las maquetas, las copias de entregas y los ejecutables antiguos retirados del á
 
 Los documentos de cada zona describen las colisiones, los encuentros y la compatibilidad. [GOD-FISH.md](GOD-FISH.md) explica el combate final. Los contratos del cierre están en [el guion](design/lore/GUION-Y-ENCARGO.md), [la playa](design/lore/playa/TAREA-CODEX.md) y [los créditos](design/lore/creditos-finales/TAREA-CODEX.md).
 
-Los informes históricos registran resultados de sus entregas. Los resultados de una comprobación nueva se generan en `build/`. El commit de limpieza se mantiene local hasta su revisión.
+Los informes históricos registran resultados de sus entregas. Los resultados de una comprobación nueva se generan en `build/`. La limpieza fue aprobada por el usuario el 18 de noviembre de 2026.

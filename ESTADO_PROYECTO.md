@@ -132,7 +132,7 @@ El JAR de prueba queda en `build/TheLittleFish.jar` y las capturas en `build/bea
 
 ## Créditos finales
 
-Integración sobre `0b18f2d`. Los créditos reproducen 14 tomas deterministas de los mapas vigentes, con las 71 líneas y los dibujos en el orden y los tiempos del manifiesto. Las tres fotos se usan en la recogida, el epílogo y la despedida. **Play Again** devuelve al menú conservando la partida. El reloj dura 120 segundos y corre en silencio hasta disponer de la pista instrumental. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
+Integración sobre `0b18f2d`. Los créditos reproducen 14 tomas deterministas de los mapas vigentes, con las 71 líneas y los dibujos en el orden y los tiempos del manifiesto. Las tres fotos se usan en la recogida, el epílogo y la despedida. **Play Again** devuelve al menú conservando la partida. El reloj dura 120 segundos. La primera entrega usaba silencio y la integración del instrumental se documenta abajo. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
 
 Pasaron las 36 suites de `build.ps1 -Test` y la comprobación de los créditos con el JAR empaquetado. Se validaron los 14 cortes, el ajuste de letra en resolución lógica y el escalado panorámico, la independencia de los mapas jugables, el Enter nuevo, el clic y la conservación del archivo de guardado. Se revisaron fotogramas de las 14 tomas en su cronología y se verificó el MP4 continuo a 30 fps. Registros en `build/credits-verification.txt` y `build/credits-packaged.txt`.
 
@@ -140,7 +140,11 @@ El usuario probó los créditos y la despedida, aprobó la entrega y autorizó s
 
 ## Instrumental de los créditos
 
-El usuario aprobó La luz que queda y autorizó publicarla. Se añadió la pista WAV de 120 s en la ruta que ya contempla build.ps1. Copia exacta y formato verificados. Queda pendiente comprobar la reproducción y sincronización audibles en el JAR. [Integración musical](design/lore/creditos-finales/MUSICA-CODEX.md).
+El usuario aprobó La luz que queda y autorizó publicarla. Integración sobre `99c9304`, aprobada para publicación el 18 de noviembre de 2026. El empaquetado y los puntos de reproducción existentes incorporan el instrumental aprobado. Se verificaron la salida real de Java, el volumen intermedio a −15 dB, el silencio de música y la liberación del clip. La reproducción completa desde la foto hasta la despedida mostró un arranque dentro de los primeros 101 ms después del título. La última muestra no nula está en 119,785 s. El cierre de seguridad ocurrió ya en la cola silenciosa, antes de revelar la despedida. Dos entradas posteriores arrancaron desde cero y liberaron su clip al reiniciar. [Integración musical](design/lore/creditos-finales/MUSICA-CODEX.md).
+
+Pasaron las 36 suites de `build.ps1 -Test`. El recurso `/credits/tema-instrumental.wav` del JAR coincide byte por byte con la fuente aprobada, con SHA-256 `AAFB2585F5E3168F1FC0D41D85B27DFFEFD8933778A489AB1E41467BAFFDF403`. El empaquetado y los puntos de reproducción existentes bastaron para la integración.
+
+La prueba real fue instrumentada con Java y DirectAudioDevice en la salida de Windows. Los resultados están en `build/credits-music/verification.txt`, `jar-verification.json`, `jar-real-audio.txt` y `real-lifecycle.txt` dentro de esa misma carpeta. El video de revisión combina el renderizador Java de los créditos con las muestras PCM exactas del instrumental. Dura 126 s, incluidos seis segundos de despedida, y queda en `build/credits-music/TheLittleFish-creditos-con-audio.mov`. El JAR de prueba está en `build/TheLittleFish.jar`. El usuario aprobó la entrega y autorizó su publicación. Las evidencias generadas de aquella comprobación se retiraron durante la limpieza posterior.
 
 ## Limpieza del repositorio · 18 de noviembre de 2026
 
@@ -150,4 +154,4 @@ Pasaron las 36 suites de `build.ps1 -Test` desde el checkout limpio. Se regenera
 
 El JAR se inició mediante `java -jar` en una carpeta aislada. Las pruebas sobre ese JAR comprobaron menú, partida nueva, carga de una partida de prueba, victoria con puerta abierta, portal, playa, foto, créditos, acceso real al instrumental y despedida con retorno al menú. La canción se abrió en el dispositivo real durante esta comprobación de acceso. Las partidas y la configuración personales conservaron sus hashes.
 
-Los casos históricos adicionales que necesitan fixtures locales anteriores o un JAR original externo siguen siendo opcionales. Los registros están en `build/cleanup-safety/` y la copia validada en `build/cleanup-checkout/`. El JAR validado se copia a `build/TheLittleFish.jar` para `Jugar.cmd`. El commit queda pendiente de revisión antes de publicar.
+Los casos históricos adicionales que necesitan fixtures locales anteriores o un JAR original externo siguen siendo opcionales. Los registros están en `build/cleanup-safety/` y la copia validada en `build/cleanup-checkout/`. El JAR validado se copia a `build/TheLittleFish.jar` para `Jugar.cmd`. El usuario aprobó la limpieza y autorizó publicar el commit `5a2aca2` el 18 de noviembre de 2026. La prueba del instrumental se repitió con el JAR limpio antes de publicar y pasó.

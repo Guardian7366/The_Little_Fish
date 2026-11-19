@@ -20,6 +20,7 @@ public final class CreditsRegression {
     private static final FifthZoneRegression.Quiet gp=new FifthZoneRegression.Quiet();
 
     public static void main(String[] args) throws Exception {
+        verifyInstrumental();
         gp.setupGame();
         if (args.length>0 && args[0].equals("--video")) {
             video(new CreditRoll(gp));
@@ -29,6 +30,26 @@ public final class CreditsRegression {
             System.out.println("CREDITS PASS: 14 scene/lyric/drawing cuts, 120 seconds, GIF, deterministic frames, widescreen and fresh Enter/click");
         }
         gp.stopGame();
+    }
+
+
+    private static void verifyInstrumental() throws Exception {
+        String expected="AAFB2585F5E3168F1FC0D41D85B27DFFEFD8933778A489AB1E41467BAFFDF403";
+        byte[] bytes;
+        try (var stream=CreditAssets.open("/credits/tema-instrumental.wav")) {
+            bytes=stream.readAllBytes();
+        }
+        check(bytes.length==21168044,"approved instrumental size");
+        String hash=java.util.HexFormat.of().withUpperCase().formatHex(
+            java.security.MessageDigest.getInstance("SHA-256").digest(bytes));
+        check(expected.equals(hash),"approved instrumental bytes");
+        try (var stream=javax.sound.sampled.AudioSystem.getAudioInputStream(
+                new java.io.ByteArrayInputStream(bytes))) {
+            var format=stream.getFormat();
+            check(format.getSampleRate()==44100 && format.getChannels()==2 && format.getSampleSizeInBits()==16
+                && format.getEncoding().equals(javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED)
+                && stream.getFrameLength()==5292000,"approved instrumental is 120 seconds of stereo PCM");
+        }
     }
 
     private static void check(boolean ok,String message) {
