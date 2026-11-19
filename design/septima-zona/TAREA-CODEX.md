@@ -2,9 +2,9 @@
 
 Paquete de arte y encargo para Codex. Las mecánicas y siluetas de Planta y Secret fueron aprobadas por el usuario. El trazado, la iluminación, el número de encuentros y los textos de murales son propuestas de integración de esta entrega.
 
-![Vista de las capas del templo](vista-templo.png)
+![Vista de las capas del templo](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/septima-zona/vista-templo.png)
 
-![Muestra de sprites y tiles](vista-sprites.png)
+![Muestra de sprites y tiles](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/septima-zona/vista-sprites.png)
 
 La muestra reúne Planta en la primera fila, Secret y placas en la segunda, roca, portón, lámpara y losas en la tercera, y los tres murales abajo. El inventario completo está en [manifest.json](manifest.json).
 

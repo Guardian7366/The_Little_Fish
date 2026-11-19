@@ -2,7 +2,7 @@
 
 Paquete de arte para la fase 4. Los dos son calamares cíclopes sin boca, con el ojo verde de God Fish. Aguijón tiene manto estrecho verde petróleo y tridente de bronce. Baluarte tiene manto violeta más ancho y escudo con el pez verde. La parte central del cuerpo se acerca a la escala de los enemigos del juego. La celda deja margen para el equipo y los tentáculos.
 
-[Vista de poses y efectos](preview/esbirros.png) · [Manifiesto](manifest.json)
+[Vista de poses y efectos](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/esbirros/preview/esbirros.png) · [Manifiesto](manifest.json)
 
 ## Integración visual
 

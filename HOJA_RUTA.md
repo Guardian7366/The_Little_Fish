@@ -84,3 +84,7 @@ La integración de las pistas y el desenlace está aprobada. El usuario revisó 
 Las 14 tomas, las fotos y la despedida están integradas y aprobadas para publicación. El tema instrumental se integrará cuando esté disponible. [Encargo y recursos](design/lore/creditos-finales/TAREA-CODEX.md).
 
 El instrumental aprobado está disponible. La siguiente entrega comprueba el empaquetado y la reproducción desde The Little Fish hasta el fundido de créditos. [Guía musical](design/lore/creditos-finales/MUSICA-CODEX.md).
+
+## Limpieza de la base funcional
+
+La limpieza autorizada conserva la versión con playa, créditos, canción y despedida. Retira entregas y evidencias antiguas del árbol actual y conserva el historial de Git. El commit queda para revisión antes de publicar.

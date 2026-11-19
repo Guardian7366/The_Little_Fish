@@ -2,7 +2,7 @@
 
 Encargo de arte e integración. Base revisada: 3067a6d, con Handy e Ic aprobados. Lee AGENTS.md, OCTAVA-ZONA.md, ARQUITECTURA.md, NPC_TV, GameFlowController y las pruebas de guardado. Esta entrega define recursos y decisiones propuestas. Construir el mapa y verificar el funcionamiento corresponden a la implementación.
 
-![Muestra del mercado](preview/mercado.png)
+![Muestra del mercado](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/mercado-tv/preview/mercado.png)
 
 ## Tramo de preparación antes del jefe
 
@@ -37,11 +37,11 @@ Los dos nuevos son consumibles apilables con uso manual desde el inventario habi
 
 ## Interfaz de compra y venta
 
-![Vista Comprar](preview/comprar.png)
+![Vista Comprar](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/mercado-tv/preview/comprar.png)
 
-![Vista Vender](preview/vender.png)
+![Vista Vender](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/mercado-tv/preview/vender.png)
 
-![Confirmación de compra](preview/confirmar.png)
+![Confirmación de compra](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/mercado-tv/preview/confirmar.png)
 
 Interfaz CRT propia de tradeState. El inventario normal del jugador conserva sus controles y presentación. En Vender se lee su mochila real y se muestra mediante el marco de TV. El lienzo de arte es 320 × 192, equivalente a la vista lógica 960 × 576 a escala ×3. Usa los PNG de ui/ como piezas y dibuja nombres, contadores y precios como texto real, con la fuente existente y contraste suficiente. Las cifras de las capturas son ejemplos.
 

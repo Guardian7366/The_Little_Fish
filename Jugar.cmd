@@ -4,8 +4,7 @@ cd /d "%~dp0"
 set "FISH_JAVA=java"
 for /f "delims=" %%J in ('where jar.exe 2^>nul') do if exist "%%~dpJjava.exe" set "FISH_JAVA=%%~dpJjava.exe"
 if defined JAVA_HOME if exist "%JAVA_HOME%\bin\java.exe" set "FISH_JAVA=%JAVA_HOME%\bin\java.exe"
-set "FISH_JAR=TheLittleFish.jar"
-if not exist "%FISH_JAR%" set "FISH_JAR=build\TheLittleFish.jar"
+set "FISH_JAR=build\TheLittleFish.jar"
 if not exist "%FISH_JAR%" (
     echo No se encontro el juego. Extrae el ZIP completo o ejecuta Compilar.cmd.
     pause

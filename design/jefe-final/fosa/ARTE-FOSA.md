@@ -2,7 +2,7 @@
 
 Primera entrega visual del jefe final. Base revisada c022bb7, mercado de TV aprobado. La arena actual es el mapa interno 6 y se alcanza desde el mercado 10. God Fish ocupa un lienzo de cinco casillas por lado en sus poses base. El combate aprobado tiene seis fases. Esta entrega fija la ambientación y los recursos de terreno para diseñar la arena con espacio suficiente.
 
-![Vista de composición](preview/arena.png)
+![Vista de composición](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/fosa/preview/arena.png)
 
 ## Dirección visual
 
@@ -24,7 +24,7 @@ El [manifest](manifest.json) enumera los 19 PNG. Los tiles y las decoraciones so
 | basalt-rubble, broken-column, silt | Decoraciones sin colisión propia. Ponlas en el perímetro. Para cobertura real, usa geometría sólida y legible. |
 | far-trench, basalt-sides, sediment | Fondo opaco profundo, paredes con recorte transparente y partículas sobre transparencia, en ese orden. |
 
-La composición [fondo](preview/fondo.png) muestra las tres capas completas. [Tiles](preview/tiles.png) permite revisar bordes y esquinas. [Arena](preview/arena.png) es una muestra de suelo y precipicio, no el trazado jugable. La superficie y el encuadre finales se validan con el tamaño del jefe y las seis fases.
+La composición [fondo](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/fosa/preview/fondo.png) muestra las tres capas completas. [Tiles](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/fosa/preview/tiles.png) permite revisar bordes y esquinas. [Arena](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/fosa/preview/arena.png) es una muestra de suelo y precipicio, no el trazado jugable. La superficie y el encuadre finales se validan con el tamaño del jefe y las seis fases.
 
 ## Indicaciones para la futura integración
 

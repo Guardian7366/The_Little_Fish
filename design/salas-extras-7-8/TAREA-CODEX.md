@@ -15,7 +15,7 @@ Conservar identidad de NPC, slots y tipos de recompensa. Handy entrega la herram
 
 ## Handy · Taller de lo que todavía puede repararse
 
-![Muestra del taller](preview/handy.png)
+![Muestra del taller](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-7-8/preview/handy.png)
 
 Mano violeta oscura con cinco dedos y un único ojo claro en la palma. Dos cuadros de animación, uno con ojo abierto y otro entornado. Fondo de arcadas, cadenas y herramientas de piedra con luces cálidas. Anvil, tool-rack, chain, mechanism-0/1 y sconce completan el entorno. El mobiliario se coloca junto al muro.
 
@@ -31,7 +31,7 @@ Diálogo candidato: «D asked for a tool to open what had been sealed.» / «Whe
 
 ## Ic · Cámara de las huellas congeladas
 
-![Muestra de la cámara helada](preview/ic.png)
+![Muestra de la cámara helada](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-7-8/preview/ic.png)
 
 Cubo de hielo celeste, dos ojos, boca y pequeña corona dorada. Dos cuadros de animación con movimiento mínimo de la boca. Fondo de columnas, arcos escarchados y carámbanos. Mantén una silueta cúbica que no parezca una gota. Usa frost-wall y icicles sobre muros, dejando transitable el recorrido.
 

@@ -1,5 +1,12 @@
 # Historial de cambios
 
+## Limpieza del repositorio · 18 de noviembre de 2026
+
+- Retirados el ejecutable antiguo, las vistas previas, las maquetas y las copias de recursos de entregas anteriores. Los recursos activos de créditos permanecen en su ruta de empaquetado.
+- Las partidas y la configuración quedan fuera del seguimiento de Git y se conservan en disco. El lanzador utiliza el JAR generado en `build/`.
+- Se conservan el código, los recursos vigentes, los contratos de diseño, los generadores de mapas y las pruebas. Las comprobaciones de arte usan sus hashes aprobados.
+
+
 ## Créditos finales y despedida · entrega aprobada
 
 - Las 14 tarjetas sincronizan tomas animadas de los mapas vigentes, letra inglesa y dibujos en un reloj de 120 segundos. El título y la letra usan Purisa. La autoría aparece en el título y los agradecimientos originales se pueden abrir desde la despedida.
@@ -139,7 +146,7 @@ Este archivo resume los cambios realizados. Los documentos enlazados conservan l
 
 ## Segunda zona renovada — entrega previa al respaldo completo
 
-- Implementado el [plan de segunda zona](PLAN-SEGUNDA-ZONA.md): coberturas, circuitos, territorios para Greeny, encuentros de Enfadillo y dos secretos.
+- Implementado el [plan de segunda zona](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/PLAN-SEGUNDA-ZONA.md): coberturas, circuitos, territorios para Greeny, encuentros de Enfadillo y dos secretos.
 - Conservados enemigos, recompensas y conexiones; recordatorio breve de cobertura y fondo por capas.
 - Migración del guardado anterior con conservación del progreso y reubicación de partidas de esa zona en la esmeralda.
 - Alcance, pruebas y límites en [SEGUNDA-ZONA.md](SEGUNDA-ZONA.md). El plan se conserva como antecedente, aunque su encabezado aún describe la fase de planificación.

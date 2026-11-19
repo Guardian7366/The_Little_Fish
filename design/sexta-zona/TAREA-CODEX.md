@@ -40,7 +40,7 @@ No muevas a Fishtella ni recalcules un eje nuevo durante el aviso o el pulso. Si
 
 ## Arte listo para integrar
 
-- [Vista de los doce sprites](fishtella.svg) y [manifest](assets/fishtella/manifest.json). Tres estados por cuatro direcciones, PNG RGBA de 16 × 16. Centro y encuadre comunes. Escala ×3 con vecino más cercano. `carga` se usa también durante el pulso y `nucleo` solo durante la ventana vulnerable.
+- [Vista de los doce sprites](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/sexta-zona/fishtella.svg) y [manifest](assets/fishtella/manifest.json). Tres estados por cuatro direcciones, PNG RGBA de 16 × 16. Centro y encuadre comunes. Escala ×3 con vecino más cercano. `carga` se usa también durante el pulso y `nucleo` solo durante la ventana vulnerable.
 - Carcasa azul acero con contorno violeta, visor ámbar y núcleo turquesa. La apertura aumenta el área visible del núcleo. Las rotaciones están exportadas. Los archivos son dibujos de cuadrícula exacta basados en la propuesta aprobada, no recortes de la referencia generada.
 - Para el aviso y el pulso, dibuja directamente las franjas del mundo. Aviso discontinuo y pulso continuo. Mantén el contraste con suelo morado e iluminación nocturna. No requieren sprites adicionales ni deben afectar al HUD. Conserva las señales originales de Sharky.
 - El fondo y la luz de quinta se comparten desde sus recursos activos. Reutiliza imágenes y máscaras cuando proceda, con fuentes y geometría propias de cada mapa. No dupliques archivos ni cargues recursos durante el dibujo.

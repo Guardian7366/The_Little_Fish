@@ -97,14 +97,20 @@ public final class FishtellaRegression {
         gp.currentMap = 5;
         var old = new MON_Tella(gp);
         check(!old.usesPulse() && old.life == 100 && old.speed == 10, "legacy appearance unchanged");
-        try (var files = Files.list(Path.of("design/sexta-zona/assets/fishtella"))) {
+        var hashes=new java.util.Properties();
+        try (var reader=Files.newBufferedReader(Path.of("src/test/resources/prepared-assets.properties"))) {
+            hashes.load(reader);
+        }
+        try (var files = Files.list(Path.of("src/main/resources/sexta/fishtella"))) {
             var sprites = files.filter(f -> f.toString().endsWith(".png")).toList();
             check(sprites.size() == 12, "twelve sprites in package");
             for (Path p : sprites) {
                 var image = javax.imageio.ImageIO.read(p.toFile());
                 check(image.getWidth() == 16 && image.getHeight() == 16 && image.getColorModel().hasAlpha(),
                     "original sprite dimensions and alpha");
-                check(Files.mismatch(p, Path.of("src/main/resources/sexta/fishtella").resolve(p.getFileName())) == -1,
+                String digest=java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(Files.readAllBytes(p)));
+                check(digest.equals(hashes.getProperty("/sexta/fishtella/"+p.getFileName())),
                     "prepared sprite preserved");
             }
         }

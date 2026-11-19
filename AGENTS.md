@@ -26,11 +26,11 @@ El juego utiliza Java Swing/Java2D y un JDK 17 o posterior. `build.ps1` usa `jar
 - Compilar: `./build.ps1` o `./Compilar.cmd`.
 - Compilar y ejecutar las suites: `./build.ps1 -Test` o `./Compilar.cmd -Test`.
 - Incluir la importación legada contra un original disponible: `./build.ps1 -Test -OriginalJar "C:\ruta\MyGame.jar"`.
-- Para reproducir los guardados anteriores a quinta: `./tools/verify_fifth_baseline.ps1`, después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` y solo genera fixtures bajo `build/`, sin reconstruir un JAR. `python tools/verify_fifth_resources.py` verifica los recursos conservados contra esa base. Contratos y evidencias de esta zona: [QUINTA-ZONA.md](QUINTA-ZONA.md).
+- Para reproducir los guardados anteriores a quinta: `./tools/verify_fifth_baseline.ps1`, después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` y solo genera fixtures bajo `build/`, sin reconstruir un JAR. Contratos y evidencias de esta zona: [QUINTA-ZONA.md](QUINTA-ZONA.md).
 
 Ejecutar estos comandos solo cuando corresponda al alcance autorizado; una tarea de documentación no exige compilar. Para cambios técnicos, usar las comprobaciones pertinentes y la suite completa cuando afecten sistemas compartidos, guardado o transiciones. Los resultados y capturas se generan bajo `build/`. No afirmar que una prueba pasó si no se ejecutó; identificar los resultados heredados de informes anteriores. Las pruebas automáticas y capturas no sustituyen la valoración manual del jugador ni demuestran FPS en su equipo.
 
-`Jugar.cmd` prefiere el JAR de la raíz si existe. Para comprobar una compilación nueva, ejecutar expresamente `java -jar <ruta-al-JAR-generado>` desde una carpeta de pruebas aislada, usando una ruta absoluta al JAR y sin copiar partidas personales.
+`Jugar.cmd` abre `build/TheLittleFish.jar`. Para comprobar una compilación nueva, ejecutar expresamente `java -jar <ruta-al-JAR-generado>` desde una carpeta de pruebas aislada, usando una ruta absoluta al JAR y sin copiar partidas personales.
 
 ## Información compartida y cierre
 

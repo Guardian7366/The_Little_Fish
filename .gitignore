@@ -1,4 +1,12 @@
 /build/
+/*.jar
+/*.zip
+/*.mp4
+/*.mov
+/*.avi
+*.class
+__pycache__/
+*.pyc
 /save.dat
 /save.dat.bak
 /save-v1.dat

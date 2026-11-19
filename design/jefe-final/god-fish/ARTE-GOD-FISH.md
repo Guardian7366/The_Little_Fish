@@ -2,7 +2,7 @@
 
 El manto puntiagudo, las aletas y los seis tentáculos cortos identifican al calamar. El ojo verde es el único rasgo facial. En las fases 5 y 6 se estrecha bajo el ceño del manto. Lleva el tridente en su mano derecha (a la izquierda de la pantalla en reposo) y el escudo con un pez verde en la otra. El escudo físico viaja con el brazo. El campo de invulnerabilidad se dibuja en una capa independiente.
 
-[Paletas y siluetas](preview/fases.png) · [Poses de ataque](preview/ataques.png) · [Perfiles, puños y golpe doble](preview/perfiles.png) · [Proyectiles, armas y mecanismos](preview/efectos.png) · [Arte de la fosa](../fosa/ARTE-FOSA.md)
+[Paletas y siluetas](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/god-fish/preview/fases.png) · [Poses de ataque](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/god-fish/preview/ataques.png) · [Perfiles, puños y golpe doble](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/god-fish/preview/perfiles.png) · [Proyectiles, armas y mecanismos](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/god-fish/preview/efectos.png) · [Arte de la fosa](../fosa/ARTE-FOSA.md)
 
 ## Lectura de los atlas
 
@@ -35,6 +35,6 @@ Las seis filas de fx/aura se asignan por fase. Activar pulse-a/pulse-b mientras 
 
 ## Desplazamiento del titán
 
-Los seis atlas boss/nado-1 a boss/nado-6 añaden 96 cuadros. Cada fila es una dirección: down, left, right, up. Las cuatro columnas alternan extensión y empuje de los tentáculos. Los perfiles usan la perspectiva de tres cuartos. La fila up conserva el ojo visible y eleva el manto mientras los tentáculos quedan rezagados. Se mantienen la celda de 144 × 128, el ancla [72, 63] y la escala ×3. [Vista de cuatro secuencias](preview/nado.png).
+Los seis atlas boss/nado-1 a boss/nado-6 añaden 96 cuadros. Cada fila es una dirección: down, left, right, up. Las cuatro columnas alternan extensión y empuje de los tentáculos. Los perfiles usan la perspectiva de tres cuartos. La fila up conserva el ojo visible y eleva el manto mientras los tentáculos quedan rezagados. Se mantienen la celda de 144 × 128, el ancla [72, 63] y la escala ×3. [Vista de cuatro secuencias](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/jefe-final/god-fish/preview/nado.png).
 
 Para integrar, copiar los seis atlas al classpath bajo final/god-fish/boss/ y registrarlos en GodFishArt. Avanzar una columna por distancia real recorrida durante aproximación o flanqueo; como valor inicial, usar 8–12 píxeles lógicos por cuadro. La dirección sale del desplazamiento aplicado, no del objetivo deseado. Con avance cero, usar reposo. Aviso, golpe, puño plantado, embestida, desarme, apertura, retorno y derrota conservan sus poses propias y tienen prioridad sobre el ciclo. Mantener ancla, colisión y temporización de combate independientes del movimiento interno del dibujo. Preparar las celdas una vez fuera del bucle.

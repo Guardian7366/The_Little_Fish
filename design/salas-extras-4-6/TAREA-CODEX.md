@@ -16,7 +16,7 @@ Conserva slots, IDs y premios. Reubica a cada NPC junto a su llegada, en un espa
 
 ## Pump · Huerto de la última cosecha
 
-![Muestra de Pump y su huerto](preview/pump.png)
+![Muestra de Pump y su huerto](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-4-6/preview/pump.png)
 
 Calabaza anaranjada, ojos tallados y tallo verde curvado. Los dos cuadros cambian discretamente la boca. Piso de piedra tibia, arriates, raíces y tinajas. La recompensa modesta pide una visita breve, sin desgaste por combate.
 
@@ -28,7 +28,7 @@ Diálogo propuesto: «D always asked me to save some seeds.» / «The last time,
 
 ## Hongui · El abrigo de esporas
 
-![Muestra de Hongui y su gruta](preview/hongui.png)
+![Muestra de Hongui y su gruta](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-4-6/preview/hongui.png)
 
 Seta de sombrero anaranjado, manchas claras, tallo crema y pequeños brazos. Los dos cuadros alternan los brazos. Gruta azul verdosa con hongos luminosos y un dosel de piedra que protege al NPC.
 
@@ -42,7 +42,7 @@ Diálogo propuesto: «I hid under my cap when the noise started.» / «D stood i
 
 ## Ghost · Las huellas que quedan
 
-![Muestra de Ghost y su archivo](preview/ghost.png)
+![Muestra de Ghost y su archivo](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-4-6/preview/ghost.png)
 
 Fantasma blanco, dos ojos oscuros y boca pequeña asustada. Los dos cuadros cambian la boca, con encuadre estable. Archivo sumergido azul violeta con telas gastadas, arcos y piedras de memoria.
 

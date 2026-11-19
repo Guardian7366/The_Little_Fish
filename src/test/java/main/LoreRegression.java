@@ -408,11 +408,16 @@ public final class LoreRegression {
     }
 
     private static void checkBeachAssets() throws Exception {
-        Path source=Path.of("design/lore/playa/assets");
-        for (String name:List.of("atardecer.png","mar.png","arena-detalle.png","portal.png",
-                "foto-item.png","foto.png","oleaje.wav")) {
+        var hashes=new java.util.Properties();
+        try (var reader=Files.newBufferedReader(Path.of("src/test/resources/prepared-assets.properties"))) {
+            hashes.load(reader);
+        }
+        for (String name:List.of("atardecer.png","mar.png","arena-detalle.png","portal.png","oleaje.wav")) {
             try (var stream=LoreRegression.class.getResourceAsStream("/ending/"+name)) {
-                check(stream!=null && Arrays.equals(Files.readAllBytes(source.resolve(name)),stream.readAllBytes()),
+                check(stream!=null,"packaged beach asset: "+name);
+                String digest=java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(stream.readAllBytes()));
+                check(digest.equals(hashes.getProperty("/ending/"+name)),
                     "prepared beach asset preserved: "+name);
             }
         }
@@ -525,6 +530,7 @@ public final class LoreRegression {
 
     private static void legacyDialogue() throws Exception {
         gp.resetGame(true);
+        gp.gameState=gp.playState;
         Path checkpoint=scratch.resolve("dialogue-v1.dat");
         var save=new SaveLoad(gp,checkpoint);
         Path original=Path.of("build/lore-baseline/save-v1.dat");

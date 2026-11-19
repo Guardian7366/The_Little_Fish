@@ -4,9 +4,9 @@ Base jugable de referencia: 3c8bac8. El usuario autorizó publicar este paquete 
 
 ## Qué revisar
 
-- [Maqueta de créditos y despedida](revision/Ver%20creditos.html). Abrir el HTML y pulsar Reproducir. El selector permite revisar las 14 escenas, el título y la despedida. La maqueta usa sprites y tiles originales de la copia disponible. Los recorridos son coreografías de muestra. El botón de la maqueta vuelve al inicio de la presentación.
+- [Maqueta de créditos y despedida](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/lore/creditos-finales/revision/Ver%20creditos.html). Abrir el HTML y pulsar Reproducir. El selector permite revisar las 14 escenas, el título y la despedida. La maqueta usa sprites y tiles originales de la copia disponible. Los recorridos son coreografías de muestra. El botón de la maqueta vuelve al inicio de la presentación.
 - [Foto recogible](foto/foto-item.png) · [Foto de la cinemática](foto/foto-cinematica.png) · [Retrato de despedida](foto/foto-despedida.png). La versión pequeña recorta el rostro para que se lea en la arena. Las otras dos mantienen la pose y el entorno del original.
-- [GIF de despedida](pantalla-final/fondo.gif) · [Composición de despedida](revision/pantalla-final.png). El GIF es un fondo limpio, 320 × 192, 48 cuadros de 100 ms, bucle continuo. El retrato, el agradecimiento y el botón son capas independientes.
+- [GIF de despedida](pantalla-final/fondo.gif) · [Composición de despedida](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/lore/creditos-finales/revision/pantalla-final.png). El GIF es un fondo limpio, 320 × 192, 48 cuadros de 100 ms, bucle continuo. El retrato, el agradecimiento y el botón son capas independientes.
 - [Letra y tiempos](creditos.json). Contiene los 14 bloques y las 71 líneas traducidas al inglés. Los 14 PNG de `dibujos/` son dibujos blancos irregulares sobre transparencia. Cada tarjeta tiene una silueta distinta del personaje que se ve en su toma. En los refugios se dibuja al NPC anfitrión, y en el mercado a TV.
 
 ## Secuencia del juego

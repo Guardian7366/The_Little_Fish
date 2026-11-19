@@ -2,7 +2,7 @@
 
 Base comprobada: `356bb1b`. Este encargo sustituye el orden del desenlace descrito en [el guion de las memorias de D](../GUION-Y-ENCARGO.md). Los diálogos de D y Echo, las tres líneas de la foto, el título y los créditos ya publicados siguen siendo el texto de esta escena.
 
-[Atardecer animado](preview/atardecer.gif) · [Manifiesto](manifest.json)
+[Atardecer animado](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/lore/playa/preview/atardecer.gif) · [Manifiesto](manifest.json)
 
 ## Del portal a la fotografía
 

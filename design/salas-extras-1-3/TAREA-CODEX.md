@@ -16,7 +16,7 @@ Verifica cada entrada con conectividad real, ID de NPC e ID de cofre. Mantén la
 
 ## Chicken · Despensa de las dos luces
 
-![Despensa, muestra de arte](preview/chicken.png)
+![Despensa, muestra de arte](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-1-3/preview/chicken.png)
 
 Piedra cálida, estantes, cestas, vasijas y mesa con dos raciones. Chicken es un pollito amarillo con cresta roja, pico naranja y ala visible. Sus dos cuadros alternan la posición del ala. Usa la misma dirección visual para sus diálogos y dale un anclaje estable.
 
@@ -27,7 +27,7 @@ Piedra cálida, estantes, cestas, vasijas y mesa con dos raciones. Chicken es un
 
 ## Flower · Vivero de los remedios
 
-![Vivero, muestra de arte](preview/flower.png)
+![Vivero, muestra de arte](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-1-3/preview/flower.png)
 
 Piedra verde apagada, ventanales, macetas de barro y un estante de remedios. Flower sigue siendo una flor roja con centro amarillo, tallo y hojas. Sus dos cuadros mueven una hoja. La silueta floral clara y los colores cálidos del capullo la distinguen de la Planta enemiga.
 
@@ -38,7 +38,7 @@ Piedra verde apagada, ventanales, macetas de barro y un estante de remedios. Flo
 
 ## Spiky · Puesto de guardia
 
-![Puesto de guardia, muestra de arte](preview/spiky.png)
+![Puesto de guardia, muestra de arte](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/salas-extras-1-3/preview/spiky.png)
 
 Piedra azulada, arcadas, parapetos, estandarte y rincón de descanso. **Spiky es una roca**, con gemas independientes como brazos y pies, y un solo ojo de gema en el centro. Los cuadros alternan la altura de las gemas de los lados y mantienen inmóvil el núcleo. No confundir sus gemas con espinas o aletas de pez.
 

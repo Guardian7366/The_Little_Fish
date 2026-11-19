@@ -1,48 +1,27 @@
 # The Little Fish
 
-Juego de exploración y combate en Java Swing/Java2D. Incluye estabilización de sistemas y guardado, corrección de audio, menú marino animado, renovación de las tres primeras zonas y una nueva cuarta zona de profundidades. La quinta zona publicada incorpora a Sharky y la progresión de Iron. La sexta zona aprobada añade a Fishtella, encuentros mixtos y un segundo paso de Iron. La séptima zona aprobada incorpora el templo sumergido, Planta, Secret y cuatro galerías de empuje. [Informe del templo](SEPTIMA-ZONA.md) La octava zona aprobada amplía el templo antes del jefe con tres estatuas, encuentros por cámaras y un rompecabezas de tres carriles. [Informe de las galerías](OCTAVA-ZONA.md) Los tres primeros refugios del mapa 5 están completados y aprobados, con los retos de Chicken, Flower y Spiky y aislamiento entre las ocho salas. [Informe de las salas](SALAS-EXTRAS-1-3.md) Pump, Hongui y Ghost están completados y aprobados, con sus retos de corte, guardia y memoria. [Informe de las nuevas salas](SALAS-EXTRAS-4-6.md) Handy e Ic completan los ocho refugios aprobados del mapa 5 con el taller de Rocky y la cámara de hielo. [Informe del taller y del hielo](SALAS-EXTRAS-7-8.md) **La edición definitiva sigue en desarrollo.**
+Juego de exploración y combate en Java Swing/Java2D. El recorrido actual incluye once mapas internos, ocho refugios, el mercado de TV, el encuentro de seis fases de God Fish, la playa jugable y los créditos de 120 segundos con el instrumental aprobado.
 
-Repositorio: [Guardian7366/The_Little_Fish](https://github.com/Guardian7366/The_Little_Fish). Revisión del **5 de noviembre de 2026**, sobre la base `6d1bd4c` para los tres primeros refugios de D. El estado vigente se registra en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md).
+El estado de las entregas y sus autorizaciones está en [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md). Las prioridades están en [HOJA_RUTA.md](HOJA_RUTA.md), los cambios en [CAMBIOS.md](CAMBIOS.md) y los contratos técnicos en [ARQUITECTURA.md](ARQUITECTURA.md). [AGENTS.md](AGENTS.md) contiene las reglas permanentes de trabajo.
 
-## Sistema de trabajo
+## Compilar y probar
 
-ChatGPT ayuda con planificación y decisiones creativas; el usuario aprueba el alcance; Codex implementa y verifica. Las decisiones y los avances se registran en el repositorio para continuar entre sesiones.
+Se necesita un JDK 17 o posterior con `java`, `javac` y `jar` en el PATH. La compilación usa `--release 17` y las bibliotecas estándar de Java.
 
-| Documento | Función |
-|---|---|
-| [AGENTS.md](AGENTS.md) | Reglas permanentes para el trabajo técnico |
-| [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md) | Base actual, evidencias, pendientes y siguiente paso |
-| [HOJA_RUTA.md](HOJA_RUTA.md) | Prioridades y propuestas, con su estado de autorización |
-| [CAMBIOS.md](CAMBIOS.md) | Historial de cambios realizados |
-| [ARQUITECTURA.md](ARQUITECTURA.md) | Estructura y contratos técnicos |
+Desde la raíz del checkout, ejecutar en PowerShell.
 
-ChatGPT puede consultar la versión publicada en GitHub. Los cambios locales estarán disponibles allí después de una publicación autorizada; no existe sincronización automática desde las conversaciones.
+~~~powershell
+./build.ps1
+./build.ps1 -Test
+~~~
 
-## Contenido actual
-
-- [Primera zona](PRIMERA-ZONA.md): recorrido inicial renovado, territorios de enemigos, secretos, ayudas y fondo marino por capas.
-- [Segunda zona](SEGUNDA-ZONA.md): coberturas, encuentros distribuidos y Enfadillos estacionarios con el disparo restaurado.
-- [Tercera zona](TERCERA-ZONA.md): progresión con Rocky, territorios de Picarones, Enfadillos estacionarios y ambientación profunda con ajuste visual aprobado.
-- [Nueva cuarta zona](CUARTA-ZONA.md): profundidades con ocho Picarones, pasos de Rocky, atajos y tres secretos. Conecta la tercera con la antigua cuarta, ahora quinta en el recorrido. Usa el mapa interno 7 y conserva los IDs anteriores 0–6.
-- [Quinta zona y Sharky](QUINTA-ZONA.md): mapa interno 3, seis Sharkys y tres Picarones, cámaras amplias, doce luces fijas y fondo abisal. El usuario aprobó Sharky, recorrido general y ambientación. La revisión 2 aprobada hace obligatorio utilizar Iron con dos bloques físicos en el corredor final y restaura las dos puertas adicionales al tile original 086.
-- Mercado de TV, completado y aprobado. Es una parada opcional antes del jefe con tienda CRT y punto de guardado. [Estado y pruebas](ESTADO_PROYECTO.md#tv-supply--mercado-aprobado)
-- La fosa y God Fish completan el recorrido principal con una introducción, seis fases de combate y el acceso a los créditos. [Cómo jugar el encuentro final](GOD-FISH.md)
-- [Menú marino](MENU-MARINO.md): GIF aprobado, proporciones conservadas y textos con mayor contraste.
-- [Audio](CORRECCION-AUDIO.md): solicitudes asíncronas para evitar que el juego espere al dispositivo.
-
-Se conservan los sprites y sonidos originales según los informes de las entregas previas. La base actual contiene once mapas internos, incluido el mercado de TV. La procedencia histórica se registra en [ORIGEN.json](ORIGEN.json).
+`Compilar.cmd` y `Compilar.cmd -Test` ofrecen las mismas opciones. Las 36 suites generan sus partidas, capturas y resultados bajo `build/`. Algunos casos históricos adicionales se activan cuando existen fixtures locales. Para generar los de quinta a partir del historial, ejecutar primero `./tools/verify_fifth_baseline.ps1`. La importación de un JAR original externo puede comprobarse con `./build.ps1 -Test -OriginalJar "C:\\ruta\\MyGame.jar"`.
 
 ## Jugar
 
-1. Extrae por completo el paquete del juego en una carpeta propia o utiliza esta copia del repositorio.
-2. Abre `Jugar.cmd`. Necesitas Java 17 o posterior; Java no se incluye en la distribución.
-3. Elige NEW GAME o LOAD GAME desde el menú.
+Después de compilar, abrir `Jugar.cmd`. El lanzador utiliza `build/TheLittleFish.jar`. También puede ejecutarse `java -jar ./build/TheLittleFish.jar`.
 
-También puedes ejecutar `java -jar TheLittleFish.jar` desde la raíz. Los archivos de partida y configuración se escriben en la carpeta desde la que se inicia el juego; `Jugar.cmd` utiliza su propia carpeta.
-
-`Jugar.cmd` prefiere `TheLittleFish.jar` de la raíz y solo usa `build/TheLittleFish.jar` si el primero no existe. Compilar no sustituye el JAR de la raíz. Para abrir expresamente el resultado de una compilación desde la raíz del proyecto, usa `java -jar ./build/TheLittleFish.jar`. Para probar sin afectar tus partidas, ejecútalo desde una carpeta aislada indicando la ruta absoluta del JAR.
-
-**La quinta zona nueva está en `build/TheLittleFish.jar`; el JAR de la raíz no se ha reemplazado.** Para probar desde una carpeta aislada: `java -jar "C:\Users\dasip\Proyectos\Juegos-Creados\TheLittleFish\build\TheLittleFish.jar"`.
+El juego escribe partidas y configuración en el directorio desde el que se inicia. Para probar el JAR sin tocar una partida personal, iniciarlo desde una carpeta aislada con la ruta absoluta al ejecutable.
 
 | Acción | Tecla |
 |---|---|
@@ -53,75 +32,35 @@ También puedes ejecutar `java -jar TheLittleFish.jar` desde la raíz. Los archi
 | Inventario y equipo | C |
 | Pausar o continuar | P o Y |
 | Opciones | Esc |
-| Mapa | M |
-| Minimapa | X |
+| Mapa / minimapa | M / X |
 
-Los controles de desarrollo heredados siguen disponibles: T muestra información de depuración, G alterna el modo invulnerable y R recarga el mapa actual.
+La foto al final de la playa inicia el desenlace. **Play Again** vuelve al menú y conserva la partida. Los agradecimientos originales se consultan con C desde la despedida.
 
-## Guardar y recuperar una partida
+## Partidas y configuración
 
-Interactúa con un punto de descanso esmeralda usando Enter. Se guarda en `save-v1.dat`; desde el segundo guardado válido, `save-v1.dat.bak` conserva el guardado válido anterior. La carga valida el archivo antes de sustituir la partida en memoria; si falla, aparece un error.
+Un punto de descanso esmeralda guarda `save-v1.dat` y conserva la versión válida anterior en `save-v1.dat.bak`. Cargar valida el archivo antes de publicar su estado en memoria. Los guardados antiguos mantienen sus migraciones de mapas, equipo y progreso.
 
-Para trasladar una partida de una versión corregida anterior, conserva su carpeta y **copia** `save-v1.dat` a la nueva carpeta; después elige LOAD GAME. Las revisiones de las zonas primera, segunda y tercera adaptan la distribución anterior conservando el progreso previsto por cada migración. La primera y segunda pueden reubicar al jugador en su esmeralda; consulta [SEGUNDA-ZONA.md](SEGUNDA-ZONA.md) y [TERCERA-ZONA.md](TERCERA-ZONA.md) para sus reglas. La nueva cuarta inicializa su mapa al cargar partidas anteriores sin reubicar al jugador. Cargar no reescribe el archivo: la adaptación se conserva al guardar de nuevo. No lleves el nuevo guardado de vuelta a una versión con mapas anteriores.
+Para trasladar una partida, copiar su archivo a una carpeta de juego propia y seleccionar LOAD GAME. Para importar el formato original, colocar `save.dat` en una carpeta sin `save-v1.dat`. La importación conserva los datos disponibles y reanuda al inicio. [Persistencia y migraciones](ARQUITECTURA.md#contrato-de-guardado).
 
-Para experimentar el nuevo inicio con sus encuentros completos, elige NEW GAME en una carpeta sin tu partida personal. Se mantienen las reglas originales de reaparición de enemigos al cambiar de área.
+Las partidas, los respaldos y `config.txt` son archivos locales ignorados por Git. El historial conserva las versiones antiguas que habían sido incluidas anteriormente.
 
-Al migrar desde la distribución anterior al rediseño de quinta (revisión 0), las partidas que estaban en mapa 3 se reubican en (25,23). Se conserva el progreso de enemigos retenidos, cofres, inventario y escombros, y se configuran las ubicaciones nuevas. Las partidas de otros mapas conservan su posición. Los estados transitorios de Sharky se reinician con espera de seguridad; cargar no escribe el archivo. Los slots retirados y los obstáculos nuevos se detallan en [QUINTA-ZONA.md](QUINTA-ZONA.md).
-
-La revisión 2 adapta también los guardados de la primera quinta local: reubica al jugador si quedó dentro del nuevo metal, sobre el suelo eliminado o detrás de la barrera; conserva el paso abierto si ya había avanzado a mapas 4/6. Si el cofre figuraba abierto sin Iron en el inventario, vuelve a ofrecerlo en ese mismo cofre. No se concede ni equipa automáticamente. La barrera destruida sigue abierta al cambiar de equipo, guardar/cargar o cambiar de área.
-
-La revisión del mercado amplía el mundo de diez a once mapas. Quien guardó en la arena carga en su posición original y conserva el estado del jefe.
-
-Para importar una partida antigua, **copia** su `save.dat` a una carpeta del juego que todavía no tenga `save-v1.dat` y selecciona cargar. El archivo antiguo permanece intacto. Al guardar en un punto de descanso se crea el formato nuevo. El formato antiguo no incluía posición ni todo el estado del mundo: se reanuda al inicio con atributos, inventario y objetos recuperables. No es posible recuperar información que nunca se guardó.
-
-Para restaurar el respaldo, cierra el juego, conserva una copia del `save-v1.dat` actual y copia `save-v1.dat.bak` con el nombre `save-v1.dat`. No hay un botón de restauración automática. Si existe un archivo nuevo dañado, el juego muestra el error; no carga silenciosamente el formato antiguo.
-
-## Compilar y comprobar
-
-Se necesita un **JDK 17 o posterior**. `build.ps1` localiza `jar` mediante el PATH y usa `java.exe` y `javac.exe` de esa misma carpeta. No requiere bibliotecas Java externas ni descargar dependencias.
-
-Desde PowerShell en la raíz del repositorio:
-
-```powershell
-./build.ps1
-./build.ps1 -Test
-```
-
-También puedes usar `./Compilar.cmd` o `./Compilar.cmd -Test`. El script genera `build/TheLittleFish.jar`, con clases compatibles con Java 17 mediante `--release 17`. Con `-Test` compila las pruebas y ejecuta 30 suites de regresión.
-
-Para reproducir además los guardados reales anteriores al rediseño, ejecuta primero `./tools/verify_fifth_baseline.ps1` y después `./build.ps1 -Test`. El auxiliar compila fuentes de `ca4b3ad` para crear fixtures aislados bajo `build/`, sin reconstruir un JAR. `python tools/verify_fifth_resources.py` comprueba la conservación de recursos y ejecutable frente a esa base.
-
-Para incluir la comprobación de importación contra un ejecutable original disponible por separado:
-
-```powershell
-./build.ps1 -Test -OriginalJar "C:\ruta\MyGame.jar"
-```
-
-La ruta anterior es un ejemplo, no un archivo incluido en esta copia. Las salidas de compilación, pruebas y capturas se crean bajo `build/`.
-
-La compilación histórica se documentó con JDK 25. El paquete recibido originalmente no contenía fuentes Java: su recuperación previa utilizó CFR 0.152. El repositorio actual ya contiene esas fuentes y su desarrollo posterior, pruebas y recursos; no es necesario descompilar el JAR para trabajar. No se presentan como los fuentes originales del autor.
-
-## Estructura
+## Carpetas
 
 | Ruta | Contenido |
 |---|---|
 | `src/main/java/` | Código del juego |
-| `src/main/resources/` | Sprites, sonidos, música, fuentes, menú y mapas |
-| `src/test/java/` | Suites de regresión y auxiliar de guardado legado |
-| `build.ps1` / `Compilar.cmd` | Compilación y pruebas sin dependencias Java externas |
-| `tools/` | Generadores y empaquetadores auxiliares en Python; no se necesitan para jugar o compilar Java |
-| `build/` | Salida generada y archivos de comprobación; ignorada por Git |
-| `TheLittleFish.jar` / `Jugar.cmd` | Ejecutable existente y lanzador |
+| `src/main/resources/` | Mapas, imágenes, sonidos, música y fuentes vigentes |
+| `src/test/` | Pruebas y contratos de conservación de recursos |
+| `design/` | Guías, manifiestos y recursos activos del cierre |
+| `tools/` | Generadores de mapas y auxiliares de guardados históricos |
+| `build/` | JAR, clases, partidas de prueba y evidencias generadas |
 
-Consulta [ARQUITECTURA.md](ARQUITECTURA.md) para responsabilidades y contratos de actualización, dibujo y persistencia.
+La compilación empaqueta directamente los dibujos, las fotos, el GIF y el instrumental desde `design/lore/creditos-finales/`, y genera la cronología desde `creditos.json`. Es necesario conservar esta carpeta al copiar las fuentes. [Dependencias de diseño](design/README.md).
 
-- La sexta zona usa el mapa interno 8 y conecta la quinta con el mapa 4. El JAR de prueba y las capturas se generan con la compilación. [Informe de la sexta zona](SEXTA-ZONA.md)
+Las maquetas, las copias de entregas y los ejecutables antiguos retirados del árbol actual siguen disponibles en el historial de Git. [ORIGEN.json](ORIGEN.json) documenta la recuperación histórica de las fuentes mediante CFR, y describe aquella entrega.
 
-## Evidencias y límites
+## Mantenimiento
 
-Los informes [VALIDACION.md](VALIDACION.md), [VALIDACION-PRIMERA-ZONA.md](VALIDACION-PRIMERA-ZONA.md) y los documentos de cada zona registran pruebas de entregas anteriores. Sus cifras son históricas y no equivalen a pruebas ejecutadas nuevamente sobre cada revisión del repositorio.
+Los documentos de cada zona describen las colisiones, los encuentros y la compatibilidad. [GOD-FISH.md](GOD-FISH.md) explica el combate final. Los contratos del cierre están en [el guion](design/lore/GUION-Y-ENCARGO.md), [la playa](design/lore/playa/TAREA-CODEX.md) y [los créditos](design/lore/creditos-finales/TAREA-CODEX.md).
 
-La revisión 2 pasó las 17 suites de `build.ps1 -Test`, generó capturas de barrera/puertas y verificó guardados de `ca4b3ad` y de la primera quinta local. Resultados en [QUINTA-ZONA.md](QUINTA-ZONA.md). La cuarta y el comportamiento de Sharky, recorrido general y ambientación de quinta fueron aprobados por el usuario, al igual que las correcciones de la revisión 2. Las pruebas automáticas no sustituyen una partida completa ni acreditan FPS del juego interactivo.
-
-
-El [paquete de diseño de quinta](design/quinta-zona/README.md) se conserva como antecedente del encargo y del arte preparado; [QUINTA-ZONA.md](QUINTA-ZONA.md) registra lo implementado.
+Los informes históricos registran resultados de sus entregas. Los resultados de una comprobación nueva se generan en `build/`. El commit de limpieza se mantiene local hasta su revisión.

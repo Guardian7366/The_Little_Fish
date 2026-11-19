@@ -30,7 +30,7 @@ Los recuentos corresponden a esta revisión, no son requisitos permanentes. El c
 | Estabilización y persistencia | [ARQUITECTURA.md](ARQUITECTURA.md), [CAMBIOS.md](CAMBIOS.md) y [VALIDACION.md](VALIDACION.md): contratos técnicos y resultados históricos |
 | Audio y menú | [CORRECCION-AUDIO.md](CORRECCION-AUDIO.md) y [MENU-MARINO.md](MENU-MARINO.md) |
 | Primera zona | [PRIMERA-ZONA.md](PRIMERA-ZONA.md) y [VALIDACION-PRIMERA-ZONA.md](VALIDACION-PRIMERA-ZONA.md) |
-| Segunda zona | [SEGUNDA-ZONA.md](SEGUNDA-ZONA.md); [PLAN-SEGUNDA-ZONA.md](PLAN-SEGUNDA-ZONA.md) conserva el plan anterior a la implementación |
+| Segunda zona | [SEGUNDA-ZONA.md](SEGUNDA-ZONA.md); [PLAN-SEGUNDA-ZONA.md](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/PLAN-SEGUNDA-ZONA.md) conserva el plan anterior a la implementación |
 | Tercera zona | [TERCERA-ZONA.md](TERCERA-ZONA.md), incluido el ajuste visual aprobado |
 | Nueva cuarta zona | [CUARTA-ZONA.md](CUARTA-ZONA.md): mapa interno 7, ocho Picarones, pasos de Rocky, secretos y adaptación del guardado |
 | Quinta zona y Sharky | [QUINTA-ZONA.md](QUINTA-ZONA.md): implementación local, guardados, pruebas, capturas y coste medido |
@@ -141,3 +141,13 @@ El usuario probó los créditos y la despedida, aprobó la entrega y autorizó s
 ## Instrumental de los créditos
 
 El usuario aprobó La luz que queda y autorizó publicarla. Se añadió la pista WAV de 120 s en la ruta que ya contempla build.ps1. Copia exacta y formato verificados. Queda pendiente comprobar la reproducción y sincronización audibles en el JAR. [Integración musical](design/lore/creditos-finales/MUSICA-CODEX.md).
+
+## Limpieza del repositorio · 18 de noviembre de 2026
+
+La base funcional es `99c9304`, con la canción de créditos disponible en el empaquetado existente. Se retiraron los paquetes de imágenes duplicadas, las maquetas y los ejecutables antiguos. `design/` conserva los contratos de mantenimiento y los recursos que la compilación empaqueta directamente. Las partidas y la configuración personales permanecen en disco y quedan ignoradas por Git.
+
+Pasaron las 36 suites de `build.ps1 -Test` desde el checkout limpio. Se regeneraron los fixtures de quinta desde el historial conservado. La auditoría contrastó 684 recursos con sus fuentes, la cronología de créditos y el hash exacto del instrumental. Además confirmó la conservación de los 685 recursos de ejecución del JAR funcional anterior, salvo las dos fotos de playa sustituidas que ya no se cargaban.
+
+El JAR se inició mediante `java -jar` en una carpeta aislada. Las pruebas sobre ese JAR comprobaron menú, partida nueva, carga de una partida de prueba, victoria con puerta abierta, portal, playa, foto, créditos, acceso real al instrumental y despedida con retorno al menú. La canción se abrió en el dispositivo real durante esta comprobación de acceso. Las partidas y la configuración personales conservaron sus hashes.
+
+Los casos históricos adicionales que necesitan fixtures locales anteriores o un JAR original externo siguen siendo opcionales. Los registros están en `build/cleanup-safety/` y la copia validada en `build/cleanup-checkout/`. El JAR validado se copia a `build/TheLittleFish.jar` para `Jugar.cmd`. El commit queda pendiente de revisión antes de publicar.

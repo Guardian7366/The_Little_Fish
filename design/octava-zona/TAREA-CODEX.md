@@ -2,7 +2,7 @@
 
 Encargo de diseño e integración para Codex. Base revisada: b56661a, templo de séptima aprobado. Leer AGENTS.md, SEPTIMA-ZONA.md y la implementación de Temple, SaveLoad y EventHandler. El jugador continúa por el templo antes de llegar al jefe. Esta propuesta prepara arte y criterios. La distribución, coordenadas y diálogos se afinan al construir y jugar el mapa.
 
-![Las tres estatuas](vista-estatuas.png)
+![Las tres estatuas](https://github.com/Guardian7366/The_Little_Fish/blob/99c9304/design/octava-zona/vista-estatuas.png)
 
 ## Continuidad y transiciones
 
